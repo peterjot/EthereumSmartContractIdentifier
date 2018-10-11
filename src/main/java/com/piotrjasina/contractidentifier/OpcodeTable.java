@@ -143,10 +143,9 @@ public class OpcodeTable {
         put(0xff, Opcode.SELFDESTRUCT);
     }};
 
-    public static Opcode getByByte(int hexValue){
+    public static Opcode getOpcodeByByte(int hexValue) {
         Opcode opcode = opcodes.get(getMaskedValue(hexValue));
-
-        if(opcode == null){
+        if (opcode == null) {
             return Opcode.UNKNOWNCODE;
         }
         return opcode;
