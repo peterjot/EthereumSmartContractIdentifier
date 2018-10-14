@@ -1,11 +1,13 @@
 package com.piotrjasina.contractidentifier;
 
+import com.piotrjasina.contractidentifier.disassembler.Instruction;
+import com.piotrjasina.contractidentifier.disassembler.Opcode;
+import com.piotrjasina.contractidentifier.disassembler.SolidityDisassembler;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import static java.util.stream.Collectors.toList;
 
 public class SolidityDisassemblerTest {
 
@@ -17,7 +19,20 @@ public class SolidityDisassemblerTest {
 
         List<Instruction> disassembly = solidityDisassembler.disassembly(bytecode);
         System.out.println(disassembly);
-        List<Instruction> collect = disassembly.stream().filter(instruction -> Opcode.PUSH4.equals(instruction.getOpcode())).collect(Collectors.toList());
+
+        List<Instruction> collect = disassembly
+                .stream()
+                .filter(instruction -> Opcode.PUSH4.equals(instruction.getOpcode()))
+                .collect(toList());
+
         System.out.println(collect);
+
+        List<Integer> collect1 = disassembly
+                .stream()
+                .filter(instruction -> Opcode.UNKNOWNCODE.equals(instruction.getOpcode()))
+                .map(Instruction::getUint8)
+                .collect(toList());
+
+        System.out.println(collect1);
     }
 }
