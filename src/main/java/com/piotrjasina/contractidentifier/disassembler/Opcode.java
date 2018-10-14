@@ -1,4 +1,4 @@
-package com.piotrjasina.contractidentifier;
+package com.piotrjasina.contractidentifier.disassembler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

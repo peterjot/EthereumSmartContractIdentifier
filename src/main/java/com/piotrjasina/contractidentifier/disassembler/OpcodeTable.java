@@ -1,11 +1,11 @@
-package com.piotrjasina.contractidentifier;
+package com.piotrjasina.contractidentifier.disassembler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class OpcodeTable {
+class OpcodeTable {
 
-    public static Map<Integer, Opcode> opcodes = new HashMap<Integer, Opcode>() {{
+    private static Map<Integer, Opcode> opcodes = new HashMap<Integer, Opcode>() {{
         put(0x00, Opcode.STOP);
         put(0x01, Opcode.ADD);
         put(0x02, Opcode.MUL);
@@ -143,7 +143,7 @@ public class OpcodeTable {
         put(0xff, Opcode.SELFDESTRUCT);
     }};
 
-    public static Opcode getOpcodeByByte(int hexValue) {
+    static Opcode getOpcodeByByte(int hexValue) {
         Opcode opcode = opcodes.get(getMaskedValue(hexValue));
         if (opcode == null) {
             return Opcode.UNKNOWNCODE;
