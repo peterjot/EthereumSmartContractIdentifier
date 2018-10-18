@@ -1,4 +1,4 @@
-package com.piotrjasina.contractidentifier.disassembler;
+package com.piotrjasina.api.disassembler;
 
 import lombok.Getter;
 

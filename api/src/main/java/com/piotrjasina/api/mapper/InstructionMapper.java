@@ -1,8 +1,8 @@
-package com.piotrjasina.contractidentifier.mapper;
+package com.piotrjasina.api.mapper;
 
 import com.google.common.primitives.Bytes;
-import com.piotrjasina.contractidentifier.disassembler.Instruction;
-import com.piotrjasina.contractidentifier.dto.InstructionDto;
+import com.piotrjasina.api.disassembler.Instruction;
+import com.piotrjasina.api.dto.InstructionDto;
 import org.apache.tomcat.util.buf.HexUtils;
 
 import java.util.List;

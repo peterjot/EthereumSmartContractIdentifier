@@ -1,4 +1,4 @@
-package com.piotrjasina.contractidentifier.dto;
+package com.piotrjasina.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

@@ -1,4 +1,4 @@
-package com.piotrjasina.contractidentifier.disassembler;
+package com.piotrjasina.api.disassembler;
 
 import org.apache.tomcat.util.buf.HexUtils;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.piotrjasina.contractidentifier.disassembler.OpcodeTable.getOpcodeByByte;
+import static com.piotrjasina.api.disassembler.OpcodeTable.getOpcodeByByte;
 
 @Component
 public class SolidityDisassembler {

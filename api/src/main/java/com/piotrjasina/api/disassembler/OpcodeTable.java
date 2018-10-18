@@ -1,4 +1,4 @@
-package com.piotrjasina.contractidentifier.disassembler;
+package com.piotrjasina.api.disassembler;
 
 import java.util.HashMap;
 import java.util.Map;
