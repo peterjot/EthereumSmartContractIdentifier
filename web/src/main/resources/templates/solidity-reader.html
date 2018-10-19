@@ -21,9 +21,17 @@
         </form>
     </div>
 
-    <div class="row">
-        <p th:text="${fileString}"></p>
-    </div>
+
+    <th:block th:each="method : ${methoddtos}">
+        <div class="row">
+            <p th:utext="'Method signature:   '"></p>
+            <p th:text="${method.signature}"></p><br>
+        </div>
+        <div class="row">
+            <p th:utext="'Method hash: '"></p>
+            <p th:text="${method.hash}"></p><br>
+        </div>
+    </th:block>
 
     <script type="application/javascript">
         $('input[type="file"]').change(function (e) {
