@@ -1,6 +1,5 @@
 package com.piotrjasina.web.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +10,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Slf4j
 @Controller
-@RequestMapping("/greeting")
-public class GrettingController {
+@RequestMapping("/solidity")
+public class SolidityController {
 
     @GetMapping
     public String greeting(Model model) {
         model.addAttribute("name", "WITAM");
-        return "greeting";
+        return "solidity-reader";
     }
 
     @PostMapping
@@ -34,6 +32,6 @@ public class GrettingController {
         }
 
         model.addAttribute("fileString", fileString);
-        return "greeting";
+        return "solidity-reader";
     }
 }
