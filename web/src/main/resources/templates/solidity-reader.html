@@ -22,14 +22,11 @@
     </div>
 
 
-    <th:block th:each="method : ${methoddtos}">
+    <th:block th:each="methodDto : ${methodDtos}">
         <div class="row">
-            <p th:utext="'Method signature:   '"></p>
-            <p th:text="${method.signature}"></p><br>
-        </div>
-        <div class="row">
-            <p th:utext="'Method hash: '"></p>
-            <p th:text="${method.hash}"></p><br>
+            <p>Method signature: <span th:text="${methodDto.signature}">NONE</span> hash: <span
+                    th:text="${methodDto.hash}">NONE</span>
+            </p>
         </div>
     </th:block>
 

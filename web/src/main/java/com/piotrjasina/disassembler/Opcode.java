@@ -1,4 +1,4 @@
-package com.piotrjasina.api.disassembler;
+package com.piotrjasina.disassembler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -11,7 +11,8 @@
     <div class="row align-items-center justify-content-center" style="margin-top: 10%">
         <div>
         <textarea name="byteCodeString" form="bytecodeform" style="width: 40em; height: 20em; resize: none"
-                  placeholder="Wklej byte code"></textarea>
+                  placeholder="Wklej byte code"><th:block th:text="${byteCodeString}"/>
+        </textarea>
         </div>
         <div>
             <form action="#" th:action="@{/bytecode}" method="post" id="bytecodeform">
@@ -22,9 +23,16 @@
         </div>
     </div>
 
-    <div class="row">
-        <p th:text="${byteCodeString}"></p>
-    </div>
+    <th:block th:if="${instructionsDtos != null && instructionsDtos.isEmpty() == false}">
+        <div class="row">
+            <p>Push4 hashes:</p><br>
+        </div>
+    </th:block>
+    <th:block th:each="instructionDto : ${instructionsDtos}">
+        <div class="row">
+            <p th:text="${instructionDto.argument}"></p><br>
+        </div>
+    </th:block>
 
 
 </div>
