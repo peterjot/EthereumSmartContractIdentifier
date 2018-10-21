@@ -48,7 +48,14 @@ public class SolidityDisassembler {
             } else {
                 bytes = DatatypeConverter.parseHexBinary(byteCodeWithoutPrefix.substring(i + 2, i + opcode.getOperandSize() * 2 + 2));
             }
-
+//
+//            for (int j = 0; j < opcode.getOperandSize(); j++) {
+//                i+=2;
+//                if (i >= byteCodeBytesCount)
+//                    hexArg.append("00");
+//                else
+//                    hexArg.append(byteCodeWithoutPrefix.substring(i, i + 2));
+//            }
             Instruction instruction = new Instruction(opcode, bytes);
             log.info("Current argument: {}", DatatypeConverter.printHexBinary(bytes));
 

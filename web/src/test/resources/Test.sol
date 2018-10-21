@@ -25,7 +25,7 @@ contract SimpleSocialNetwork {
         newComment(0, "");
     }
 
-    function  hasPosts()  public view returns(bool _hasPosts) {
+    function hasPosts() public view returns(bool _hasPosts) {
         _hasPosts = posts.length > 0;
     }
 
@@ -43,6 +43,4 @@ contract SimpleSocialNetwork {
         commentFromAccount[commentId] = msg.sender;
         emit NewPostAdded(_postId, commentId, msg.sender);
     }
-
-
 }
