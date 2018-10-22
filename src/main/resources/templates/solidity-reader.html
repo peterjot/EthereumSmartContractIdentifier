@@ -6,7 +6,8 @@
 </head>
 <body>
 
-<div th:replace="/fragments/header :: navbar"></div>
+<th:block th:include="fragments/header :: navbar"/>
+<!--<div th:replace="/fragments/header :: navbar"></div>-->
 
 <div class="container">
     <div class="row row align-items-center justify-content-center" style="margin-top: 10%">
