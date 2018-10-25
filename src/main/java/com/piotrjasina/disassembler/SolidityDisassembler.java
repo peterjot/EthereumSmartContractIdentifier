@@ -21,47 +21,26 @@ public class SolidityDisassembler {
     }
 
     private List<Instruction> createInstructions(String byteCode) {
-        String byteCodeWithoutPrefix = removePrefixAndToLower(byteCode);
-        checkByteCodeLength(byteCodeWithoutPrefix);
-
+        String preparedByteCode = prepareByteCode(byteCode);
+        checkByteCodeLength(preparedByteCode);
 
         List<Instruction> instructions = new ArrayList<>();
 
-        int byteCodeBytesCount = byteCodeWithoutPrefix.length() / 2;
-        log.info("ByteCodeBytesCount: {}", byteCodeBytesCount);
+        HexByteStrIterator hexByteStrIterator = new HexByteStrIterator(preparedByteCode);
+        while (hexByteStrIterator.hasNext()) {
 
-        for (int i = 0; i < byteCodeBytesCount * 2; i += 2) {
-            log.info("Lop i: {}", i);
-
-            String byteString = byteCodeWithoutPrefix.substring(i, i + 2);
-            log.info("Current byteString: {}", byteString);
+            String byteString = hexByteStrIterator.next();
+            log.info("Current byteStr: {}", byteString);
 
             Opcode opcode = OpcodeTable.getOpcodeByByte(byteString);
             log.info("Current opcode: {}", opcode.name());
 
-//            StringBuilder hexArg = new StringBuilder();
-            byte[] bytes;
-            if (i + opcode.getOperandSize() * 2 + 2 > byteCodeWithoutPrefix.length() - 1) {
-                int ileBrak = i + opcode.getOperandSize() * 2 + 2 - byteCodeWithoutPrefix.length();
-                String s = StringUtils.repeat("0", ileBrak);
-                bytes = DatatypeConverter.parseHexBinary((byteCodeWithoutPrefix + s).substring(i + 2, i + opcode.getOperandSize() * 2 + 2));
-            } else {
-                bytes = DatatypeConverter.parseHexBinary(byteCodeWithoutPrefix.substring(i + 2, i + opcode.getOperandSize() * 2 + 2));
-            }
-//
-//            for (int j = 0; j < opcode.getOperandSize(); j++) {
-//                i+=2;
-//                if (i >= byteCodeBytesCount)
-//                    hexArg.append("00");
-//                else
-//                    hexArg.append(byteCodeWithoutPrefix.substring(i, i + 2));
-//            }
-            Instruction instruction = new Instruction(opcode, bytes);
+            byte[] bytes = DatatypeConverter.parseHexBinary(getParameter(opcode.getOperandSize(), hexByteStrIterator));
             log.info("Current argument: {}", DatatypeConverter.printHexBinary(bytes));
 
-            instructions.add(instruction);
-            i = i + opcode.getOperandSize() * 2;
+            instructions.add(new Instruction(opcode, bytes));
         }
+
         return instructions;
     }
 
@@ -71,11 +50,26 @@ public class SolidityDisassembler {
         }
     }
 
-    private String removePrefixAndToLower(String bytecodeSource) {
+    private String prepareByteCode(String bytecodeSource) {
         if (bytecodeSource.startsWith("0x")) {
             return bytecodeSource.substring(2).toLowerCase();
         }
         return bytecodeSource;
+    }
+
+    private static String getParameter(int argumentsSize, HexByteStrIterator iterator) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int argumentsCounter = argumentsSize;
+        while (iterator.hasNext() && argumentsCounter > 0) {
+            stringBuilder.append(iterator.next());
+            argumentsCounter--;
+        }
+
+        int parameterRestCharsCount = 2 * argumentsCounter;
+        String restChars = StringUtils.repeat("0", parameterRestCharsCount);
+        stringBuilder.append(restChars);
+        return stringBuilder.toString();
     }
 
 }
