@@ -2,18 +2,19 @@ package com.piotrjasina.solidity;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.piotrjasina.Utils.convertToString;
-import static com.piotrjasina.Utils.sourceCodeHash;
+import static com.piotrjasina.Utils.stringHash;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
 import static org.web3j.crypto.Hash.sha3String;
@@ -25,19 +26,31 @@ public class SolidityFileService {
     private static final String pattern = "(function\\s+)([a-zA-Z_][a-zA-Z0-9_]*)(\\s*\\(\\s*)([^(){}]*)(\\s*\\)\\s*)(.*)";
 
     private final SolidityFileRepository solidityFileRepository;
+    private final FunctionRepository functionRepository;
 
     @Autowired
-    public SolidityFileService(SolidityFileRepository solidityFileRepository) {
+    public SolidityFileService(SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
         this.solidityFileRepository = solidityFileRepository;
+        this.functionRepository = functionRepository;
     }
 
-    public SolidityFile save(InputStream inputStream) throws Exception {
+    public List<SolidityFile> findAll() {
+        return solidityFileRepository.findAll();
+    }
 
-        String sourceCode = convertToString(inputStream);
-        String sourceCodeHash = sourceCodeHash(sourceCode);
-        Set<Function> functionsFromFile = getFunctionsFromFile(inputStream);
+    public SolidityFile save(byte[] sourceCodeBytes) throws Exception {
 
-        return solidityFileRepository.save(new SolidityFile(sourceCode, sourceCodeHash, functionsFromFile));
+        String sourceCode = new String(sourceCodeBytes, StandardCharsets.UTF_8);
+        String sourceCodeHash = stringHash(sourceCode);
+
+        Set<Function> functionsFromFile = getFunctionsFromFile(new ByteArrayInputStream(sourceCodeBytes));
+        Set<Function> savedFunctions = new HashSet<>(functionRepository.saveAll(functionsFromFile));
+
+        try {
+            return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, savedFunctions));
+        } catch (DuplicateKeyException exception) {
+            return solidityFileRepository.findBySourceCodeHash(sourceCodeHash);
+        }
     }
 
 
@@ -64,7 +77,7 @@ public class SolidityFileService {
                 String functionSignatureHash = getFunctionSignatureHash(normalizedFunctionSignature);
                 log.info("Function selector: {}", functionSignatureHash);
 
-                Function function = new Function(normalizedFunctionSignature, functionSignatureHash);
+                Function function = new Function(functionSignatureHash, normalizedFunctionSignature);
                 functions.add(function);
             }
         }

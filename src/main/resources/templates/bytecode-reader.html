@@ -17,7 +17,7 @@
         </textarea>
         </div>
         <div>
-            <form action="#" th:action="@{/bytecode}" function="post" id="bytecodeform">
+            <form  method="post" action="#" th:action="@{/bytecode}"  id="bytecodeform">
                 <div style="margin-left: 5%"> <!--You can add col-lg-12 if you want -->
                     <input type="submit" class="btn btn-info">
                 </div>
@@ -25,12 +25,12 @@
         </div>
     </div>
 
-    <th:block th:if="${instructionsDtos != null && instructionsDtos.isEmpty() == false}">
+    <th:block th:if="${instructionDtos != null && instructionDtos.isEmpty() == false}">
         <div class="row">
             <p>Push4 hashes:</p><br>
         </div>
     </th:block>
-    <th:block th:each="instructionDto : ${instructionsDtos}">
+    <th:block th:each="instructionDto : ${instructionDtos}">
         <div class="row">
             <p th:text="${instructionDto.argument}"></p><br>
         </div>

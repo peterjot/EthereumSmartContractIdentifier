@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/header :: header"/>
+    <!--<div th:replace="/fragments/header :: header"></div>-->
+</head>
+<body>
+
+<th:block th:include="fragments/header :: navbar"/>
+<!--<div th:replace="/fragments/header :: navbar"></div>-->
+
+<div class="container">
+    <th:block th:each="solidityFile : ${solidityFiles}">
+        <div class="row">
+            <p>Functions: <span th:text="${solidityFile.functions}">NONE</span></p>
+            <p>Source code hash: <span th:text="${solidityFile.sourceCodeHash}">NONE</span></p>
+        </div>
+    </th:block>
+</div>
+
+<!-- /.container -->
+
+</body>
+</html>
+
+
+

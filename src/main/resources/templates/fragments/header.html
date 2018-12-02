@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
         <link rel="stylesheet" type="text/css"
+              th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}"
               href="webjars/bootstrap/4.0.0/css/bootstrap.min.css"/>
 
         <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
@@ -30,6 +31,7 @@
             <div class="navbar-nav"></div>
             <div class="navbar-nav">
                 <a class="nav-item nav-link" th:href="@{/solidity}">Insert solidity file</a>
+                <a class="nav-item nav-link" th:href="@{/solidity/all}">Show solidity files</a>
                 <a class="nav-item nav-link" th:href="@{/bytecode}">Insert bytecode</a>
             </div>
         </div>

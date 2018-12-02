@@ -29,10 +29,10 @@ public class ByteCodeController {
     public String handleByteCodeUpload(@RequestParam("byteCodeString") String byteCodeString, Model model) {
         log.info("ByteCodeString: {}", byteCodeString.substring(0, 100));
 
-        List<InstructionDto> instructionsDto = byteCodeService.getOpcodeArgumentByMnemonic(byteCodeString, MNEMONIC);
+        List<InstructionDto> instructionDtos = byteCodeService.getOpcodeArgumentByMnemonic(byteCodeString, MNEMONIC);
 
-        log.info("InstructionsDto: {}", instructionsDto);
-        model.addAttribute("instructionsDtos", instructionsDto);
+        log.info("InstructionDtos: {}", instructionDtos);
+        model.addAttribute("instructionDtos", instructionDtos);
         model.addAttribute("byteCodeString", byteCodeString);
         return "bytecode-reader";
     }

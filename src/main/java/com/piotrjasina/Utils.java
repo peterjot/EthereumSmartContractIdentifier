@@ -33,7 +33,7 @@ public class Utils {
         }
     }
 
-    public static String sourceCodeHash(String sourceCode){
+    public static String stringHash(String sourceCode){
         return Hash.sha3String(sourceCode);
     }
 }
