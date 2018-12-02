@@ -1,4 +1,4 @@
-package com.piotrjasina.disassembler;
+package com.piotrjasina.bytecode;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public enum Opcode {
     XOR(0, "Bitwise XOR operation."),
     NOT(0, "Bitwise NOT operation."),
     BYTE(0, "Retrieve single byte from word."),
-    SHA3(0, "Compute Keccak-256 hash."),
+    SHA3(0, "Compute Keccak-256 selector."),
     ADDRESS(0, "Get address of currently executing account     ."),
     BALANCE(0, "Get balance of the given account."),
     ORIGIN(0, "Get execution origination address."),
@@ -45,7 +45,7 @@ public enum Opcode {
     EXTCODECOPY(0, "Copy an account's code to memory."),
     RETURNDATASIZE(0, "Get size of output data from the previous call from the current environment"),
     RETURNDATACOPY(0, "Copy output data from the previous call to memory"),
-    BLOCKHASH(0, "Get the hash of one of the 256 most recent complete blocks."),
+    BLOCKHASH(0, "Get the selector of one of the 256 most recent complete blocks."),
     COINBASE(0, "Get the block's beneficiary address."),
     TIMESTAMP(0, "Get the block's timestamp."),
     NUMBER(0, "Get the block's number."),
@@ -63,6 +63,7 @@ public enum Opcode {
     MSIZE(0, "Get the size of active memory in bytes."),
     GAS(0, "Get the amount of available gas, including the corresponding reduction the amount of available gas."),
     JUMPDEST(0, "Mark a valid destination for jumps."),
+
     PUSH1(1, "Place 1 byte item on stack."),
     PUSH2(2, "Place 2-byte item on stack."),
     PUSH3(3, "Place 3-byte item on stack."),
@@ -95,6 +96,7 @@ public enum Opcode {
     PUSH30(30, "Place 30-byte item on stack."),
     PUSH31(31, "Place 31-byte item on stack."),
     PUSH32(32, "Place 32-byte (full word) item on stack."),
+
     DUP1(0, "Duplicate 1st stack item."),
     DUP2(0, "Duplicate 2nd stack item."),
     DUP3(0, "Duplicate 3rd stack item."),
@@ -111,6 +113,7 @@ public enum Opcode {
     DUP14(0, "Duplicate 14th stack item."),
     DUP15(0, "Duplicate 15th stack item."),
     DUP16(0, "Duplicate 16th stack item."),
+
     SWAP1(0, "Exchange 1st and 2nd stack items."),
     SWAP2(0, "Exchange 1st and 3rd stack items."),
     SWAP3(0, "Exchange 1st and 4th stack items."),
@@ -127,11 +130,13 @@ public enum Opcode {
     SWAP14(0, "Exchange 1st and 15th stack items."),
     SWAP15(0, "Exchange 1st and 16th stack items."),
     SWAP16(0, "Exchange 1st and 17th stack items."),
+
     LOG0(0, "Append log record with no topics."),
     LOG1(0, "Append log record with one topic."),
     LOG2(0, "Append log record with two topics."),
     LOG3(0, "Append log record with three topics."),
     LOG4(0, "Append log record with four topics."),
+
     CREATE(0, "Create a new account with associated code."),
     CALL(0, "Message-call into an account."),
     CALLCODE(0, "Message-call into this account with alternative account's code."),

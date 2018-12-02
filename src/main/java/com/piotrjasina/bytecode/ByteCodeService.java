@@ -1,9 +1,5 @@
-package com.piotrjasina.service;
+package com.piotrjasina.bytecode;
 
-import com.piotrjasina.disassembler.Instruction;
-import com.piotrjasina.disassembler.SolidityDisassembler;
-import com.piotrjasina.dto.InstructionDto;
-import com.piotrjasina.mapper.InstructionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +17,7 @@ public class ByteCodeService {
         this.solidityDisassembler = solidityDisassembler;
     }
 
-    public List<InstructionDto> getOpcodeArgumentByMnemonic(String byteCode, String mnemonic) {
+    List<InstructionDto> getOpcodeArgumentByMnemonic(String byteCode, String mnemonic) {
         List<Instruction> instructions = solidityDisassembler.disassembly(byteCode);
 
         return instructions

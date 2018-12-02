@@ -4,7 +4,7 @@
     <!-- this is header -->
     <div th:fragment="header">
 
-        <title>Spring Boot Thymeleaf Hello World Example</title>
+        <title>Smart contract identification</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
         <link rel="stylesheet" type="text/css"
@@ -21,7 +21,7 @@
 <body>
 <div th:fragment="navbar">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" th:href="@{/}">Identyfikator inteligetnych kontraktow</a>
+        <a class="navbar-brand" th:href="@{/}">Smart contract identification</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,9 +29,8 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <div class="navbar-nav"></div>
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/solidity-signature}">Dodaj nowa sygnature</a>
-                <a class="nav-item nav-link" th:href="@{/solidity}">Dodaj Plik solidity</a>
-                <a class="nav-item nav-link" th:href="@{/bytecode}">Dodaj Bytecode</a>
+                <a class="nav-item nav-link" th:href="@{/solidity}">Insert solidity file</a>
+                <a class="nav-item nav-link" th:href="@{/bytecode}">Insert bytecode</a>
             </div>
         </div>
 

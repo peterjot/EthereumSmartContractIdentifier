@@ -1,4 +1,4 @@
-package com.piotrjasina.disassembler;
+package com.piotrjasina.bytecode;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static javax.xml.bind.DatatypeConverter.parseHexBinary;
 
 @Slf4j
 @Component
@@ -26,16 +27,17 @@ public class SolidityDisassembler {
 
         List<Instruction> instructions = new ArrayList<>();
 
-        HexByteStrIterator hexByteStrIterator = new HexByteStrIterator(preparedByteCode);
-        while (hexByteStrIterator.hasNext()) {
+        HexByteIterator hexByteIterator = new HexByteIterator(preparedByteCode);
+        while (hexByteIterator.hasNext()) {
 
-            String byteString = hexByteStrIterator.next();
+            String byteString = hexByteIterator.next();
             log.info("Current byteStr: {}", byteString);
 
-            Opcode opcode = OpcodeTable.getOpcodeByByte(byteString);
+            Opcode opcode = OpcodeTable.getOpcodeByHex(byteString);
             log.info("Current opcode: {}", opcode.name());
 
-            byte[] bytes = DatatypeConverter.parseHexBinary(getParameter(opcode.getOperandSize(), hexByteStrIterator));
+            byte[] bytes = parseHexBinary(
+                    getParameter(opcode.getOperandSize(), hexByteIterator));
             log.info("Current argument: {}", DatatypeConverter.printHexBinary(bytes));
 
             instructions.add(new Instruction(opcode, bytes));
@@ -57,7 +59,7 @@ public class SolidityDisassembler {
         return bytecodeSource;
     }
 
-    private static String getParameter(int argumentsSize, HexByteStrIterator iterator) {
+    private static String getParameter(int argumentsSize, HexByteIterator iterator) {
         StringBuilder stringBuilder = new StringBuilder();
 
         int argumentsCounter = argumentsSize;

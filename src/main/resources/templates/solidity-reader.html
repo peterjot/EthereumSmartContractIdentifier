@@ -11,7 +11,7 @@
 
 <div class="container">
     <div class="row row align-items-center justify-content-center" style="margin-top: 10%">
-        <form method="POST" enctype="multipart/form-data" action="/solidity">
+        <form function="POST" enctype="multipart/form-data" action="/solidity">
             <div class="custom-file form-group">
                 <input type="file" name="file" class="custom-file-input" id="customFile">
                 <label class="custom-file-label" for="customFile">Wybierz plik</label>
@@ -24,10 +24,10 @@
     </div>
 
 
-    <th:block th:each="methodDto : ${methodDtos}">
+    <th:block th:each="function : ${functions}">
         <div class="row">
-            <p>Method signature: <span th:text="${methodDto.signature}">NONE</span> hash: <span
-                    th:text="${methodDto.hash}">NONE</span>
+            <p>Method signature: <span th:text="${function.signature}">NONE</span> hash: <span
+                    th:text="${function.hash}">NONE</span>
             </p>
         </div>
     </th:block>

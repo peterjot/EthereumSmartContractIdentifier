@@ -1,7 +1,5 @@
-package com.piotrjasina.controller;
+package com.piotrjasina.solidity;
 
-import com.piotrjasina.dto.MethodDto;
-import com.piotrjasina.service.SolidityFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/solidity")
@@ -34,9 +33,10 @@ public class SolidityFileController {
 
     @PostMapping
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception {
-        List<MethodDto> methodDtos = solidityFileService.getMethodsFromFile(new InputStreamReader(file.getInputStream()));
+        solidityFileService.save(file.getInputStream());
+        Set<Function> functions = solidityFileService.getFunctionsFromFile(file.getInputStream());
 
-        model.addAttribute("methodDtos", methodDtos);
+        model.addAttribute("methodDtos", functions);
         return "solidity-reader";
     }
 }

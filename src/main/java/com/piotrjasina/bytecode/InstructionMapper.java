@@ -1,7 +1,4 @@
-package com.piotrjasina.mapper;
-
-import com.piotrjasina.disassembler.Instruction;
-import com.piotrjasina.dto.InstructionDto;
+package com.piotrjasina.bytecode;
 
 import javax.xml.bind.DatatypeConverter;
 

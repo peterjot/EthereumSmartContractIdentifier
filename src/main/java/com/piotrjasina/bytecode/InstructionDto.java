@@ -1,6 +1,5 @@
-package com.piotrjasina.dto;
+package com.piotrjasina.bytecode;
 
-import com.piotrjasina.disassembler.Opcode;
 import lombok.*;
 
 @Getter

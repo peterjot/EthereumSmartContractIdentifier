@@ -1,4 +1,4 @@
-package com.piotrjasina.dto;
+package com.piotrjasina.solidity;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class MethodDto {
+public class Function {
     String signature;
-    String hash;
+    String selector;
 }
