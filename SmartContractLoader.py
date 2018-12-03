@@ -15,8 +15,8 @@ def main():
 
             jsonresponse = simplejson.loads(response.content)
             sourceCode = jsonresponse["result"][0]["SourceCode"]
-
-            response = session.post("http://localhost:8080/api/solidity/sourceCodes", json=sourceCode)
+        
+            response = session.post("http://localhost:8080/api/solidity/sourceCodes", data=str(sourceCode).encode("utf-8"), )
             if response.status_code == 200:
                 print("ok")
 

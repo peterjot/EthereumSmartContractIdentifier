@@ -46,15 +46,15 @@ public class SolidityFileServiceTest {
         Set<Function> actualFunctions;
         try (InputStream inputStream = new FileInputStream(new File("src/test/resources/Test.sol"))) {
             expectedFunctions = new HashSet<>(Arrays.asList(
-//                    new Function("10fdf92a", "commentFromAccount(uint256)"),
-//                    new Function("8ebb4c15", "comments(uint256)"),
-//                    new Function("cd65eabe", "commentsFromPost(uint256,uint256)"),
+                    new Function("10fdf92a", "commentFromAccount(uint256)"),
+                    new Function("8ebb4c15", "comments(uint256)"),
+                    new Function("cd65eabe", "commentsFromPost(uint256,uint256)"),
                     new Function("5a9cfac8","hasPosts()"),
                     new Function("09787a2c", "newComment(uint256,string)"),
                     new Function("23bcaae9", "newPost(string)")
-//                    ,
-//                    new Function("0b1e7f83", "posts(uint256)"),
-//                    new Function("acdc2cde", "postsFromAccount(address,uint256)")
+                    ,
+                    new Function("0b1e7f83", "posts(uint256)"),
+                    new Function("acdc2cde", "postsFromAccount(address,uint256)")
             ));
 
             actualFunctions = solidityFileService.getFunctionsFromFile(inputStream);

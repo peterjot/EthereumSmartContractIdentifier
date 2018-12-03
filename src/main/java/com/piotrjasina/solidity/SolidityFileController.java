@@ -36,7 +36,8 @@ public class SolidityFileController {
         checkNotNull(file, "Expected not-null file");
         checkNotNull(model, "Expected not-null model");
 
-        log.info("Posted file");
+        log.info("Reading file name: [{}]",file.getOriginalFilename());
+
         SolidityFile savedSolidityFile = solidityFileService.save(file.getBytes());
 
         model.addAttribute("functions", savedSolidityFile.getFunctions());

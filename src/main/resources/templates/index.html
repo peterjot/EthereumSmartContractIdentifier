@@ -9,39 +9,33 @@
 <!--<div th:replace="/fragments/header :: navbar"></div>-->
 
 <div class="container">
-    <div class="row mt-3">
-        <div class="col-lg">
-            <div class="row mt-2">
-                Function Selector - The first four bytes of the Keccak (SHA-3) hash of the function signature.
-            </div>
-            <div class="row mt-2">
-                Function Signature - The canonical expression of the basic prototype, i.e. the function name with the
-                parenthesised list of parameter types. Parameter types are split by a single comma - no spaces are used.
-            </div>
+    <div class="row mt-3 justify-content-between">
+        <div class="col-lg-4">
+            <h4>Files count: <span th:text="${filesCount}">NONE</span></h4>
+            <h4>Functions selector count: <span th:text="${functionsCount}">NONE</span></h4>
         </div>
-        <div class="col-lg">
-            <div class="row mt-2">
-                The EVM is the runtime environment for smart contracts in Ethereum. It is not only sandboxed, but
+        <div class="col-lg-6">
+            <p>
+                <b>The EVM</b> - the runtime environment for smart contracts in Ethereum. It is not only sandboxed, but
                 actually
                 completely isolated, which means that code running inside the EVM has no access to network, filesystem,
                 or
                 other processes.
                 Contracts are typically written in an Ethereum high level language, compiled into byte code using an EVM
                 compiler, and finally uploaded on the blockchain using an Ethereum client.
-            </div>
-            <div class="row mt-2">
-                Solidity is a contract-oriented, high-level language for implementing smart contracts. It was influenced
+            </p>
+            <p>
+                <b>Solidity</b> - a contract-oriented, high-level language for implementing smart contracts. It was influenced
                 by
                 C++, Python and JavaScript and is designed to target the Ethereum Virtual Machine (EVM).
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg">
-            <h3>Files count: <span th:text="${filesCount}">NONE</span></h3>
-            <h3>Functions selector count: <span th:text="${functionsCount}">NONE</span></h3>
-        </div>
-        <div class="col-lg">
+            </p>
+            <p>
+                <b>Function Selector</b> - The first four bytes of the Keccak (SHA-3) hash of the function signature.
+            </p>
+            <p>
+                <b>Function Signature</b> - The canonical expression of the basic prototype, i.e. the function name with the
+                parenthesised list of parameter types. Parameter types are split by a single comma - no spaces are used.
+            </p>
         </div>
     </div>
 </div>

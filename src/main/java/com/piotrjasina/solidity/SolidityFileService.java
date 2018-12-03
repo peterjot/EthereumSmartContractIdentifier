@@ -52,14 +52,18 @@ public class SolidityFileService {
         String sourceCode = new String(sourceCodeBytes, StandardCharsets.UTF_8);
         String sourceCodeHash = stringHash(sourceCode);
 
+        log.info("SourceCode hash: [{}]", sourceCodeHash);
+
         Set<Function> functionsFromFile = getFunctionsFromFile(new ByteArrayInputStream(sourceCodeBytes));
+        log.info("SourceCode functios count: {}",functionsFromFile.size());
         Set<Function> savedFunctions = new HashSet<>(functionRepository.saveAll(functionsFromFile));
 
-        try {
-            return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, savedFunctions));
-        } catch (DuplicateKeyException exception) {
-            return solidityFileRepository.findBySourceCodeHash(sourceCodeHash);
-        }
+//        try {
+        return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, savedFunctions));
+//        } catch (DuplicateKeyException exception) {
+//            log.info("Duplicate file with hash: [{}]",sourceCodeHash);
+//            return solidityFileRepository.findBySourceCodeHash(sourceCodeHash);
+//        }
     }
 
 
@@ -67,7 +71,6 @@ public class SolidityFileService {
         checkNotNull(inputStream, "Expected not-null inputStream");
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        log.info("Reading solidity file");
 
         Pattern pattern = Pattern.compile(SolidityFileService.pattern);
 
@@ -79,9 +82,7 @@ public class SolidityFileService {
             if (matcher.find()) {
 
                 String functionName = matcher.group(2);
-                log.info("Function: [{}]", functionName);
                 String functionArgs = matcher.group(4);
-                log.info("Function args: [{}]", functionArgs);
 
                 String normalizedFunctionSignature = normalizeFunctionSignature(functionName, functionArgs);
 
