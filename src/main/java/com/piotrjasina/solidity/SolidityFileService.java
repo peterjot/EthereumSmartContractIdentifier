@@ -5,15 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.piotrjasina.Utils.stringHash;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
@@ -22,6 +20,7 @@ import static org.web3j.crypto.Hash.sha3String;
 @Service
 @Slf4j
 public class SolidityFileService {
+    //TODO Add fuction selectors for getter functions
     //                                     -xxxxxxxxx-- function name        --xxx--fun args--xxx--xxx
     private static final String pattern = "(function\\s+)([a-zA-Z_][a-zA-Z0-9_]*)(\\s*\\(\\s*)([^(){}]*)(\\s*\\)\\s*)(.*)";
 
@@ -30,15 +29,25 @@ public class SolidityFileService {
 
     @Autowired
     public SolidityFileService(SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
+        checkNotNull(solidityFileRepository, "Expected not-null solidityFileRepository");
+        checkNotNull(functionRepository, "Expected not-null functionRepository");
         this.solidityFileRepository = solidityFileRepository;
         this.functionRepository = functionRepository;
     }
 
-    public List<SolidityFile> findAll() {
+    public List<SolidityFile> findAllFiles() {
         return solidityFileRepository.findAll();
     }
 
-    public SolidityFile save(byte[] sourceCodeBytes) throws Exception {
+    public List<Function> findAllFunctions() {
+        return functionRepository.findAll();
+    }
+
+    public SolidityFile save(String sourceCode) throws IOException {
+        return save(sourceCode.getBytes());
+    }
+
+    public SolidityFile save(byte[] sourceCodeBytes) throws IOException {
 
         String sourceCode = new String(sourceCodeBytes, StandardCharsets.UTF_8);
         String sourceCodeHash = stringHash(sourceCode);
@@ -54,7 +63,9 @@ public class SolidityFileService {
     }
 
 
-    public Set<Function> getFunctionsFromFile(InputStream inputStream) throws Exception {
+    public Set<Function> getFunctionsFromFile(InputStream inputStream) throws IOException {
+        checkNotNull(inputStream, "Expected not-null inputStream");
+
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         log.info("Reading solidity file");
 
@@ -81,6 +92,7 @@ public class SolidityFileService {
                 functions.add(function);
             }
         }
+
         return functions;
     }
 

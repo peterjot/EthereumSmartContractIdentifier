@@ -252,6 +252,10 @@ contract Accessibility {
     function waiver() internal {
         delete owner;
     }
+
+    function piotrekToKoks() internal{
+        delete owner;
+    }
 }
 
 //main contract

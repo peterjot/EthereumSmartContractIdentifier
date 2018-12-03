@@ -9,11 +9,17 @@
 <th:block th:include="fragments/header :: navbar"/>
 <!--<div th:replace="/fragments/header :: navbar"></div>-->
 
-<div class="container">
+<div class="container mt-2">
     <th:block th:each="solidityFile : ${solidityFiles}">
-        <div class="row">
-            <p>Functions: <span th:text="${solidityFile.functions}">NONE</span></p>
-            <p>Source code hash: <span th:text="${solidityFile.sourceCodeHash}">NONE</span></p>
+        <div class="row justify-content-center ">
+            <div class="col-sm">
+                <p>Source code hash: <span th:text="${solidityFile.sourceCodeHash}">NONE</span></p>
+            </div>
+            <div class="col-sm">
+                <th:block th:each="function : ${solidityFile.functions}">
+                    <p><span th:text="${function}">NONE</span></p>
+                </th:block>
+            </div>
         </div>
     </th:block>
 </div>

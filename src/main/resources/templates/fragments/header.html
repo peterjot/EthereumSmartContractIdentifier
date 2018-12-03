@@ -28,11 +28,14 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <div class="navbar-nav"></div>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" th:href="@{/solidity/functions}">Function selectors</a>
+                <a class="nav-item nav-link" th:href="@{/solidity/files}">Solidity files</a>
+            </div>
             <div class="navbar-nav">
                 <a class="nav-item nav-link" th:href="@{/solidity}">Insert solidity file</a>
-                <a class="nav-item nav-link" th:href="@{/solidity/all}">Show solidity files</a>
                 <a class="nav-item nav-link" th:href="@{/bytecode}">Insert bytecode</a>
+
             </div>
         </div>
 

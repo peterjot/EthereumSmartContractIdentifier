@@ -16,6 +16,21 @@ import static javax.xml.bind.DatatypeConverter.parseHexBinary;
 public class SolidityDisassembler {
 
 
+    private static String getParameter(int argumentsSize, HexByteIterator iterator) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int argumentsCounter = argumentsSize;
+        while (iterator.hasNext() && argumentsCounter > 0) {
+            stringBuilder.append(iterator.next());
+            argumentsCounter--;
+        }
+
+        int parameterRestCharsCount = 2 * argumentsCounter;
+        String restChars = StringUtils.repeat("0", parameterRestCharsCount);
+        stringBuilder.append(restChars);
+        return stringBuilder.toString();
+    }
+
     public List<Instruction> disassembly(String byteCode) {
         checkNotNull(byteCode);
         return createInstructions(byteCode);
@@ -57,21 +72,6 @@ public class SolidityDisassembler {
             return bytecodeSource.substring(2).toLowerCase();
         }
         return bytecodeSource;
-    }
-
-    private static String getParameter(int argumentsSize, HexByteIterator iterator) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        int argumentsCounter = argumentsSize;
-        while (iterator.hasNext() && argumentsCounter > 0) {
-            stringBuilder.append(iterator.next());
-            argumentsCounter--;
-        }
-
-        int parameterRestCharsCount = 2 * argumentsCounter;
-        String restChars = StringUtils.repeat("0", parameterRestCharsCount);
-        stringBuilder.append(restChars);
-        return stringBuilder.toString();
     }
 
 }

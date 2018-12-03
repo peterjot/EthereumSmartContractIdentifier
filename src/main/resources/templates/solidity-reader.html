@@ -10,7 +10,7 @@
 <!--<div th:replace="/fragments/header :: navbar"></div>-->
 
 <div class="container">
-    <div class="row row align-items-center justify-content-center" style="margin-top: 10%">
+    <div class="row row align-items-center justify-content-center mt-3 mb-3">
         <form method="post" enctype="multipart/form-data" action="#" th:action="@{/solidity}">
             <div class="custom-file form-group">
                 <input type="file" name="file" class="custom-file-input" id="customFile">
@@ -25,9 +25,13 @@
 
 
     <th:block th:each="function : ${functions}">
-        <div class="row">
-            <p>Function selector : <span th:text="${function.selector}">NONE</span></p>
-            <p>Function signature: <span th:text="${function.signature}">NONE</span></p>
+        <div class="row mt-0">
+            <div class="col-sm">
+                <p>Function selector : <span th:text="${function.selector}">NONE</span></p>
+            </div>
+            <div class="col-sm">
+                <p>Function signature: <span th:text="${function.signature}">NONE</span></p>
+            </div>
         </div>
     </th:block>
 

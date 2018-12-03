@@ -2,9 +2,11 @@ package com.piotrjasina.solidity;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
+
 public interface SolidityFileRepository extends MongoRepository<SolidityFile, String> {
 
-    public SolidityFile findByFunctionsIsContaining(Function function);
+    List<SolidityFile> findByFunctionsIsContaining(Function function);
 
-    public SolidityFile findBySourceCodeHash(String sourceCodeHash);
+    SolidityFile findBySourceCodeHash(String sourceCodeHash);
 }

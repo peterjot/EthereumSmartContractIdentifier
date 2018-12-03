@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/header :: header"/>
+    <!--<div th:replace="/fragments/header :: header"></div>-->
+</head>
+<body>
+
+<th:block th:include="fragments/header :: navbar"/>
+<!--<div th:replace="/fragments/header :: navbar"></div>-->
+
+<div class="container mt-2">
+    <div class="row justify-content-center ">
+        <div class="col-sm">
+            <h3>Functions selector count: <span th:text="${functions.size()}">NONE</span></h3>
+        </div>
+    </div>
+    <th:block th:each="function : ${functions}">
+        <div class="row justify-content-center ">
+            <div class="col-sm">
+                <p><span th:text="${function.selector}">NONE</span></p>
+            </div>
+            <div class="col-sm">
+                <p><span th:text="${function.signature}">NONE</span></p>
+            </div>
+        </div>
+    </th:block>
+</div>
+
+<!-- /.container -->
+
+</body>
+</html>
+
+
+

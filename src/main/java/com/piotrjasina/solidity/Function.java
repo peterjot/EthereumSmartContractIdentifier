@@ -2,21 +2,19 @@ package com.piotrjasina.solidity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 @RequiredArgsConstructor
-@Setter
 @Getter
 @ToString
 @EqualsAndHashCode
-@Document
 public class Function {
 
-    @NonNull
     @Id
+    @NonNull
     private String selector;
 
+    @Indexed(unique = true)
     @NonNull
     private String signature;
-
 }

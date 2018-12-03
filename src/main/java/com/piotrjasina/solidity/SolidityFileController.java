@@ -1,19 +1,18 @@
 package com.piotrjasina.solidity;
 
-import com.piotrjasina.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Controller
 @RequestMapping("/solidity")
@@ -28,14 +27,15 @@ public class SolidityFileController {
     }
 
     @GetMapping
-    public String greeting() {
-        log.info("Get solidity page");
-
+    public String mainPage() {
         return "solidity-reader";
     }
 
     @PostMapping
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception {
+        checkNotNull(file, "Expected not-null file");
+        checkNotNull(model, "Expected not-null model");
+
         log.info("Posted file");
         SolidityFile savedSolidityFile = solidityFileService.save(file.getBytes());
 
@@ -43,11 +43,24 @@ public class SolidityFileController {
         return "solidity-reader";
     }
 
-    @GetMapping("/all")
-    public String findAll(Model model){
-        List<SolidityFile> solidityFiles = solidityFileService.findAll();
+    @GetMapping("/files")
+    public String findSolidityFiles(Model model) {
+        checkNotNull(model, "Expected not-null model");
+
+        List<SolidityFile> solidityFiles = solidityFileService.findAllFiles();
+
         model.addAttribute("solidityFiles", solidityFiles);
-        return "solidity-view";
+        return "solidity-files";
+    }
+
+    @GetMapping("/functions")
+    public String findFunctions(Model model) {
+        checkNotNull(model, "Expected not-null model");
+
+        List<Function> functions = solidityFileService.findAllFunctions();
+
+        model.addAttribute("functions", functions);
+        return "solidity-functions";
     }
 
 }
