@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/bytecode")
 public class ByteCodeController {
 
-    private static final String MNEMONIC = "PUSH4";
     private final ByteCodeService byteCodeService;
 
     @Autowired
@@ -29,7 +28,7 @@ public class ByteCodeController {
     public String handleByteCodeUpload(@RequestParam("byteCodeString") String byteCodeString, Model model) {
         log.info("ByteCodeString: {}", byteCodeString.substring(0, 100));
 
-        List<InstructionDto> instructionDtos = byteCodeService.getOpcodeArgumentByMnemonic(byteCodeString, MNEMONIC);
+        List<InstructionDto> instructionDtos = byteCodeService.findImplementationWithCountByByteCode(byteCodeString);
 
         log.info("InstructionDtos: {}", instructionDtos);
         model.addAttribute("instructionDtos", instructionDtos);
