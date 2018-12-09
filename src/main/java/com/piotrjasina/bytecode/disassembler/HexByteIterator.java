@@ -1,8 +1,8 @@
-package com.piotrjasina.bytecode;
+package com.piotrjasina.bytecode.disassembler;
 
 import java.util.Iterator;
 
-public class HexByteIterator implements Iterator<String> {
+class HexByteIterator implements Iterator<String> {
 
     private String byteCodeStr;
     private int position;

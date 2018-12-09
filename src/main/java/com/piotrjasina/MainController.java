@@ -20,7 +20,7 @@ public class MainController {
     }
 
     @RequestMapping("/")
-    public String mainPage(Model model){
+    public String mainPage(Model model) {
         long solidityFilesCount = solidityFileRepository.count();
         long functionsCount = functionRepository.count();
 

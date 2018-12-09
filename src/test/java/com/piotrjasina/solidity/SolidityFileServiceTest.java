@@ -1,9 +1,5 @@
-package com.piotrjasina.service;
+package com.piotrjasina.solidity;
 
-import com.piotrjasina.solidity.Function;
-import com.piotrjasina.solidity.FunctionRepository;
-import com.piotrjasina.solidity.SolidityFileRepository;
-import com.piotrjasina.solidity.SolidityFileService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +45,7 @@ public class SolidityFileServiceTest {
                     new Function("10fdf92a", "commentFromAccount(uint256)"),
                     new Function("8ebb4c15", "comments(uint256)"),
                     new Function("cd65eabe", "commentsFromPost(uint256,uint256)"),
-                    new Function("5a9cfac8","hasPosts()"),
+                    new Function("5a9cfac8", "hasPosts()"),
                     new Function("09787a2c", "newComment(uint256,string)"),
                     new Function("23bcaae9", "newPost(string)")
                     ,

@@ -13,11 +13,10 @@
     <div class="row align-items-center justify-content-center" style="margin-top: 10%">
         <div>
         <textarea name="byteCodeString" form="bytecodeform" style="width: 40em; height: 20em; resize: none"
-                  placeholder="Wklej byte code"><th:block th:text="${byteCodeString}"/>
-        </textarea>
+                  placeholder="Insert bytecode"></textarea>
         </div>
         <div>
-            <form  method="post" action="#" th:action="@{/bytecode}"  id="bytecodeform">
+            <form method="post" action="#" th:action="@{/bytecode}" id="bytecodeform">
                 <div style="margin-left: 5%"> <!--You can add col-lg-12 if you want -->
                     <input type="submit" class="btn btn-info">
                 </div>
@@ -25,14 +24,25 @@
         </div>
     </div>
 
-    <th:block th:if="${instructionDtos != null && instructionDtos.isEmpty() == false}">
+    <th:block th:if="${implementationsWithCount != null && implementationsWithCount.isEmpty() == false}">
         <div class="row">
-            <p>Push4 hashes:</p><br>
+            <div class="col-md-10">
+                <p>Solidity File Hash:</p>
+            </div>
+            <div class="col-md-2">
+                <p>Matches</p>
+            </div>
         </div>
     </th:block>
-    <th:block th:each="instructionDto : ${instructionDtos}">
+    <th:block th:each="implementationWithCount : ${implementationsWithCount}">
         <div class="row">
-            <p th:text="${instructionDto.argument}"></p><br>
+            <div class="col-md-10">
+                <a th:href="'http://localhost:8080/api/solidity/sourceCodes?fileHash='+${implementationWithCount.key.sourceCodeHash}" th:target="_blank"
+                   th:text="${implementationWithCount.key.sourceCodeHash}" ></a>
+            </div>
+            <div class="col-md-2">
+                <p th:text="${#numbers.formatPercent(implementationWithCount.value,1,2)}"></p>
+            </div>
         </div>
     </th:block>
 

@@ -1,15 +1,12 @@
-package com.piotrjasina.disassembler;
+package com.piotrjasina.bytecode.disassembler;
 
-import com.piotrjasina.bytecode.Instruction;
-import com.piotrjasina.bytecode.Opcode;
-import com.piotrjasina.bytecode.SolidityDisassembler;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.piotrjasina.bytecode.Opcode.PUSH4;
+import static com.piotrjasina.bytecode.disassembler.Opcode.PUSH4;
 import static java.util.stream.Collectors.toList;
 import static javax.xml.bind.DatatypeConverter.parseHexBinary;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -31,15 +28,15 @@ public class SolidityDisassemblerTest {
     public void shouldReturnAllPush4Instructions() {
         //given
         List<Instruction> expectedInstruction = Arrays.asList(
-                new Instruction(PUSH4, parseHexBinary("ffffffff")),
-                new Instruction(PUSH4, parseHexBinary("09787a2c")),
-                new Instruction(PUSH4, parseHexBinary("0b1e7f83")),
-                new Instruction(PUSH4, parseHexBinary("10fdf92a")),
-                new Instruction(PUSH4, parseHexBinary("23bcaae9")),
-                new Instruction(PUSH4, parseHexBinary("5a9cfac8")),
-                new Instruction(PUSH4, parseHexBinary("8ebb4c15")),
-                new Instruction(PUSH4, parseHexBinary("acdc2cde")),
-                new Instruction(PUSH4, parseHexBinary("cd65eabe"))
+                new Instruction(PUSH4, "ffffffff"),
+                new Instruction(PUSH4, "09787a2c"),
+                new Instruction(PUSH4, "0b1e7f83"),
+                new Instruction(PUSH4, "10fdf92a"),
+                new Instruction(PUSH4, "23bcaae9"),
+                new Instruction(PUSH4, "5a9cfac8"),
+                new Instruction(PUSH4, "8ebb4c15"),
+                new Instruction(PUSH4, "acdc2cde"),
+                new Instruction(PUSH4, "cd65eabe")
         );
 
         //when

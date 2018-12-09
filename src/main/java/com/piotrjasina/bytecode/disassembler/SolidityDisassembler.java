@@ -1,15 +1,14 @@
-package com.piotrjasina.bytecode;
+package com.piotrjasina.bytecode.disassembler;
 
+import com.piotrjasina.exception.ByteCodeStringException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
-import javax.xml.bind.DatatypeConverter;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static javax.xml.bind.DatatypeConverter.parseHexBinary;
 
 @Slf4j
 @Component
@@ -46,16 +45,15 @@ public class SolidityDisassembler {
         while (hexByteIterator.hasNext()) {
 
             String byteString = hexByteIterator.next();
-            log.info("Current byteStr: {}", byteString);
+//            log.info("Current byteStr: {}", byteString);
 
             Opcode opcode = OpcodeTable.getOpcodeByHex(byteString);
-            log.info("Current opcode: {}", opcode.name());
+//            log.info("Current opcode: {}", opcode.name());
 
-            byte[] bytes = parseHexBinary(
-                    getParameter(opcode.getOperandSize(), hexByteIterator));
-            log.info("Current argument: {}", DatatypeConverter.printHexBinary(bytes));
+            String hexParameter = getParameter(opcode.getOperandSize(), hexByteIterator);
+//            log.info("Current argument: {}", DatatypeConverter.printHexBinary(bytes));
 
-            instructions.add(new Instruction(opcode, bytes));
+            instructions.add(new Instruction(opcode, hexParameter.toLowerCase()));
         }
 
         return instructions;
@@ -63,7 +61,7 @@ public class SolidityDisassembler {
 
     private void checkByteCodeLength(String bytecodeSource) {
         if (bytecodeSource.length() % 2 != 0) {
-            throw new RuntimeException("This bytecodeSource has wrong length");
+            throw new ByteCodeStringException(String.format("This bytecodeSource has wrong length [%d]", bytecodeSource.length()));
         }
     }
 

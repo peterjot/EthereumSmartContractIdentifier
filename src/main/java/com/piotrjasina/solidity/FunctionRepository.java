@@ -2,8 +2,10 @@ package com.piotrjasina.solidity;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface FunctionRepository extends MongoRepository<Function, String> {
-    Function findBySelector(String selector);
+import java.util.Optional;
 
-    Function findBySignature(String signature);
+public interface FunctionRepository extends MongoRepository<Function, String> {
+    Optional<Function> findBySelector(String selector);
+
+    Optional<Function> findBySignature(String signature);
 }

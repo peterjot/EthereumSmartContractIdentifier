@@ -1,6 +1,7 @@
 package com.piotrjasina.solidity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,6 +28,13 @@ public class SolidityFileApiController {
         return solidityFileService.save(sourceCode);
     }
 
+    @GetMapping(value = "/solidity/sourceCodes", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getSourceCodeByHash(@RequestParam("fileHash") String fileHash) {
+        checkNotNull(fileHash, "Expected not-null sourceCode");
+
+        return solidityFileService.getSourceCodeByHash(fileHash);
+    }
+
     @GetMapping("/solidity/functions")
     public List<Function> findFunctions() throws IOException {
         return solidityFileService.findAllFunctions();
@@ -36,8 +44,6 @@ public class SolidityFileApiController {
     public List<SolidityFile> findFiles() throws IOException {
         return solidityFileService.findAllFiles();
     }
-
-
 
 
 }

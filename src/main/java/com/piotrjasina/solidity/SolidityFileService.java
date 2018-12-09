@@ -2,7 +2,6 @@ package com.piotrjasina.solidity;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -35,6 +34,18 @@ public class SolidityFileService {
         this.functionRepository = functionRepository;
     }
 
+    public String getSourceCodeByHash(String fileHash) {
+        if (!fileHash.startsWith("0x"))
+            fileHash = "0x" + fileHash;
+
+        Optional<SolidityFile> solidityFile = solidityFileRepository.findBySourceCodeHash(fileHash);
+
+        if (solidityFile.isPresent()) {
+            return solidityFile.get().getSourceCode();
+        }
+        throw new RuntimeException("No source code");
+    }
+
     public List<SolidityFile> findAllFiles() {
         return solidityFileRepository.findAll();
     }
@@ -55,7 +66,7 @@ public class SolidityFileService {
         log.info("SourceCode hash: [{}]", sourceCodeHash);
 
         Set<Function> functionsFromFile = getFunctionsFromFile(new ByteArrayInputStream(sourceCodeBytes));
-        log.info("SourceCode functios count: {}",functionsFromFile.size());
+        log.info("SourceCode functios count: {}", functionsFromFile.size());
         Set<Function> savedFunctions = new HashSet<>(functionRepository.saveAll(functionsFromFile));
 
 //        try {

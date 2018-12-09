@@ -1,4 +1,4 @@
-package com.piotrjasina.bytecode;
+package com.piotrjasina.bytecode.disassembler;
 
 import java.util.HashMap;
 import java.util.Map;

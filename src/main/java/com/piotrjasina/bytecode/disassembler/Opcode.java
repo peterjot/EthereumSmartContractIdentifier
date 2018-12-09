@@ -1,11 +1,11 @@
-package com.piotrjasina.bytecode;
+package com.piotrjasina.bytecode.disassembler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Opcode {
+enum Opcode {
     STOP(0, "Halts execution."),
     ADD(0, "Addition operation."),
     MUL(0, "Multiplication operation."),
