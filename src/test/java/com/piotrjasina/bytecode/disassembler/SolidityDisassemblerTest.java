@@ -8,7 +8,6 @@ import java.util.List;
 
 import static com.piotrjasina.bytecode.disassembler.Opcode.PUSH4;
 import static java.util.stream.Collectors.toList;
-import static javax.xml.bind.DatatypeConverter.parseHexBinary;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
