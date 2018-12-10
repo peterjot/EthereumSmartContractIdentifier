@@ -20,9 +20,8 @@ import static java.util.stream.Collectors.*;
 @Slf4j
 public class BytecodeService {
 
-    private static final String PUSH_4_MNEMONIC = "PUSH4";
     public static final String FOUR_BYTES_MASK = "ffffffff";
-
+    private static final String PUSH_4_MNEMONIC = "PUSH4";
     private final SolidityDisassembler solidityDisassembler;
     private final SolidityFileRepository solidityFileRepository;
     private final FunctionRepository functionRepository;
@@ -50,7 +49,7 @@ public class BytecodeService {
 
     private Map<SolidityFile, Double> findSolidityFilesWithCountByInstructions(List<Instruction> instructions) {
 
-        int functionsSelectorCount = instructions.size();
+        final int functionsSelectorCount = instructions.size();
         log.info("Push4 instructions in this bytecode: {}", functionsSelectorCount);
 
 

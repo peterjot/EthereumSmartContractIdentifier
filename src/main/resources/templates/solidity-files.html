@@ -14,7 +14,7 @@
         <div class="row justify-content-center ">
             <div class="col-6" th:id="${solidityFile.sourceCodeHash}">
                 <span>Source code hash: <a
-                        th:href="'http://localhost:8080/api/solidityFiles/sourceCode?fileHash='+${solidityFile.sourceCodeHash}"
+                        th:href="@{'/api/solidityFiles/sourceCode?fileHash='+${solidityFile.sourceCodeHash}}"
                         th:text="${solidityFile.sourceCodeHash}">NONE</a></span>
             </div>
             <div class="col-6">
