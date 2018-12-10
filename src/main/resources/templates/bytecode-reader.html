@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row align-items-center justify-content-center" style="margin-top: 10%">
         <div>
-        <textarea name="byteCodeString" form="bytecodeform" style="width: 40em; height: 20em; resize: none"
+        <textarea name="bytecode" form="bytecodeform" style="width: 40em; height: 20em; resize: none"
                   placeholder="Insert bytecode"></textarea>
         </div>
         <div>
@@ -37,7 +37,8 @@
     <th:block th:each="implementationWithCount : ${implementationsWithCount}">
         <div class="row">
             <div class="col-md-10">
-                <a th:href="'http://localhost:8080/api/solidity/sourceCodes?fileHash='+${implementationWithCount.key.sourceCodeHash}" th:target="_blank"
+                <a th:href="'http://localhost:8080/api/solidityFiles/sourceCode?fileHash='+${implementationWithCount.key.sourceCodeHash}"
+                   th:target="_blank"
                    th:text="${implementationWithCount.key.sourceCodeHash}" ></a>
             </div>
             <div class="col-md-2">

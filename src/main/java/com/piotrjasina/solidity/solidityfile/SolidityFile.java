@@ -1,5 +1,6 @@
-package com.piotrjasina.solidity;
+package com.piotrjasina.solidity.solidityfile;
 
+import com.piotrjasina.solidity.function.Function;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;

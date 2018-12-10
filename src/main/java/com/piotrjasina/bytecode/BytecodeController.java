@@ -1,7 +1,7 @@
 package com.piotrjasina.bytecode;
 
 
-import com.piotrjasina.solidity.SolidityFile;
+import com.piotrjasina.solidity.solidityfile.SolidityFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,18 +16,18 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/bytecode")
-public class ByteCodeController {
+public class BytecodeController {
 
-    private final ByteCodeService byteCodeService;
+    private final BytecodeService bytecodeService;
 
     @Autowired
-    public ByteCodeController(ByteCodeService byteCodeService) {
-        this.byteCodeService = byteCodeService;
+    public BytecodeController(BytecodeService bytecodeService) {
+        this.bytecodeService = bytecodeService;
     }
 
     @PostMapping
-    public String handleByteCodeUpload(@RequestParam("byteCodeString") String byteCodeString, Model model) {
-        Map<SolidityFile, Double> implementationsWithCount = byteCodeService.findSolidityFileWithCountByByteCode(byteCodeString);
+    public String findImplementationsByBytecode(@RequestParam("bytecode") String bytecode, Model model) {
+        Map<SolidityFile, Double> implementationsWithCount = bytecodeService.findSolidityFileWithCountByBytecode(bytecode);
 
         model.addAttribute("implementationsWithCount", implementationsWithCount);
         return "bytecode-reader";

@@ -1,5 +1,9 @@
 package com.piotrjasina.solidity;
 
+import com.piotrjasina.solidity.function.Function;
+import com.piotrjasina.solidity.function.FunctionRepository;
+import com.piotrjasina.solidity.solidityfile.SolidityFile;
+import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +22,8 @@ import static org.web3j.crypto.Hash.sha3String;
 
 @Service
 @Slf4j
-public class SolidityFileService {
-    //TODO Add fuction selectors for getter functions
+public class SolidityService {
+    //TODO Add fuction selectors for getter solidityFileFunctions
     //                                     -xxxxxxxxx-- function name        --xxx--fun args--xxx--xxx
     private static final String pattern = "(function\\s+)([a-zA-Z_][a-zA-Z0-9_]*)(\\s*\\(\\s*)([^(){}]*)(\\s*\\)\\s*)(.*)";
 
@@ -27,7 +31,7 @@ public class SolidityFileService {
     private final FunctionRepository functionRepository;
 
     @Autowired
-    public SolidityFileService(SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
+    public SolidityService(SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
         checkNotNull(solidityFileRepository, "Expected not-null solidityFileRepository");
         checkNotNull(functionRepository, "Expected not-null functionRepository");
         this.solidityFileRepository = solidityFileRepository;
@@ -58,7 +62,7 @@ public class SolidityFileService {
         return save(sourceCode.getBytes());
     }
 
-    public SolidityFile save(byte[] sourceCodeBytes) throws IOException {
+    SolidityFile save(byte[] sourceCodeBytes) throws IOException {
 
         String sourceCode = new String(sourceCodeBytes, StandardCharsets.UTF_8);
         String sourceCodeHash = stringHash(sourceCode);
@@ -83,7 +87,7 @@ public class SolidityFileService {
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-        Pattern pattern = Pattern.compile(SolidityFileService.pattern);
+        Pattern pattern = Pattern.compile(SolidityService.pattern);
 
         Set<Function> functions = new HashSet<>();
 

@@ -23,8 +23,14 @@
         </form>
     </div>
 
-
-    <th:block th:each="function : ${functions}">
+    <th:block th:if="${solidityFileFunctions != null}">
+        <div class="row mt-0">
+            <div class="col-sm">
+                <p>Uploaded solidity file hash : <span th:text="${solidityFileHash}">NONE</span></p>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:each="function : ${solidityFileFunctions}">
         <div class="row mt-0">
             <div class="col-sm">
                 <p>Function selector : <span th:text="${function.selector}">NONE</span></p>

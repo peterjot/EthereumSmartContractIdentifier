@@ -1,7 +1,7 @@
 package com.piotrjasina;
 
-import com.piotrjasina.solidity.FunctionRepository;
-import com.piotrjasina.solidity.SolidityFileRepository;
+import com.piotrjasina.solidity.function.FunctionRepository;
+import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

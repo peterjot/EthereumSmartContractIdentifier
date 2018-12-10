@@ -4,21 +4,21 @@ import java.util.Iterator;
 
 class HexByteIterator implements Iterator<String> {
 
-    private String byteCodeStr;
+    private String bytecode;
     private int position;
 
-    HexByteIterator(String byteCodeStr) {
-        this.byteCodeStr = byteCodeStr;
+    HexByteIterator(String bytecode) {
+        this.bytecode = bytecode;
     }
 
     @Override
     public boolean hasNext() {
-        return position + 2 <= byteCodeStr.length();
+        return position + 2 <= bytecode.length();
     }
 
     @Override
     public String next() {
-        String hexByte = byteCodeStr.substring(position, position + 2);
+        String hexByte = bytecode.substring(position, position + 2);
         position += 2;
         return hexByte;
     }

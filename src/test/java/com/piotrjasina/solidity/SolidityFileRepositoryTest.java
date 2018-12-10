@@ -1,6 +1,10 @@
 package com.piotrjasina.solidity;
 
 import com.piotrjasina.Utils;
+import com.piotrjasina.solidity.function.Function;
+import com.piotrjasina.solidity.function.FunctionRepository;
+import com.piotrjasina.solidity.solidityfile.SolidityFile;
+import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,10 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.piotrjasina.Utils.stringHash;
 import static java.util.Arrays.asList;

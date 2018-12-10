@@ -1,6 +1,6 @@
 package com.piotrjasina.bytecode.disassembler;
 
-import com.piotrjasina.exception.ByteCodeStringException;
+import com.piotrjasina.exception.BytecodeStringException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
@@ -30,18 +30,18 @@ public class SolidityDisassembler {
         return stringBuilder.toString();
     }
 
-    public List<Instruction> disassembly(String byteCode) {
-        checkNotNull(byteCode);
-        return createInstructions(byteCode);
+    public List<Instruction> disassembly(String bytecode) {
+        checkNotNull(bytecode);
+        return createInstructions(bytecode);
     }
 
-    private List<Instruction> createInstructions(String byteCode) {
-        String preparedByteCode = prepareByteCode(byteCode);
-        checkByteCodeLength(preparedByteCode);
+    private List<Instruction> createInstructions(String bytecode) {
+        String preparedBytecode = prepareBytecode(bytecode);
+        checkBytecodeLength(preparedBytecode);
 
         List<Instruction> instructions = new ArrayList<>();
 
-        HexByteIterator hexByteIterator = new HexByteIterator(preparedByteCode);
+        HexByteIterator hexByteIterator = new HexByteIterator(preparedBytecode);
         while (hexByteIterator.hasNext()) {
 
             String byteString = hexByteIterator.next();
@@ -59,13 +59,13 @@ public class SolidityDisassembler {
         return instructions;
     }
 
-    private void checkByteCodeLength(String bytecodeSource) {
+    private void checkBytecodeLength(String bytecodeSource) {
         if (bytecodeSource.length() % 2 != 0) {
-            throw new ByteCodeStringException(String.format("This bytecodeSource has wrong length [%d]", bytecodeSource.length()));
+            throw new BytecodeStringException(String.format("This bytecodeSource has wrong length [%d]", bytecodeSource.length()));
         }
     }
 
-    private String prepareByteCode(String bytecodeSource) {
+    private String prepareBytecode(String bytecodeSource) {
         if (bytecodeSource.startsWith("0x")) {
             return bytecodeSource.substring(2).toLowerCase();
         }

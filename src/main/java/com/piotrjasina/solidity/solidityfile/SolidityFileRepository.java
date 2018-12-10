@@ -1,5 +1,6 @@
-package com.piotrjasina.solidity;
+package com.piotrjasina.solidity.solidityfile;
 
+import com.piotrjasina.solidity.function.Function;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

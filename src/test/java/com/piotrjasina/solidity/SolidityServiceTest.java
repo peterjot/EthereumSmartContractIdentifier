@@ -1,5 +1,8 @@
 package com.piotrjasina.solidity;
 
+import com.piotrjasina.solidity.function.Function;
+import com.piotrjasina.solidity.function.FunctionRepository;
+import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +21,9 @@ import static org.junit.Assert.assertThat;
 
 
 @RunWith(SpringRunner.class)
-public class SolidityFileServiceTest {
+public class SolidityServiceTest {
 
-    private SolidityFileService solidityFileService;
+    private SolidityService solidityService;
 
     @MockBean
     SolidityFileRepository solidityFileRepository;
@@ -29,7 +32,7 @@ public class SolidityFileServiceTest {
 
     @Before
     public void setUp() {
-        solidityFileService = new SolidityFileService(solidityFileRepository, functionRepository);
+        solidityService = new SolidityService(solidityFileRepository, functionRepository);
     }
 
 
@@ -53,7 +56,7 @@ public class SolidityFileServiceTest {
                     new Function("acdc2cde", "postsFromAccount(address,uint256)")
             ));
 
-            actualFunctions = solidityFileService.getFunctionsFromFile(inputStream);
+            actualFunctions = solidityService.getFunctionsFromFile(inputStream);
         }
 
         //then

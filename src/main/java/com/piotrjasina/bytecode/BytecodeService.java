@@ -2,10 +2,10 @@ package com.piotrjasina.bytecode;
 
 import com.piotrjasina.bytecode.disassembler.Instruction;
 import com.piotrjasina.bytecode.disassembler.SolidityDisassembler;
-import com.piotrjasina.solidity.Function;
-import com.piotrjasina.solidity.FunctionRepository;
-import com.piotrjasina.solidity.SolidityFile;
-import com.piotrjasina.solidity.SolidityFileRepository;
+import com.piotrjasina.solidity.function.Function;
+import com.piotrjasina.solidity.function.FunctionRepository;
+import com.piotrjasina.solidity.solidityfile.SolidityFile;
+import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.*;
 
 @Service
 @Slf4j
-public class ByteCodeService {
+public class BytecodeService {
 
     private static final String PUSH_4_MNEMONIC = "PUSH4";
 
@@ -27,20 +27,20 @@ public class ByteCodeService {
     private final FunctionRepository functionRepository;
 
     @Autowired
-    public ByteCodeService(SolidityDisassembler solidityDisassembler, SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
+    public BytecodeService(SolidityDisassembler solidityDisassembler, SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
         this.solidityDisassembler = solidityDisassembler;
         this.solidityFileRepository = solidityFileRepository;
         this.functionRepository = functionRepository;
     }
 
-    public Map<SolidityFile, Double> findSolidityFileWithCountByByteCode(String byteCode) {
-        List<Instruction> instructionsOfByteCode = findPush4Instructions(byteCode);
+    public Map<SolidityFile, Double> findSolidityFileWithCountByBytecode(String bytecode) {
+        List<Instruction> instructionsOfBytecode = findPush4Instructions(bytecode);
 
-        return findSolidityFilesWithCountByInstructions(instructionsOfByteCode);
+        return findSolidityFilesWithCountByInstructions(instructionsOfBytecode);
     }
 
-    private List<Instruction> findPush4Instructions(String byteCode) {
-        List<Instruction> instructions = solidityDisassembler.disassembly(byteCode);
+    private List<Instruction> findPush4Instructions(String bytecode) {
+        List<Instruction> instructions = solidityDisassembler.disassembly(bytecode);
         return instructions
                 .stream()
                 .filter(instruction -> instruction.hasMnemonic(PUSH_4_MNEMONIC))

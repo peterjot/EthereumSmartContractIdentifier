@@ -1,4 +1,4 @@
-package com.piotrjasina.solidity;
+package com.piotrjasina.solidity.function;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
