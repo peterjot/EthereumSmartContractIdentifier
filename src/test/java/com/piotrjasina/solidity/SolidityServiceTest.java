@@ -4,6 +4,7 @@ import com.piotrjasina.solidity.function.Function;
 import com.piotrjasina.solidity.function.FunctionRepository;
 import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,6 +38,7 @@ public class SolidityServiceTest {
 
 
     @Test
+    @Ignore
     public void shouldGetFunctionsFromFile() throws Exception {
         //given
         Set<Function> expectedFunctions;
