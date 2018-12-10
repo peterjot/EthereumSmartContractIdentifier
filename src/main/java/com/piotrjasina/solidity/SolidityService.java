@@ -24,6 +24,8 @@ import static org.web3j.crypto.Hash.sha3String;
 @Slf4j
 public class SolidityService {
     //TODO Add fuction selectors for getter solidityFileFunctions
+    //TODO Poprawic dopasowanie wynikow dla listy selektorow funkcji
+    //TODO czasami zdarza sie sytuacja
     //                                     -xxxxxxxxx-- function name        --xxx--fun args--xxx--xxx
     private static final String pattern = "(function\\s+)([a-zA-Z_][a-zA-Z0-9_]*)(\\s*\\(\\s*)([^(){}]*)(\\s*\\)\\s*)(.*)";
 
@@ -73,12 +75,7 @@ public class SolidityService {
         log.info("SourceCode functios count: {}", functionsFromFile.size());
         Set<Function> savedFunctions = new HashSet<>(functionRepository.saveAll(functionsFromFile));
 
-//        try {
         return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, savedFunctions));
-//        } catch (DuplicateKeyException exception) {
-//            log.info("Duplicate file with hash: [{}]",sourceCodeHash);
-//            return solidityFileRepository.findBySourceCodeHash(sourceCodeHash);
-//        }
     }
 
 

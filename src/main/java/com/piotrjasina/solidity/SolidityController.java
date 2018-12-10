@@ -47,6 +47,18 @@ public class SolidityController {
         return "solidity-reader";
     }
 
+    @PostMapping("/text")
+    public String handleSourceCodeUpload(String sourceCode, Model model) throws Exception {
+        checkNotNull(sourceCode, "Expected not-null file");
+        checkNotNull(model, "Expected not-null model");
+
+        SolidityFile savedSolidityFile = solidityService.save(sourceCode);
+
+        model.addAttribute("solidityFileFunctions", savedSolidityFile.getFunctions());
+        model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
+        return "solidity-reader";
+    }
+
     @GetMapping("/files")
     public String findSolidityFiles(Model model) {
         checkNotNull(model, "Expected not-null model");
