@@ -18,10 +18,7 @@
             <th:block th:each="function : ${functions}">
                 <div class="row">
                     <div class="col-sm-3">
-                        <p th:text="${function.selector}">NONE</p>
-                    </div>
-                    <div class="col-sm-5">
-                        <p th:text="${function.signature}">NONE</p>
+                        <p th:text="${function}">NONE</p>
                     </div>
                 </div>
             </th:block>

@@ -1,9 +1,7 @@
 package com.piotrjasina.solidity.solidityfile;
 
-import com.piotrjasina.solidity.function.Function;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Set;
 
@@ -22,8 +20,6 @@ public class SolidityFile {
     private String sourceCode;
 
     @NonNull
-    @DBRef
-    @EqualsAndHashCode.Exclude
-    private Set<Function> functions;
+    private Set<String> functionSelectors;
 
 }

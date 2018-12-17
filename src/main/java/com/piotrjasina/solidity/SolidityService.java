@@ -1,7 +1,5 @@
 package com.piotrjasina.solidity;
 
-import com.piotrjasina.solidity.function.Function;
-import com.piotrjasina.solidity.function.FunctionRepository;
 import com.piotrjasina.solidity.solidityfile.SolidityFile;
 import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.piotrjasina.Utils.stringHash;
@@ -23,21 +22,18 @@ import static org.web3j.crypto.Hash.sha3String;
 @Service
 @Slf4j
 public class SolidityService {
-    //TODO Add fuction selectors for getter solidityFileFunctions
+    //TODO Add fuction selectors for getter solidityFileFunctionSelectors
     //TODO Poprawic dopasowanie wynikow dla listy selektorow funkcji
     //TODO czasami zdarza sie sytuacja
     //                                     -xxxxxxxxx-- function name        --xxx--fun args--xxx--xxx
     private static final String pattern = "(function\\s+)([a-zA-Z_][a-zA-Z0-9_]*)(\\s*\\(\\s*)([^(){}]*)(\\s*\\)\\s*)(.*)";
 
     private final SolidityFileRepository solidityFileRepository;
-    private final FunctionRepository functionRepository;
 
     @Autowired
-    public SolidityService(SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
+    public SolidityService(SolidityFileRepository solidityFileRepository) {
         checkNotNull(solidityFileRepository, "Expected not-null solidityFileRepository");
-        checkNotNull(functionRepository, "Expected not-null functionRepository");
         this.solidityFileRepository = solidityFileRepository;
-        this.functionRepository = functionRepository;
     }
 
     public String getSourceCodeByHash(String fileHash) {
@@ -56,8 +52,23 @@ public class SolidityService {
         return solidityFileRepository.findAll();
     }
 
-    public List<Function> findAllFunctions() {
-        return functionRepository.findAll();
+    public long getUniqueFunctionSelectorsCount(){
+        return findAllUniqueFunctionSelectors().size();
+    }
+
+    public long getSolidityFilesCount(){
+        return solidityFileRepository.count();
+    }
+
+    public List<String> findAllUniqueFunctionSelectors() {
+        return solidityFileRepository
+                .findAll()
+                .stream()
+                .map(SolidityFile::getFunctionSelectors)
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.toList());
+
     }
 
     public SolidityFile save(String sourceCode) throws IOException {
@@ -71,22 +82,21 @@ public class SolidityService {
 
         log.info("SourceCode hash: [{}]", sourceCodeHash);
 
-        Set<Function> functionsFromFile = getFunctionsFromFile(new ByteArrayInputStream(sourceCodeBytes));
+        Set<String> functionsFromFile = getFunctionsFromFile(new ByteArrayInputStream(sourceCodeBytes));
         log.info("SourceCode functios count: {}", functionsFromFile.size());
-        Set<Function> savedFunctions = new HashSet<>(functionRepository.saveAll(functionsFromFile));
 
-        return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, savedFunctions));
+        return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, functionsFromFile));
     }
 
 
-    public Set<Function> getFunctionsFromFile(InputStream inputStream) throws IOException {
+    public Set<String> getFunctionsFromFile(InputStream inputStream) throws IOException {
         checkNotNull(inputStream, "Expected not-null inputStream");
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
         Pattern pattern = Pattern.compile(SolidityService.pattern);
 
-        Set<Function> functions = new HashSet<>();
+        Set<String> functions = new HashSet<>();
 
         String line;
         while ((line = bufferedReader.readLine()) != null) {
@@ -98,11 +108,10 @@ public class SolidityService {
 
                 String normalizedFunctionSignature = normalizeFunctionSignature(functionName, functionArgs);
 
-                String functionSignatureHash = getFunctionSignatureHash(normalizedFunctionSignature);
-                log.info("Function selector: {}", functionSignatureHash);
+                String functionSelector = getFunctionSelector(normalizedFunctionSignature);
+                log.info("Function selector: {}", functionSelector);
 
-                Function function = new Function(functionSignatureHash, normalizedFunctionSignature);
-                functions.add(function);
+                functions.add(functionSelector);
             }
         }
 
@@ -130,7 +139,7 @@ public class SolidityService {
         return s.replaceAll(" .*", "");
     }
 
-    private String getFunctionSignatureHash(String normalizedFunctionSignature) {
+    private String getFunctionSelector(String normalizedFunctionSignature) {
         return sha3String(normalizedFunctionSignature).substring(2, 10);
     }
 

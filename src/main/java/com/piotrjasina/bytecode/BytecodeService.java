@@ -2,8 +2,6 @@ package com.piotrjasina.bytecode;
 
 import com.piotrjasina.bytecode.disassembler.Instruction;
 import com.piotrjasina.bytecode.disassembler.SolidityDisassembler;
-import com.piotrjasina.solidity.function.Function;
-import com.piotrjasina.solidity.function.FunctionRepository;
 import com.piotrjasina.solidity.solidityfile.SolidityFile;
 import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +22,11 @@ public class BytecodeService {
     private static final String PUSH_4_MNEMONIC = "PUSH4";
     private final SolidityDisassembler solidityDisassembler;
     private final SolidityFileRepository solidityFileRepository;
-    private final FunctionRepository functionRepository;
 
     @Autowired
-    public BytecodeService(SolidityDisassembler solidityDisassembler, SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
+    public BytecodeService(SolidityDisassembler solidityDisassembler, SolidityFileRepository solidityFileRepository) {
         this.solidityDisassembler = solidityDisassembler;
         this.solidityFileRepository = solidityFileRepository;
-        this.functionRepository = functionRepository;
     }
 
     Map<SolidityFile, Double> findSolidityFileWithCountByBytecode(String bytecode) {
@@ -55,10 +51,8 @@ public class BytecodeService {
 
         Map<SolidityFile, Long> unsortedSolidityFileWithCount = instructions
                 .stream()
-                .map(instruction -> functionRepository.findBySelector(instruction.getHexArgument()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(this::findFilesByFunction)
+                .map(Instruction::getHexArgument)
+                .map(this::findFilesByFunctionSelector)
                 .flatMap(Collection::stream)
                 .collect(groupingBy(identity(), counting()));
 
@@ -73,7 +67,7 @@ public class BytecodeService {
         return (value / functionsSelectorCount);
     }
 
-    private List<SolidityFile> findFilesByFunction(Function function) {
-        return solidityFileRepository.findByFunctionsIsContaining(function);
+    private List<SolidityFile> findFilesByFunctionSelector(String functionSelector) {
+        return solidityFileRepository.findByFunctionSelectorsContaining(functionSelector);
     }
 }

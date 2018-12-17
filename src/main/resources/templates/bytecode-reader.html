@@ -24,16 +24,24 @@
         </div>
     </div>
 
-    <th:block th:if="${implementationsWithCount != null && implementationsWithCount.isEmpty() == false}">
+    <th:block th:if="${message != null}">
+        <div class="row">
+            <div class="col-md-10">
+                <p th:text="${message}"></p>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:if="${!implementationsWithCount.isEmpty()}">
         <div class="row">
             <div class="col-md-10">
                 <p>Solidity File Hash:</p>
             </div>
             <div class="col-md-2">
-                <p>Matches</p>
+                <p>Matches:</p>
             </div>
         </div>
     </th:block>
+
     <th:block th:each="implementationWithCount : ${implementationsWithCount}">
         <div class="row">
             <div class="col-md-10">

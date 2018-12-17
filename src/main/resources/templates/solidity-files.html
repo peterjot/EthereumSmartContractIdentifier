@@ -12,15 +12,15 @@
 <div class="container mt-2">
     <th:block th:each="solidityFile : ${solidityFiles}">
         <div class="row justify-content-center ">
-            <div class="col-6" th:id="${solidityFile.sourceCodeHash}">
+            <div class="col-sm-6" th:id="${solidityFile.sourceCodeHash}">
                 <span>Source code hash: <a
                         th:href="@{'/api/solidityFiles/sourceCode?fileHash='+${solidityFile.sourceCodeHash}}"
                         th:text="${solidityFile.sourceCodeHash}">NONE</a></span>
             </div>
-            <div class="col-6">
-                <th:block th:each="function : ${solidityFile.functions}">
-                    <p><span th:text="${function}">NONE</span></p>
-                </th:block>
+            <div class="col-sm-6">
+                    <th:block th:each="functionSelector : ${solidityFile.functionSelectors}">
+                        <p><span th:text="${functionSelector}">NONE</span></p>
+                    </th:block>
             </div>
         </div>
     </th:block>

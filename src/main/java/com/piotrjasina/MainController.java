@@ -1,7 +1,6 @@
 package com.piotrjasina;
 
-import com.piotrjasina.solidity.function.FunctionRepository;
-import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
+import com.piotrjasina.solidity.SolidityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,22 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
 
-    private final SolidityFileRepository solidityFileRepository;
-    private final FunctionRepository functionRepository;
+    private final SolidityService solidityService;
 
     @Autowired
-    public MainController(SolidityFileRepository solidityFileRepository, FunctionRepository functionRepository) {
-        this.solidityFileRepository = solidityFileRepository;
-        this.functionRepository = functionRepository;
+    public MainController(SolidityService solidityService) {
+        this.solidityService = solidityService;
     }
 
     @RequestMapping("/")
     public String mainPage(Model model) {
-        long solidityFilesCount = solidityFileRepository.count();
-        long functionsCount = functionRepository.count();
-
-        model.addAttribute("filesCount", solidityFilesCount);
-        model.addAttribute("functionsCount", functionsCount);
+        model.addAttribute("filesCount", solidityService.getSolidityFilesCount());
+        model.addAttribute("functionsCount", solidityService.getUniqueFunctionSelectorsCount());
         return "index";
     }
 }

@@ -1,6 +1,5 @@
 package com.piotrjasina.solidity;
 
-import com.piotrjasina.solidity.function.Function;
 import com.piotrjasina.solidity.solidityfile.SolidityFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +41,19 @@ public class SolidityController {
 
         SolidityFile savedSolidityFile = solidityService.save(file.getBytes());
 
-        model.addAttribute("solidityFileFunctions", savedSolidityFile.getFunctions());
+        model.addAttribute("solidityFileFunctionSelectors", savedSolidityFile.getFunctionSelectors());
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
         return "solidity-reader";
     }
 
     @PostMapping("/text")
-    public String handleSourceCodeUpload(String sourceCode, Model model) throws Exception {
-        checkNotNull(sourceCode, "Expected not-null file");
+    public String handleSourceCodeUpload(@RequestParam("sourceCode") String sourceCode, Model model) throws Exception {
+        checkNotNull(sourceCode, "Expected not-null sourceCode");
         checkNotNull(model, "Expected not-null model");
 
         SolidityFile savedSolidityFile = solidityService.save(sourceCode);
 
-        model.addAttribute("solidityFileFunctions", savedSolidityFile.getFunctions());
+        model.addAttribute("solidityFileFunctionSelectors", savedSolidityFile.getFunctionSelectors());
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
         return "solidity-reader";
     }
@@ -73,8 +72,7 @@ public class SolidityController {
     public String findFunctions(Model model) {
         checkNotNull(model, "Expected not-null model");
 
-        List<Function> functions = solidityService.findAllFunctions();
-
+        List<String> functions = solidityService.findAllUniqueFunctionSelectors();
         model.addAttribute("functions", functions);
         return "solidity-functions";
     }

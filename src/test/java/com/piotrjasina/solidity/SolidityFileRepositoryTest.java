@@ -1,8 +1,6 @@
 package com.piotrjasina.solidity;
 
 import com.piotrjasina.Utils;
-import com.piotrjasina.solidity.function.Function;
-import com.piotrjasina.solidity.function.FunctionRepository;
 import com.piotrjasina.solidity.solidityfile.SolidityFile;
 import com.piotrjasina.solidity.solidityfile.SolidityFileRepository;
 import org.junit.After;
@@ -32,14 +30,12 @@ public class SolidityFileRepositoryTest {
 
     @Autowired
     private SolidityFileRepository solidityFileRepository;
-    @Autowired
-    private FunctionRepository functionRepository;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private static final Function MOCK_FUNCTION_1 = new Function("dsap", "dsa");
-    private static final Function MOCK_FUNCTION_2 = new Function("dsa", "dsddda");
+    private static final String MOCK_FUNCTION_1 = "dsap";
+    private static final String MOCK_FUNCTION_2 = "dsa";
 
     @Before
     public void setUp() throws Exception {
@@ -49,8 +45,6 @@ public class SolidityFileRepositoryTest {
         String testSourceCode2 = testSourceCode.replaceAll("a","b");
         String testSourceCodeHash2 = stringHash(testSourceCode2);
 
-        functionRepository.save(MOCK_FUNCTION_1);
-        functionRepository.save(MOCK_FUNCTION_2);
 
         solidityFileRepository.save(new SolidityFile(
                 testSourceCodeHash,
@@ -68,7 +62,6 @@ public class SolidityFileRepositoryTest {
     @After
     public void tearDown() {
         solidityFileRepository.deleteAll();
-        functionRepository.deleteAll();
 
     }
 
@@ -78,10 +71,10 @@ public class SolidityFileRepositoryTest {
         String expectedSourceCode = "dsadsadsadadklujsadoisajfsdkljgdfkl";
         String expectedSourceCodeHash = stringHash(expectedSourceCode);
 
-        Function mockFunction1 = new Function("dsap", "dsa");
-        Function mockFunction2 = new Function("dsa", "dssa");
+        String mockFunction1 = "dsap";
+        String mockFunction2 = "dsa";
 
-        HashSet<Function> expectedFunctions = new HashSet<>(asList(mockFunction1, mockFunction2));
+        HashSet<String> expectedFunctions = new HashSet<>(asList(mockFunction1, mockFunction2));
 
         SolidityFile solidityFile = new SolidityFile(
                 expectedSourceCodeHash,
@@ -95,18 +88,18 @@ public class SolidityFileRepositoryTest {
         //then
         assertThat(actualSolidityFile.getSourceCode(), equalTo(expectedSourceCode));
         assertThat(actualSolidityFile.getSourceCodeHash(), equalTo(expectedSourceCodeHash));
-        assertThat(actualSolidityFile.getFunctions(), equalTo(expectedFunctions));
+        assertThat(actualSolidityFile.getFunctionSelectors(), equalTo(expectedFunctions));
     }
 
 
     @Test
     public void shouldFindAllSourceCodesContainingFunction() {
         //given
-        Function function = new Function("dsap", "dsa");
+        String function = "dsap";
         int expectedSolidityFilesSize = 2;
 
         //when
-        List<SolidityFile> actualSolidityFiles = solidityFileRepository.findByFunctionsIsContaining(function);
+        List<SolidityFile> actualSolidityFiles = solidityFileRepository.findByFunctionSelectorsContaining(function);
 
         //then
         assertThat(actualSolidityFiles.size(), equalTo(expectedSolidityFilesSize));

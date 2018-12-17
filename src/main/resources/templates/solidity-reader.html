@@ -30,7 +30,7 @@
 
             <form method="post" action="#" th:action="@{/solidity/text}" id="textsourcecodeform">
                 <div>
-                <textarea name="bytecode" form="textsourcecodeform" style="width:100%; resize: none; overflow: auto;"
+                <textarea name="sourceCode" form="textsourcecodeform" style="width:100%; resize: none; overflow: auto;"
                           placeholder="Insert source code"></textarea>
                 </div>
                 <div class="text-right" style="margin-top: 1%">
@@ -41,20 +41,20 @@
     </div>
 </div>
 
-<th:block th:if="${solidityFileFunctions != null}">
+<th:block th:if="${solidityFileHash != null}">
     <div class="row mt-0">
         <div class="col-sm">
-            <p>Uploaded solidity file hash : <span th:text="${solidityFileHash}">NONE</span></p>
+            <span>Uploaded solidity file hash : <a
+                    th:href="@{'/api/solidityFiles/sourceCode?fileHash='+${solidityFileHash}}"
+                    th:text="${solidityFileHash}">NONE</a>
+            </span>
         </div>
     </div>
 </th:block>
-<th:block th:each="function : ${solidityFileFunctions}">
+<th:block th:each="functionSelector : ${solidityFileFunctionSelectors}">
     <div class="row mt-0">
         <div class="col-sm">
-            <p>Function selector : <span th:text="${function.selector}">NONE</span></p>
-        </div>
-        <div class="col-sm">
-            <p>Function signature: <span th:text="${function.signature}">NONE</span></p>
+            <p>Function selector : <span th:text="${functionSelector}">NONE</span></p>
         </div>
     </div>
 </th:block>
