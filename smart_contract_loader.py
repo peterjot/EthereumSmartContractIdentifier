@@ -6,11 +6,6 @@ from lxml import html
 def main():
     session = requests.session()
 
-    print("run script")
-
-    for i in range(1, 10):
-        print("run script")
-
     for i in range(1, 10):
         print("run script")
         response = session.get("https://etherscan.io/contractsVerified/" + str(i) + "?ps=100")
