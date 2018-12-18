@@ -14,13 +14,13 @@ public class BytecodeServiceTest {
 
 
     @Test
-    public void CountDuplicates(){
+    public void CountDuplicates() {
 
         String function1 = "123";
         String function2 = function1;
         String function3 = "123";
 
-        List<String> functions = Arrays.asList(function1,function2,function3);
+        List<String> functions = Arrays.asList(function1, function2, function3);
 
         Map<String, Long> collect = functions.stream().collect(groupingBy(identity(), counting()));
         System.out.println(collect);

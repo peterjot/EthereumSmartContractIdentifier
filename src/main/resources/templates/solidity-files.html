@@ -18,9 +18,9 @@
                         th:text="${solidityFile.sourceCodeHash}">NONE</a></span>
             </div>
             <div class="col-sm-6">
-                    <th:block th:each="functionSelector : ${solidityFile.functionSelectors}">
-                        <p><span th:text="${functionSelector}">NONE</span></p>
-                    </th:block>
+                <th:block th:each="function : ${solidityFile.functions}">
+                    <p><span th:text="${function}">NONE</span></p>
+                </th:block>
             </div>
         </div>
     </th:block>

@@ -20,6 +20,6 @@ public class SolidityFile {
     private String sourceCode;
 
     @NonNull
-    private Set<String> functionSelectors;
+    private Set<Function> functions;
 
 }

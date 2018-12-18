@@ -39,25 +39,31 @@
             </form>
         </div>
     </div>
+    <th:block th:if="${solidityFileHash != null}">
+        <div class="row">
+            <div class="col-sm">
+        <span>Uploaded solidity file hash : <a
+                th:href="@{'/api/solidityFiles/sourceCode?fileHash='+${solidityFileHash}}"
+                th:text="${solidityFileHash}">NONE</a>
+        </span>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:if="${solidityFileFunctions != null && !solidityFileFunctions.isEmpty()}">
+        <div class="row">
+            <div class="col-sm">
+                <p>Functions:</p>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:each="function : ${solidityFileFunctions}">
+        <div class="row">
+            <div class="col-sm">
+                <p th:text="${function}">NONE</p>
+            </div>
+        </div>
+    </th:block>
 </div>
-
-<th:block th:if="${solidityFileHash != null}">
-    <div class="row mt-0">
-        <div class="col-sm">
-            <span>Uploaded solidity file hash : <a
-                    th:href="@{'/api/solidityFiles/sourceCode?fileHash='+${solidityFileHash}}"
-                    th:text="${solidityFileHash}">NONE</a>
-            </span>
-        </div>
-    </div>
-</th:block>
-<th:block th:each="functionSelector : ${solidityFileFunctionSelectors}">
-    <div class="row mt-0">
-        <div class="col-sm">
-            <p>Function selector : <span th:text="${functionSelector}">NONE</span></p>
-        </div>
-    </div>
-</th:block>
 
 <script type="application/javascript">
     $('input[type="file"]').change(function (e) {
@@ -66,9 +72,6 @@
     });
 </script>
 
-</div>
-
-<!-- /.container -->
 
 </body>
 </html>

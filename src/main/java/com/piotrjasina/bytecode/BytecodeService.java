@@ -8,7 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Comparator.reverseOrder;
 import static java.util.function.Function.identity;
@@ -68,6 +71,6 @@ public class BytecodeService {
     }
 
     private List<SolidityFile> findFilesByFunctionSelector(String functionSelector) {
-        return solidityFileRepository.findByFunctionSelectorsContaining(functionSelector);
+        return solidityFileRepository.findByFunctionSelectorsIsContaining(functionSelector);
     }
 }

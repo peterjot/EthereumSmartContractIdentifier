@@ -1,5 +1,6 @@
 package com.piotrjasina.solidity;
 
+import com.piotrjasina.solidity.solidityfile.Function;
 import com.piotrjasina.solidity.solidityfile.SolidityFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class SolidityController {
 
         SolidityFile savedSolidityFile = solidityService.save(file.getBytes());
 
-        model.addAttribute("solidityFileFunctionSelectors", savedSolidityFile.getFunctionSelectors());
+        model.addAttribute("solidityFileFunctions", savedSolidityFile.getFunctions());
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
         return "solidity-reader";
     }
@@ -53,7 +54,7 @@ public class SolidityController {
 
         SolidityFile savedSolidityFile = solidityService.save(sourceCode);
 
-        model.addAttribute("solidityFileFunctionSelectors", savedSolidityFile.getFunctionSelectors());
+        model.addAttribute("solidityFileFunctions", savedSolidityFile.getFunctions());
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
         return "solidity-reader";
     }
@@ -72,7 +73,7 @@ public class SolidityController {
     public String findFunctions(Model model) {
         checkNotNull(model, "Expected not-null model");
 
-        List<String> functions = solidityService.findAllUniqueFunctionSelectors();
+        List<Function> functions = solidityService.findAllUniqueFunctions();
         model.addAttribute("functions", functions);
         return "solidity-functions";
     }

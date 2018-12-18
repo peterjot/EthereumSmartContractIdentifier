@@ -32,7 +32,7 @@ public class BytecodeController {
         Map<SolidityFile, Double> implementationsWithCount = bytecodeService.findSolidityFileWithCountByBytecode(bytecode);
 
         model.addAttribute("implementationsWithCount", implementationsWithCount);
-        if(implementationsWithCount.isEmpty()){
+        if (implementationsWithCount.isEmpty()) {
             model.addAttribute("message", NO_IMPL_MESSAGE);
         }
         return "bytecode-reader";

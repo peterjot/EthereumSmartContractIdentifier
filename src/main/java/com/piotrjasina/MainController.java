@@ -19,7 +19,7 @@ public class MainController {
     @RequestMapping("/")
     public String mainPage(Model model) {
         model.addAttribute("filesCount", solidityService.getSolidityFilesCount());
-        model.addAttribute("functionsCount", solidityService.getUniqueFunctionSelectorsCount());
+
         return "index";
     }
 }
