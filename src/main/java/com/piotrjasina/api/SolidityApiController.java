@@ -1,7 +1,6 @@
 package com.piotrjasina.api;
 
 import com.piotrjasina.solidity.SolidityService;
-import com.piotrjasina.solidity.function.Function;
 import com.piotrjasina.solidity.solidityfile.SolidityFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -38,10 +37,10 @@ public class SolidityApiController {
         return solidityService.getSourceCodeByHash(fileHash);
     }
 
-    @GetMapping("/functions")
-    public List<Function> findFunctions() {
-        return solidityService.findAllFunctions();
-    }
+//    @GetMapping("/functions")
+//    public List<Function> findFunctions() {
+//        return solidityService.findAllFunctions();
+//    }
 
     @GetMapping("/solidityFiles")
     public List<SolidityFile> findFiles() {

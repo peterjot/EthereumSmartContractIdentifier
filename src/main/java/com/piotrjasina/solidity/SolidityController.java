@@ -1,6 +1,6 @@
 package com.piotrjasina.solidity;
 
-import com.piotrjasina.solidity.function.Function;
+import com.piotrjasina.solidity.solidityfile.Function;
 import com.piotrjasina.solidity.solidityfile.SolidityFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +48,8 @@ public class SolidityController {
     }
 
     @PostMapping("/text")
-    public String handleSourceCodeUpload(String sourceCode, Model model) throws Exception {
-        checkNotNull(sourceCode, "Expected not-null file");
+    public String handleSourceCodeUpload(@RequestParam("sourceCode") String sourceCode, Model model) throws Exception {
+        checkNotNull(sourceCode, "Expected not-null sourceCode");
         checkNotNull(model, "Expected not-null model");
 
         SolidityFile savedSolidityFile = solidityService.save(sourceCode);
@@ -73,8 +73,7 @@ public class SolidityController {
     public String findFunctions(Model model) {
         checkNotNull(model, "Expected not-null model");
 
-        List<Function> functions = solidityService.findAllFunctions();
-
+        List<Function> functions = solidityService.findAllUniqueFunctions();
         model.addAttribute("functions", functions);
         return "solidity-functions";
     }

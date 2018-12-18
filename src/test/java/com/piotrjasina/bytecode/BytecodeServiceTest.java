@@ -1,6 +1,5 @@
 package com.piotrjasina.bytecode;
 
-import com.piotrjasina.solidity.function.Function;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -15,15 +14,15 @@ public class BytecodeServiceTest {
 
 
     @Test
-    public void CountDuplicates(){
+    public void CountDuplicates() {
 
-        Function function1 = new Function("123","321");
-        Function function2 = function1;
-        Function function3 = new Function("123","321");
+        String function1 = "123";
+        String function2 = function1;
+        String function3 = "123";
 
-        List<Function> functions = Arrays.asList(function1,function2,function3);
+        List<String> functions = Arrays.asList(function1, function2, function3);
 
-        Map<Function, Long> collect = functions.stream().collect(groupingBy(identity(), counting()));
+        Map<String, Long> collect = functions.stream().collect(groupingBy(identity(), counting()));
         System.out.println(collect);
     }
 

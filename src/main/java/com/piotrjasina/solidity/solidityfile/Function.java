@@ -1,7 +1,6 @@
-package com.piotrjasina.solidity.function;
+package com.piotrjasina.solidity.solidityfile;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 @RequiredArgsConstructor
@@ -10,7 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 @EqualsAndHashCode
 public class Function {
 
-    @Id
+    @Indexed(unique = true)
     @NonNull
     private String selector;
 
