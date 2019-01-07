@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 class SolidityParser {
 
-    private static final String FUNCTION_REGEX = "^\\s*function\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*([^(){}]*)\\s*\\)\\s*.*";
+    private static final String FUNCTION_REGEX = "^\\s*function\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*([^(){}]*)\\s*\\)\\s*(?!.*(internal|private)).*$";
     private static final Pattern FUNCTION_PATTERN = Pattern.compile(FUNCTION_REGEX);
     private static final int FUNCTION_NAME_GROUP_ID = 1;
     private static final int FUNCTION_ARGUMENTS_GROUP_ID = 2;
@@ -34,19 +34,19 @@ class SolidityParser {
     private static final int MAPPING_VALUE_GROUP_ID = 2;
 
     private static final String ARRAY_PUBLIC_VARIABLE_REGEX =
-            "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[0-9]*\\s*]\\s*)+)\\s*public\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*$";
+            "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[a-zA-Z0-9]*\\s*]\\s*)+)\\s*public\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*$";
     private static final Pattern ARRAY_PUBLIC_VARIABLE_PATTERN = Pattern.compile(ARRAY_PUBLIC_VARIABLE_REGEX);
     private static final int ARRAY_PUBLIC_VALUE_GROUP_ID = 1;
     private static final int ARRAY_PUBLIC_NAME_GROUP_ID = 3;
 
-    private static final String ARRAY_REGEX = "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[0-9]*\\s*]\\s*)+)\\s*";
+    private static final String ARRAY_REGEX = "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[a-zA-Z0-9]*\\s*]\\s*)+)\\s*";
     private static final Pattern ARRAY_PATTERN = Pattern.compile(ARRAY_REGEX);
     private static final int ARRAY_VALUE_GROUP_ID = 1;
 
     private static final String NORMAL_VARIABLE_REGEX =
             "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*\\s*public\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*$";
     private static final Pattern NORMAL_VARIABLE_PATTERN = Pattern.compile(NORMAL_VARIABLE_REGEX);
-    private static final int NORMAL_VARIABLE_NAME_GROUP_ID= 1;
+    private static final int NORMAL_VARIABLE_NAME_GROUP_ID = 1;
 
     Optional<SolidityFunction> findFunctionInLine(String line) {
         List<Optional<SolidityFunction>> functions =
@@ -67,8 +67,8 @@ class SolidityParser {
 
     private Optional<SolidityFunction> findNormalVariableGetter(String line) {
         Matcher matcher = NORMAL_VARIABLE_PATTERN.matcher(line);
-        if(matcher.find()){
-            log.info("Found public normal variable: {}",line);
+        if (matcher.find()) {
+            log.info("Found public normal variable: {}", line);
             String variableName = matcher.group(NORMAL_VARIABLE_NAME_GROUP_ID);
 
             String functionSignature = variableName + "()";
@@ -81,7 +81,7 @@ class SolidityParser {
     private Optional<SolidityFunction> findFunctionSignature(String line) {
         Matcher matcher = FUNCTION_PATTERN.matcher(line);
         if (matcher.find()) {
-            log.info("Found function: {}",line);
+            log.info("Found function: {}", line);
             String functionName = matcher.group(FUNCTION_NAME_GROUP_ID);
             String functionArguments = matcher.group(FUNCTION_ARGUMENTS_GROUP_ID);
 
@@ -98,7 +98,7 @@ class SolidityParser {
         Matcher matcher = ARRAY_PUBLIC_VARIABLE_PATTERN.matcher(line);
         System.out.println(line);
         if (matcher.find()) {
-            log.info("Found public array variable: {}",line);
+            log.info("Found public array variable: {}", line);
 
             String arrayValue = matcher.group(ARRAY_PUBLIC_VALUE_GROUP_ID);
             String variableName = matcher.group(ARRAY_PUBLIC_NAME_GROUP_ID);

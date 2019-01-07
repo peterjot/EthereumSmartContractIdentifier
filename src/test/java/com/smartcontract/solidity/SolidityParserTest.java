@@ -71,4 +71,17 @@ public class SolidityParserTest {
         assertThat(actualFunction.get().getSelector(), equalTo(selector));
         System.out.println(actualFunction);
     }
+
+    @Test
+    public void testArrayWithInitialization() {
+        //given
+        String sourceCodeLine = "\n" +
+                "    uint16[M] public ODDS = [0, 600, 300, 200, 150, 120];";
+
+        //when
+        Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
+
+        //then
+        System.out.println(actualFunction);
+    }
 }

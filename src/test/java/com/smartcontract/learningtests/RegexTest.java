@@ -211,4 +211,18 @@ public class RegexTest {
         }
         return from;
     }
+
+    @Test
+    public void functionInternal() {
+        String FUNCTION_REGEX = "^\\s*function\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*([^(){}]*)\\s*\\)\\s*(?!.*(internal|private)).*$";
+
+        Pattern FUNCTION_PATTERN = Pattern.compile(FUNCTION_REGEX);
+
+        String line = "  function _fee()   returns(uint256){";
+
+        Matcher matcher = FUNCTION_PATTERN.matcher(line);
+        if (matcher.matches()) {
+            System.out.println("Tak");
+        }
+    }
 }
