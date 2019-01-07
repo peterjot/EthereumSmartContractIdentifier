@@ -1,4 +1,4 @@
-package com.smartcontract.solidity.solidityfile;
+package com.smartcontract.solidity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -20,5 +20,5 @@ public class SolidityFile {
     private String sourceCode;
 
     @NonNull
-    private Set<Function> functions;
+    private Set<SolidityFunction> solidityFunctions;
 }

@@ -1,4 +1,4 @@
-package com.smartcontract.bytecode.disassembler;
+package com.smartcontract.disassembler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -154,7 +154,7 @@ enum Opcode {
     private String description;
 
     public boolean hasMnemonic(String mnemonic) {
-        checkNotNull(mnemonic,"Expected not-null mnemonic");
+        checkNotNull(mnemonic, "Expected not-null mnemonic");
         return name().equals(mnemonic);
     }
 }

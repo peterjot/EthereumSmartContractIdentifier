@@ -1,13 +1,15 @@
 package com.smartcontract.api;
 
+import com.smartcontract.solidity.SolidityFile;
 import com.smartcontract.solidity.SolidityService;
-import com.smartcontract.solidity.solidityfile.SolidityFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -31,9 +33,12 @@ public class SolidityApiController {
     }
 
     @GetMapping(value = "/solidityFiles/sourceCode", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String getSourceCodeByHash(@RequestParam("fileHash") String fileHash) {
+    public ResponseEntity<String> getSourceCodeByHash(@RequestParam("fileHash") String fileHash) {
         checkNotNull(fileHash, "Expected not-null fileHash");
-        return solidityService.getSourceCodeByHash(fileHash);
+        Optional<String> sourceCodeByHash = solidityService.findSourceCodeByHash(fileHash);
+        return sourceCodeByHash
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/solidityFiles")

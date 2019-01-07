@@ -18,7 +18,7 @@
                         th:text="${solidityFile.sourceCodeHash}">NONE</a></span>
             </div>
             <div class="col-sm-6">
-                <th:block th:each="function : ${solidityFile.functions}">
+                <th:block th:each="function : ${solidityFile.solidityFunctions}">
                     <p><span th:text="${function}">NONE</span></p>
                 </th:block>
             </div>

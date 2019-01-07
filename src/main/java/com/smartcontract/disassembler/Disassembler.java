@@ -1,25 +1,27 @@
-package com.smartcontract.bytecode.disassembler;
+package com.smartcontract.disassembler;
 
 import com.smartcontract.exception.BytecodeStringException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.smartcontract.bytecode.disassembler.OpcodeTable.getOpcodeByHex;
+import static com.smartcontract.disassembler.OpcodeTable.getOpcodeByHex;
 import static java.lang.String.format;
 
 @Slf4j
-public class SolidityDisassembler {
+@Component
+public class Disassembler {
 
-    public static List<Instruction> disassembly(String bytecode) {
+    public List<Instruction> disassembly(String bytecode) {
         checkNotNull(bytecode, "Expected not-null bytecode");
         return createInstructions(bytecode);
     }
 
-    private static List<Instruction> createInstructions(String bytecode) {
+    private List<Instruction> createInstructions(String bytecode) {
         String preparedBytecode = prepareBytecode(bytecode);
 
         List<Instruction> instructions = new ArrayList<>();
@@ -37,7 +39,7 @@ public class SolidityDisassembler {
         return instructions;
     }
 
-    private static String prepareBytecode(String bytecode) {
+    private String prepareBytecode(String bytecode) {
         checkBytecodeLength(bytecode);
         if (bytecode.startsWith("0x")) {
             return bytecode.substring(2).toLowerCase();
@@ -45,13 +47,13 @@ public class SolidityDisassembler {
         return bytecode;
     }
 
-    private static void checkBytecodeLength(String bytecode) {
+    private void checkBytecodeLength(String bytecode) {
         if (bytecode.length() % 2 != 0) {
             throw new BytecodeStringException(format("This bytecode has wrong length [%d]", bytecode.length()));
         }
     }
 
-    private static String getInstructionParameter(int parametersSize, HexBytecodeIterator iterator) {
+    private String getInstructionParameter(int parametersSize, HexBytecodeIterator iterator) {
         StringBuilder stringBuilder = new StringBuilder();
 
         int parametersCounter = parametersSize;
@@ -65,7 +67,7 @@ public class SolidityDisassembler {
         return stringBuilder.toString();
     }
 
-    private static String fillOthersBytesWithZero(int parametersCounter) {
+    private String fillOthersBytesWithZero(int parametersCounter) {
         int parameterOthersCharsCount = 2 * parametersCounter;
         return StringUtils.repeat("0", parameterOthersCharsCount);
     }

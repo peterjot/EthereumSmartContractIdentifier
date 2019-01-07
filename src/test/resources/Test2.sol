@@ -345,7 +345,7 @@ contract Two4ever is Accessibility  {
         waiver();
     }
 
-    //functions is calling when transfer money to address of this contract
+    //solidityFunctions is calling when transfer money to address of this contract
     function() public payable {
     // investor get him dividends when send value = 0   to address of this contract
         if (msg.value == 0) {
@@ -541,7 +541,7 @@ contract Two4ever is Accessibility  {
     }
 }
 
-// Math library with simple arithmetical functions
+// Math library with simple arithmetical solidityFunctions
 library Math {
     //multiplying
     function mul(uint256 num1, uint256 num2) internal pure returns (uint256) {
@@ -578,7 +578,7 @@ library Math {
         return num1 % num2;
     }
 }
-// Helper library with simple additional functions
+// Helper library with simple additional solidityFunctions
 library Helper{
     //check if the address is not empty
     function notEmptyAddr(address addr) internal pure returns(bool) {

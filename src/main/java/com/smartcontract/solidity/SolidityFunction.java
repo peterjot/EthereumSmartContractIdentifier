@@ -1,4 +1,4 @@
-package com.smartcontract.solidity.solidityfile;
+package com.smartcontract.solidity;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class Function {
+public class SolidityFunction {
 
     @NonNull
     private String selector;

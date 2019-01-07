@@ -1,9 +1,5 @@
 package com.smartcontract.solidity;
 
-import com.smartcontract.solidity.solidityfile.Function;
-import com.smartcontract.solidity.solidityfile.SolidityFile;
-import com.smartcontract.solidity.solidityfile.SolidityFileRepository;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,9 +27,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 @SpringBootTest
 public class SolidityFileRepositoryTest {
 
-    private static final Function MOCK_FUNCTION_1 = new Function("dsap", "dsappp");
-    private static final Function MOCK_FUNCTION_2 = new Function("dsap", "321appp");
-    private static final Function MOCK_FUNCTION_3 = new Function("ffffff", "tttt");
+    private static final SolidityFunction MOCK_SOLIDITY_FUNCTION_1 = new SolidityFunction("dsap", "dsappp");
+    private static final SolidityFunction MOCK_SOLIDITY_FUNCTION_2 = new SolidityFunction("dsap", "321appp");
+    private static final SolidityFunction MOCK_SOLIDITY_FUNCTION_3 = new SolidityFunction("ffffff", "tttt");
 
     private static final Charset CHARSET = Charset.defaultCharset();
 
@@ -45,6 +41,7 @@ public class SolidityFileRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
+        solidityFileRepository.deleteAll();
         String testSourceCode = getTestSourceCode();
         String testSourceCodeHash = stringHash(testSourceCode);
 
@@ -58,26 +55,21 @@ public class SolidityFileRepositoryTest {
         solidityFileRepository.save(new SolidityFile(
                 testSourceCodeHash,
                 testSourceCode,
-                new HashSet<>(asList(MOCK_FUNCTION_1, MOCK_FUNCTION_2))));
+                new HashSet<>(asList(MOCK_SOLIDITY_FUNCTION_1, MOCK_SOLIDITY_FUNCTION_2))));
 
         solidityFileRepository.save(new SolidityFile(
                 testSourceCodeHash2,
                 testSourceCode2,
-                new HashSet<>(asList(MOCK_FUNCTION_2, MOCK_FUNCTION_2))));
+                new HashSet<>(asList(MOCK_SOLIDITY_FUNCTION_2, MOCK_SOLIDITY_FUNCTION_2))));
 
         solidityFileRepository.save(new SolidityFile(
                 testSourceCodeHash3,
                 testSourceCode3,
-                new HashSet<>(singletonList(MOCK_FUNCTION_3))));
+                new HashSet<>(singletonList(MOCK_SOLIDITY_FUNCTION_3))));
 
 
     }
 
-    @After
-    public void tearDown() {
-        solidityFileRepository.deleteAll();
-
-    }
 
     @Test
     public void shouldSaveSourceCode() {
@@ -85,15 +77,15 @@ public class SolidityFileRepositoryTest {
         String expectedSourceCode = "dsadsadsadadklujsadoisajfsdkljgdfkl";
         String expectedSourceCodeHash = stringHash(expectedSourceCode);
 
-        Function mockFunction1 = new Function("dsap", "dsappp");
-        Function mockFunction2 = new Function("dsa", "321appp");
+        SolidityFunction mockSolidityFunction1 = new SolidityFunction("dsap", "dsappp");
+        SolidityFunction mockSolidityFunction2 = new SolidityFunction("dsa", "321appp");
 
-        HashSet<Function> expectedFunctions = new HashSet<>(asList(mockFunction1, mockFunction2));
+        HashSet<SolidityFunction> expectedSolidityFunctions = new HashSet<>(asList(mockSolidityFunction1, mockSolidityFunction2));
 
         SolidityFile solidityFile = new SolidityFile(
                 expectedSourceCodeHash,
                 expectedSourceCode,
-                expectedFunctions);
+                expectedSolidityFunctions);
 
         //when
         SolidityFile actualSolidityFile = solidityFileRepository.save(solidityFile);
@@ -102,7 +94,7 @@ public class SolidityFileRepositoryTest {
         //then
         assertThat(actualSolidityFile.getSourceCode(), equalTo(expectedSourceCode));
         assertThat(actualSolidityFile.getSourceCodeHash(), equalTo(expectedSourceCodeHash));
-        assertThat(actualSolidityFile.getFunctions(), equalTo(expectedFunctions));
+        assertThat(actualSolidityFile.getSolidityFunctions(), equalTo(expectedSolidityFunctions));
     }
 
 
@@ -113,7 +105,7 @@ public class SolidityFileRepositoryTest {
         int expectedSolidityFilesSize = 2;
 
         //when
-        List<SolidityFile> actualSolidityFiles = solidityFileRepository.findByFunctionSelectorsIsContaining(functionSelector);
+        List<SolidityFile> actualSolidityFiles = solidityFileRepository.findSolidityFilesByFunctionSelector(functionSelector);
 
         //then
         assertThat(actualSolidityFiles.size(), equalTo(expectedSolidityFilesSize));

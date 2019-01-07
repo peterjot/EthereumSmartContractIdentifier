@@ -1,7 +1,7 @@
 package com.smartcontract.bytecode;
 
 
-import com.smartcontract.solidity.solidityfile.SolidityFile;
+import com.smartcontract.solidity.SolidityFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

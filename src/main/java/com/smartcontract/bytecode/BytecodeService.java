@@ -1,8 +1,9 @@
 package com.smartcontract.bytecode;
 
-import com.smartcontract.bytecode.disassembler.Instruction;
-import com.smartcontract.solidity.solidityfile.SolidityFile;
-import com.smartcontract.solidity.solidityfile.SolidityFileRepository;
+import com.smartcontract.disassembler.Disassembler;
+import com.smartcontract.disassembler.Instruction;
+import com.smartcontract.solidity.SolidityFile;
+import com.smartcontract.solidity.SolidityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.smartcontract.bytecode.disassembler.SolidityDisassembler.disassembly;
 import static java.util.Comparator.reverseOrder;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.*;
@@ -22,14 +22,17 @@ import static java.util.stream.Collectors.*;
 @Slf4j
 public class BytecodeService {
 
+    private final SolidityService solidityService;
+    private final Disassembler disassembler;
     private static final String FOUR_BYTES_MASK = "ffffffff";
     private static final String PUSH_4_MNEMONIC = "PUSH4";
-    private final SolidityFileRepository solidityFileRepository;
 
     @Autowired
-    public BytecodeService(SolidityFileRepository solidityFileRepository) {
-        checkNotNull(solidityFileRepository, "Expected not-null solidityFileRepository");
-        this.solidityFileRepository = solidityFileRepository;
+    public BytecodeService(SolidityService solidityService, Disassembler disassembler) {
+        checkNotNull(solidityService, "Expected not-null solidityService");
+        checkNotNull(disassembler, "Expected not-null disassembler");
+        this.solidityService = solidityService;
+        this.disassembler = disassembler;
     }
 
     Map<SolidityFile, Double> findSolidityFileWithCountByBytecode(String bytecode) {
@@ -38,7 +41,7 @@ public class BytecodeService {
     }
 
     private List<Instruction> findPush4Instructions(String bytecode) {
-        List<Instruction> instructions = disassembly(bytecode);
+        List<Instruction> instructions = disassembler.disassembly(bytecode);
         return instructions
                 .stream()
                 .filter(instruction -> instruction.hasMnemonic(PUSH_4_MNEMONIC) && !instruction.getHexParameters().equals(FOUR_BYTES_MASK))
@@ -54,7 +57,7 @@ public class BytecodeService {
         Map<SolidityFile, Long> unsortedSolidityFileWithCount = instructions
                 .stream()
                 .map(Instruction::getHexParameters)
-                .map(this::findFilesByFunctionSelector)
+                .map(solidityService::findSolidityFilesByFunctionSelector)
                 .flatMap(Collection::stream)
                 .collect(groupingBy(identity(), counting()));
 
@@ -67,9 +70,5 @@ public class BytecodeService {
 
     private double getMatchPercentage(double functionsSelectorCount, double value) {
         return (value / functionsSelectorCount);
-    }
-
-    private List<SolidityFile> findFilesByFunctionSelector(String functionSelector) {
-        return solidityFileRepository.findByFunctionSelectorsIsContaining(functionSelector);
     }
 }

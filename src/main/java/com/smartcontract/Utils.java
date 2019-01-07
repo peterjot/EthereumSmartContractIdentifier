@@ -5,7 +5,6 @@ import org.web3j.crypto.Hash;
 public class Utils {
 
 
-
     private Utils() {
         throw new AssertionError();
     }

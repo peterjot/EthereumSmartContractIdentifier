@@ -1,7 +1,5 @@
 package com.smartcontract.solidity;
 
-import com.smartcontract.solidity.solidityfile.Function;
-import com.smartcontract.solidity.solidityfile.SolidityFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +41,7 @@ public class SolidityController {
 
         SolidityFile savedSolidityFile = solidityService.save(file.getBytes());
 
-        model.addAttribute("solidityFileFunctions", savedSolidityFile.getFunctions());
+        model.addAttribute("solidityFileFunctions", savedSolidityFile.getSolidityFunctions());
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
         return "solidity-reader";
     }
@@ -55,7 +53,7 @@ public class SolidityController {
 
         SolidityFile savedSolidityFile = solidityService.save(sourceCode);
 
-        model.addAttribute("solidityFileFunctions", savedSolidityFile.getFunctions());
+        model.addAttribute("solidityFileFunctions", savedSolidityFile.getSolidityFunctions());
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
         return "solidity-reader";
     }
@@ -74,9 +72,9 @@ public class SolidityController {
     public String findFunctions(Model model) {
         checkNotNull(model, "Expected not-null model");
 
-        List<Function> functions = solidityService.findAllUniqueFunctions();
+        List<SolidityFunction> solidityFunctions = solidityService.findAllUniqueFunctions();
 
-        model.addAttribute("functions", functions);
+        model.addAttribute("functions", solidityFunctions);
         return "solidity-functions";
     }
 }
