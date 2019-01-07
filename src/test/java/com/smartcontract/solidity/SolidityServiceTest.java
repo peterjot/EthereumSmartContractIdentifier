@@ -72,6 +72,27 @@ public class SolidityServiceTest {
         //then
         assertThat(actualSolidityFunctions, equalTo(expectedSolidityFunctions));
     }
+    @Test
+    public void test6() throws Exception {
+        //given
+        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<>(Arrays.asList(
+                new SolidityFunction("3e3ee859", "NewQuestion(string,bytes32)"),
+                new SolidityFunction("f50ab247", "StopGame()"),
+                new SolidityFunction("3853682c", "Try(string)"),
+                new SolidityFunction("59988dce", "newQuestioner(address)"),
+                new SolidityFunction("3fad9ae0", "question()"),
+                new SolidityFunction("fd26c460", "set_game(string,string)")
+        ));
+
+        //when
+        Set<SolidityFunction> actualSolidityFunctions;
+        try (InputStream inputStream = new FileInputStream(new File("src/test/resources/Test6.sol"))) {
+            actualSolidityFunctions = solidityService.findSolidityFunctionsFromSourceFile(inputStream);
+        }
+
+        //then
+        assertThat(actualSolidityFunctions, equalTo(expectedSolidityFunctions));
+    }
 
     @Test
     public void diffrentArrays() throws Exception {

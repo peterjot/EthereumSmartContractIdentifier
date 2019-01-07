@@ -33,26 +33,28 @@ class SolidityParser {
     private static final int MAPPING_ARGUMENTS_GROUP_ID = 1;
     private static final int MAPPING_VALUE_GROUP_ID = 2;
 
-    private static final String ARRAY_REGEX = "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[0-9]*\\s*]\\s*)+)\\s*";// TODO ADD ARRAY_PATTERN SUPPORT IN MAPPING_PATTERN RETURN
-    private static final Pattern ARRAY_PATTERN = Pattern.compile(ARRAY_REGEX);// TODO ADD ARRAY_PATTERN SUPPORT IN MAPPING_PATTERN RETURN
-    private static final int ARRAY_VALUE_GROUP_ID = 1;
-
     private static final String ARRAY_PUBLIC_VARIABLE_REGEX =
             "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[0-9]*\\s*]\\s*)+)\\s*public\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*$";
+    private static final Pattern ARRAY_PUBLIC_VARIABLE_PATTERN = Pattern.compile(ARRAY_PUBLIC_VARIABLE_REGEX);
     private static final int ARRAY_PUBLIC_VALUE_GROUP_ID = 1;
     private static final int ARRAY_PUBLIC_NAME_GROUP_ID = 3;
 
-    //            "^\\s*([a-zA-Z0-9][a-zA-Z0-9])*(\\s*\\[\\s*[0-9]*\\s*]\\s*)+";
-//            "^\\s*([a-zA-Z0-9][a-zA-Z0-9])*(\\s*\\[\\s*[0-9]*\\s*]\\s*)+\\s*public\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*$";
-    // example "uint256[][][] public test;";
-    private static final Pattern ARRAY_PUBLIC_VARIABLE_PATTERN = Pattern.compile(ARRAY_PUBLIC_VARIABLE_REGEX);
+    private static final String ARRAY_REGEX = "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[0-9]*\\s*]\\s*)+)\\s*";
+    private static final Pattern ARRAY_PATTERN = Pattern.compile(ARRAY_REGEX);
+    private static final int ARRAY_VALUE_GROUP_ID = 1;
+
+    private static final String NORMAL_VARIABLE_REGEX =
+            "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*\\s*public\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*$";
+    private static final Pattern NORMAL_VARIABLE_PATTERN = Pattern.compile(NORMAL_VARIABLE_REGEX);
+    private static final int NORMAL_VARIABLE_NAME_GROUP_ID= 1;
 
     Optional<SolidityFunction> findFunctionInLine(String line) {
         List<Optional<SolidityFunction>> functions =
                 Stream.of(
                         findFunctionSignature(line),
                         findMappingGetter(line),
-                        findArrayGetter(line)
+                        findArrayGetter(line),
+                        findNormalVariableGetter(line)
                 ).filter(Optional::isPresent).collect(toList());
 
         if (functions.size() == 1) {
@@ -63,17 +65,30 @@ class SolidityParser {
         return Optional.empty();
     }
 
+    private Optional<SolidityFunction> findNormalVariableGetter(String line) {
+        Matcher matcher = NORMAL_VARIABLE_PATTERN.matcher(line);
+        if(matcher.find()){
+            log.info("Found public normal variable: {}",line);
+            String variableName = matcher.group(NORMAL_VARIABLE_NAME_GROUP_ID);
+
+            String functionSignature = variableName + "()";
+            String functionSelector = getFunctionSelector(functionSignature);
+            return Optional.of(new SolidityFunction(functionSelector, functionSignature));
+        }
+        return Optional.empty();
+    }
+
     private Optional<SolidityFunction> findFunctionSignature(String line) {
         Matcher matcher = FUNCTION_PATTERN.matcher(line);
         if (matcher.find()) {
-            log.info("Found function signature");
+            log.info("Found function: {}",line);
             String functionName = matcher.group(FUNCTION_NAME_GROUP_ID);
             String functionArguments = matcher.group(FUNCTION_ARGUMENTS_GROUP_ID);
 
-            String normalizedFunctionSignature = normalizeFunctionSignature(functionName, functionArguments);
+            String functionSignature = normalizeFunctionSignature(functionName, functionArguments);
 
-            String functionSelector = getEightBytesFromHashWithout0xPrefix(normalizedFunctionSignature);
-            return Optional.of(new SolidityFunction(functionSelector, normalizedFunctionSignature));
+            String functionSelector = getFunctionSelector(functionSignature);
+            return Optional.of(new SolidityFunction(functionSelector, functionSignature));
         }
 
         return Optional.empty();
@@ -83,7 +98,7 @@ class SolidityParser {
         Matcher matcher = ARRAY_PUBLIC_VARIABLE_PATTERN.matcher(line);
         System.out.println(line);
         if (matcher.find()) {
-            log.info("Found array variable");
+            log.info("Found public array variable: {}",line);
 
             String arrayValue = matcher.group(ARRAY_PUBLIC_VALUE_GROUP_ID);
             String variableName = matcher.group(ARRAY_PUBLIC_NAME_GROUP_ID);
@@ -105,7 +120,7 @@ class SolidityParser {
             }
 
             String functionSignature = variableName + "(" + arrayTypeArguments + ")";
-            String functionSelector = getEightBytesFromHashWithout0xPrefix(functionSignature);
+            String functionSelector = getFunctionSelector(functionSignature);
 
             return Optional.of(new SolidityFunction(functionSelector, functionSignature));
         }
@@ -117,7 +132,7 @@ class SolidityParser {
         Matcher mappingVariableMatcher = MAPPING_PUBLIC_VARIABLE_PATTERN.matcher(line);
 
         if (mappingVariableMatcher.find()) {
-            log.info("MappingFound: {}", line);
+            log.info("Found public mapping variable: {}", line);
 
             List<String> canonicalMappingArguments = new ArrayList<>();
 
@@ -159,13 +174,13 @@ class SolidityParser {
 
             String mappingName = mappingVariableMatcher.group(MAPPING_VARIABLE_NAME_GROUP_ID);
             String normalizedMappingGetterSignature = mappingName + "(" + String.join(",", canonicalMappingArguments) + ")";
-            String functionSelector = getEightBytesFromHashWithout0xPrefix(normalizedMappingGetterSignature);
+            String functionSelector = getFunctionSelector(normalizedMappingGetterSignature);
             return Optional.of(new SolidityFunction(functionSelector, normalizedMappingGetterSignature));
         }
         return Optional.empty();
     }
 
-    private String getEightBytesFromHashWithout0xPrefix(String value) {
+    private String getFunctionSelector(String value) {
         return stringHash(value).substring(2, 10);
     }
 

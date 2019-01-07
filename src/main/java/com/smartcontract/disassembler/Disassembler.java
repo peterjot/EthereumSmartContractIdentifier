@@ -1,6 +1,5 @@
 package com.smartcontract.disassembler;
 
-import com.smartcontract.exception.BytecodeStringException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;

@@ -68,13 +68,13 @@ public class SolidityController {
         return "solidity-files";
     }
 
-    @GetMapping("/functions")
+    @GetMapping("/solidityFunctions")
     public String findFunctions(Model model) {
         checkNotNull(model, "Expected not-null model");
 
         List<SolidityFunction> solidityFunctions = solidityService.findAllUniqueFunctions();
 
-        model.addAttribute("functions", solidityFunctions);
+        model.addAttribute("solidityFunctions", solidityFunctions);
         return "solidity-functions";
     }
 }
