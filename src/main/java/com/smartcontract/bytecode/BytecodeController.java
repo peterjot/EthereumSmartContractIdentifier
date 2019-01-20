@@ -1,7 +1,7 @@
 package com.smartcontract.bytecode;
 
 
-import javafx.util.Pair;
+import com.smartcontract.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import static lombok.Lombok.checkNotNull;
 @RequestMapping("/bytecode")
 public class BytecodeController {
 
-    private static final String NO_IMPL_MESSAGE = "Any implementation was found";
+    private static final String NO_IMPL_MESSAGE = "Any implementation was found" ;
 
     private final BytecodeService bytecodeService;
 

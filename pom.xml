@@ -75,13 +75,6 @@
             <artifactId>bootstrap</artifactId>
             <version>${bootstrap.version}</version>
         </dependency>
-
-        <!--HEROKU-->
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>javafx</artifactId>
-            <version>2016.10.0</version>
-        </dependency>
     </dependencies>
 
     <build>

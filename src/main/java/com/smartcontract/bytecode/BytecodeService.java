@@ -1,11 +1,11 @@
 package com.smartcontract.bytecode;
 
+import com.smartcontract.Pair;
 import com.smartcontract.disassembler.Disassembler;
 import com.smartcontract.disassembler.Instruction;
 import com.smartcontract.solidity.SolidityFile;
 import com.smartcontract.solidity.SolidityFunction;
 import com.smartcontract.solidity.SolidityService;
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
