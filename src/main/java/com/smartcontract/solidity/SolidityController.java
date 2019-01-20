@@ -1,6 +1,6 @@
 package com.smartcontract.solidity;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import static lombok.Lombok.checkNotNull;
+import static org.slf4j.LoggerFactory.getLogger;
 
 
 @Controller
 @RequestMapping("/solidity")
-@Slf4j
 public class SolidityController {
+
+    private static final Logger LOGGER = getLogger(SolidityController.class);
 
     private final SolidityService solidityService;
 
@@ -36,7 +38,7 @@ public class SolidityController {
         checkNotNull(file, "Expected not-null file");
         checkNotNull(model, "Expected not-null model");
 
-        log.info("Reading file name: [{}]", file.getOriginalFilename());
+        LOGGER.info("Reading file name: [{}]", file.getOriginalFilename());
 
         SolidityFile savedSolidityFile = solidityService.save(file.getBytes());
 

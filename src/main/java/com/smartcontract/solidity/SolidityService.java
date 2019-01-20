@@ -1,6 +1,6 @@
 package com.smartcontract.solidity;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,13 @@ import java.util.Optional;
 import java.util.Set;
 
 import static lombok.Lombok.checkNotNull;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.web3j.crypto.Hash.sha3String;
 
 @Service
-@Slf4j
 public class SolidityService {
+
+    private static final Logger LOGGER = getLogger(SolidityService.class);
 
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
@@ -68,8 +70,8 @@ public class SolidityService {
 
         Set<SolidityFunction> functionsFromFile = findSolidityFunctionsFromSourceFile(new ByteArrayInputStream(sourceCodeBytes));
 
-        log.info("SourceCode hash: [{}]", sourceCodeHash);
-        log.info("SourceCode functions count: {}", functionsFromFile.size());
+        LOGGER.info("SourceCode hash: [{}]", sourceCodeHash);
+        LOGGER.info("SourceCode functions count: {}", functionsFromFile.size());
 
         return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, functionsFromFile));
     }
@@ -87,7 +89,7 @@ public class SolidityService {
 
             function.ifPresent(solidityFunction -> {
                 solidityFunctions.add(solidityFunction);
-                log.info("SolidityFunction selector: {}", solidityFunction);
+                LOGGER.info("SolidityFunction selector: {}", solidityFunction);
             });
         }
         return solidityFunctions;

@@ -18,7 +18,6 @@ import static lombok.Lombok.checkNotNull;
 @RequestMapping("/api")
 public class SolidityApiController {
 
-
     private final SolidityService solidityService;
 
     @Autowired

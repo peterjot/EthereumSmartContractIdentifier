@@ -1,6 +1,5 @@
 package com.smartcontract.disassembler;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
@@ -10,7 +9,6 @@ import java.util.Set;
 import static com.smartcontract.disassembler.OpcodeTable.getOpcodeByHex;
 import static lombok.Lombok.checkNotNull;
 
-@Slf4j
 @Component
 public class Disassembler {
 

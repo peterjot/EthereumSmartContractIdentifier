@@ -6,7 +6,7 @@ import com.smartcontract.solidity.SolidityFile;
 import com.smartcontract.solidity.SolidityFunction;
 import com.smartcontract.solidity.SolidityService;
 import javafx.util.Pair;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +17,19 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static lombok.Lombok.checkNotNull;
+import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
-@Slf4j
 public class BytecodeService {
+
+    public static final String FOUR_BYTES_MASK = "ffffffff";
+    public static final String PUSH_4_MNEMONIC = "PUSH4";
+
+    private static final Logger LOGGER = getLogger(BytecodeService.class);
 
     private final SolidityService solidityService;
     private final Disassembler disassembler;
 
-    public static final String FOUR_BYTES_MASK = "ffffffff";
-    public static final String PUSH_4_MNEMONIC = "PUSH4";
 
     @Autowired
     public BytecodeService(SolidityService solidityService, Disassembler disassembler) {
@@ -51,7 +54,7 @@ public class BytecodeService {
 
     private List<Pair<String, Double>> findFileHashWithPercentageOfMatch(Set<Instruction> instructions) {
         List<String> bytecodeSelectors = mapInstructionsToSelectors(instructions);
-        log.info("Functions in bytecode: {}", bytecodeSelectors.size());
+        LOGGER.info("Functions in bytecode: {}", bytecodeSelectors.size());
 
         return solidityService
                 .findSolidityFilesBySelectorIn(bytecodeSelectors)
@@ -86,8 +89,8 @@ public class BytecodeService {
         final double percentOfMatch =
                 2 * numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size());
 
-        log.info("Matched functions: {}", numberOfMatches);
-        log.info("Functions in solidity file hash: {}, size: {}", solidityFile.getSourceCodeHash(), solidityFunctions.size());
+        LOGGER.info("Matched functions: {}", numberOfMatches);
+        LOGGER.info("Functions in solidity file hash: {}, size: {}", solidityFile.getSourceCodeHash(), solidityFunctions.size());
 
         return new Pair<>(sourceCodeHash, percentOfMatch);
     }

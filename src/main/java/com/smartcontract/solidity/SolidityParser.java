@@ -1,6 +1,6 @@
 package com.smartcontract.solidity;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -13,10 +13,12 @@ import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.web3j.crypto.Hash.sha3String;
 
-@Slf4j
 class SolidityParser {
+
+    private static final Logger LOGGER = getLogger(SolidityParser.class);
 
     private static final String FUNCTION_REGEX = "^\\s*function\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*([^(){}]*)\\s*\\)\\s*(?!.*(internal|private)).*$";
     private static final Pattern FUNCTION_PATTERN = Pattern.compile(FUNCTION_REGEX);
@@ -83,7 +85,7 @@ class SolidityParser {
     private Optional<SolidityFunction> findFunctionSignature(String line) {
         Matcher matcher = FUNCTION_PATTERN.matcher(line);
         if (matcher.find()) {
-            log.info("Found function: {}", line);
+            LOGGER.info("Found function: {}", line);
             String functionName = matcher.group(FUNCTION_NAME_GROUP_ID);
             String functionArguments = matcher.group(FUNCTION_ARGUMENTS_GROUP_ID);
 
@@ -98,7 +100,7 @@ class SolidityParser {
     private Optional<SolidityFunction> findMappingGetter(String line) {
         Matcher mappingVariableMatcher = MAPPING_PUBLIC_VARIABLE_PATTERN.matcher(line);
         if (mappingVariableMatcher.find()) {
-            log.info("Found public mapping variable: {}", line);
+            LOGGER.info("Found public mapping variable: {}", line);
 
             List<String> canonicalMappingKeys = new ArrayList<>();
 
@@ -133,7 +135,7 @@ class SolidityParser {
                     break;
                 }
             }
-            log.info("MappingArgs: {}", canonicalMappingKeys);
+            LOGGER.info("MappingArgs: {}", canonicalMappingKeys);
 
             String functionSignature = mappingName + "(" + join(DELIMITER, canonicalMappingKeys) + ")";
             String functionSelector = getFunctionSelector(functionSignature);
@@ -146,7 +148,7 @@ class SolidityParser {
     private Optional<SolidityFunction> findArrayGetter(String line) {
         Matcher matcher = ARRAY_PUBLIC_VARIABLE_PATTERN.matcher(line);
         if (matcher.find()) {
-            log.info("Found public array variable: {}", line);
+            LOGGER.info("Found public array variable: {}", line);
 
             String arrayName = matcher.group(ARRAY_PUBLIC_NAME_GROUP_ID);
             String arrayValue = matcher.group(ARRAY_PUBLIC_VALUE_GROUP_ID);
@@ -182,7 +184,7 @@ class SolidityParser {
     private Optional<SolidityFunction> findNormalVariableGetter(String line) {
         Matcher matcher = NORMAL_VARIABLE_PATTERN.matcher(line);
         if (matcher.find()) {
-            log.info("Found public normal variable: {}", line);
+            LOGGER.info("Found public normal variable: {}", line);
             String variableName = matcher.group(NORMAL_VARIABLE_NAME_GROUP_ID);
 
             String functionSignature = variableName + "()";
@@ -209,7 +211,7 @@ class SolidityParser {
                         .collect(joining(DELIMITER));
 
         String normalizedFunctionSignature = functionName + "(" + normalizedArguments + ")";
-        log.info(("SolidityFunction signature(normalized): [{}]"), normalizedFunctionSignature);
+        LOGGER.info(("SolidityFunction signature(normalized): [{}]"), normalizedFunctionSignature);
 
         return normalizedFunctionSignature;
     }

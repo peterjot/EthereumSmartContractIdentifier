@@ -2,7 +2,6 @@ package com.smartcontract.bytecode;
 
 
 import javafx.util.Pair;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import java.util.List;
 import static lombok.Lombok.checkNotNull;
 
 
-@Slf4j
 @Controller
 @RequestMapping("/bytecode")
 public class BytecodeController {
