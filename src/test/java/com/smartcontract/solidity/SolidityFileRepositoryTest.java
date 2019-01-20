@@ -1,5 +1,6 @@
 package com.smartcontract.solidity;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -8,20 +9,24 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.web3j.crypto.Hash;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.smartcontract.Utils.stringHash;
 import static java.lang.System.lineSeparator;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.web3j.crypto.Hash.sha3String;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,13 +48,13 @@ public class SolidityFileRepositoryTest {
     public void setUp() throws Exception {
         solidityFileRepository.deleteAll();
         String testSourceCode = getTestSourceCode();
-        String testSourceCodeHash = stringHash(testSourceCode);
+        String testSourceCodeHash = sha3String(testSourceCode);
 
         String testSourceCode2 = testSourceCode + "FFFFFFFFFFF";
-        String testSourceCodeHash2 = stringHash(testSourceCode2);
+        String testSourceCodeHash2 = sha3String(testSourceCode2);
 
         String testSourceCode3 = testSourceCode + "GGGGGGGGGGGG";
-        String testSourceCodeHash3 = stringHash(testSourceCode3);
+        String testSourceCodeHash3 = sha3String(testSourceCode3);
 
 
         solidityFileRepository.save(new SolidityFile(
@@ -75,7 +80,7 @@ public class SolidityFileRepositoryTest {
     public void shouldSaveSourceCode() {
         //given
         String expectedSourceCode = "dsadsadsadadklujsadoisajfsdkljgdfkl";
-        String expectedSourceCodeHash = stringHash(expectedSourceCode);
+        String expectedSourceCodeHash = sha3String(expectedSourceCode);
 
         SolidityFunction mockSolidityFunction1 = new SolidityFunction("dsap", "dsappp");
         SolidityFunction mockSolidityFunction2 = new SolidityFunction("dsa", "321appp");
@@ -109,6 +114,31 @@ public class SolidityFileRepositoryTest {
 
         //then
         assertThat(actualSolidityFiles.size(), equalTo(expectedSolidityFilesSize));
+    }
+
+    @Test
+    public void shouldFinAllContains() {
+        //given
+        String expectedSourceCode = "dsadsadsadadklujsadoisajfsdkljgdfkl";
+        String expectedSourceCodeHash = sha3String(expectedSourceCode);
+
+        SolidityFunction mockSolidityFunction1 = new SolidityFunction("dsap", "dsappp");
+        SolidityFunction mockSolidityFunction2 = new SolidityFunction("dsa", "321appp");
+
+        HashSet<SolidityFunction> expectedSolidityFunctions = new HashSet<>(asList(mockSolidityFunction1, mockSolidityFunction2));
+
+        SolidityFile solidityFile = new SolidityFile(
+                expectedSourceCodeHash,
+                expectedSourceCode,
+                expectedSolidityFunctions
+        );
+        solidityFileRepository.save(solidityFile);
+
+        //when
+        final List<SolidityFile> dsap = solidityFileRepository.findSolidityFilesBySelectorContainsAll(Collections.singletonList("dsap"));
+
+        //then
+        assertThat(dsap.size(), Matchers.greaterThan(0));
     }
 
     private String getTestSourceCode() throws Exception {

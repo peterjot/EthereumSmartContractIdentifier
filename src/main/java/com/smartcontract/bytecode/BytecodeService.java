@@ -3,20 +3,20 @@ package com.smartcontract.bytecode;
 import com.smartcontract.disassembler.Disassembler;
 import com.smartcontract.disassembler.Instruction;
 import com.smartcontract.solidity.SolidityFile;
+import com.smartcontract.solidity.SolidityFunction;
 import com.smartcontract.solidity.SolidityService;
+import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Comparator.reverseOrder;
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @Slf4j
@@ -24,8 +24,9 @@ public class BytecodeService {
 
     private final SolidityService solidityService;
     private final Disassembler disassembler;
-    private static final String FOUR_BYTES_MASK = "ffffffff";
-    private static final String PUSH_4_MNEMONIC = "PUSH4";
+
+    public static final String FOUR_BYTES_MASK = "ffffffff";
+    public static final String PUSH_4_MNEMONIC = "PUSH4";
 
     @Autowired
     public BytecodeService(SolidityService solidityService, Disassembler disassembler) {
@@ -35,40 +36,59 @@ public class BytecodeService {
         this.disassembler = disassembler;
     }
 
-    Map<SolidityFile, Double> findSolidityFileWithCountByBytecode(String bytecode) {
-        List<Instruction> instructionsOfBytecode = findPush4Instructions(bytecode);
-        return findSolidityFilesWithCountByInstructions(instructionsOfBytecode);
+    List<Pair<String, Double>> findFileHashWithPercentageOfMatch(String bytecode) {
+        Set<Instruction> instructionsOfBytecode = findPush4Instructions(bytecode);
+        return findFileHashWithPercentageOfMatch(instructionsOfBytecode);
     }
 
-    private List<Instruction> findPush4Instructions(String bytecode) {
-        List<Instruction> instructions = disassembler.disassembly(bytecode);
+    private Set<Instruction> findPush4Instructions(String bytecode) {
+        Set<Instruction> instructions = disassembler.disassembly(bytecode);
         return instructions
                 .stream()
                 .filter(instruction -> instruction.hasMnemonic(PUSH_4_MNEMONIC) && !instruction.getHexParameters().equals(FOUR_BYTES_MASK))
-                .collect(toList());
+                .collect(toSet());
     }
 
-    private Map<SolidityFile, Double> findSolidityFilesWithCountByInstructions(List<Instruction> instructions) {
+    private List<Pair<String, Double>> findFileHashWithPercentageOfMatch(Set<Instruction> instructions) {
+        List<String> bytecodeSelectors = mapInstructionsToSelectors(instructions);
+        log.info("Functions in bytecode: {}", bytecodeSelectors.size());
 
-        final int functionsSelectorCount = instructions.size();
-        log.info("Push4 instructions in this bytecode: {}", functionsSelectorCount);
+        return solidityService
+                .findSolidityFilesBySelectorIn(bytecodeSelectors)
+                .stream()
+                .map(solidityFile -> getSelectorWithMatchValue(bytecodeSelectors, solidityFile))
+                .sorted((pair1, pair2) -> Double.compare(pair2.getValue(), pair1.getValue()))
+                .collect(toList());
 
+    }
 
-        Map<SolidityFile, Long> unsortedSolidityFileWithCount = instructions
+    private List<String> mapInstructionsToSelectors(Set<Instruction> instructions) {
+        return instructions
                 .stream()
                 .map(Instruction::getHexParameters)
-                .map(solidityService::findSolidityFilesByFunctionSelector)
-                .flatMap(Collection::stream)
-                .collect(groupingBy(identity(), counting()));
-
-        return unsortedSolidityFileWithCount
-                .entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue(reverseOrder()))
-                .collect(LinkedHashMap::new, (m, e) -> m.put(e.getKey(), getMatchPercentage(functionsSelectorCount, e.getValue().doubleValue())), Map::putAll);
+                .collect(Collectors.toList());
     }
 
-    private double getMatchPercentage(double functionsSelectorCount, double value) {
-        return (value / functionsSelectorCount);
+    private Pair<String, Double> getSelectorWithMatchValue(List<String> bytecodeSelectors, SolidityFile solidityFile) {
+        final String sourceCodeHash = solidityFile.getSourceCodeHash();
+        final Set<SolidityFunction> solidityFunctions = solidityFile.getSolidityFunctions();
+
+        if (solidityFunctions.size() <= 0) {
+            return new Pair<>(sourceCodeHash, 0D);
+        }
+
+        final long numberOfMatches = solidityFunctions
+                .stream()
+                .map(SolidityFunction::getSelector)
+                .filter(bytecodeSelectors::contains).count();
+
+
+        final double percentOfMatch =
+                2 * numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size());
+
+        log.info("Matched functions: {}", numberOfMatches);
+        log.info("Functions in solidity file hash: {}, size: {}", solidityFile.getSourceCodeHash(), solidityFunctions.size());
+
+        return new Pair<>(sourceCodeHash, percentOfMatch);
     }
 }

@@ -1,5 +1,6 @@
 package com.smartcontract.learningtests;
 
+import com.smartcontract.solidity.SolidityParser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -219,6 +220,20 @@ public class RegexTest {
         Pattern FUNCTION_PATTERN = Pattern.compile(FUNCTION_REGEX);
 
         String line = "  function _fee()   returns(uint256){";
+
+        Matcher matcher = FUNCTION_PATTERN.matcher(line);
+        if (matcher.matches()) {
+            System.out.println("Tak");
+        }
+    }
+
+    @Test
+    public void constantPublicVar() {
+        String FUNCTION_REGEX = "^(internal|private)*$";
+
+        Pattern FUNCTION_PATTERN = Pattern.compile(FUNCTION_REGEX);
+
+        String line = "internalinternal";
 
         Matcher matcher = FUNCTION_PATTERN.matcher(line);
         if (matcher.matches()) {

@@ -22,9 +22,9 @@ public class SolidityParserTest {
         Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
 
         //then
+        System.out.println(actualFunction);
         assertTrue(actualFunction.isPresent());
         assertThat(actualFunction.get().getSelector(), equalTo(selector));
-        System.out.println(actualFunction);
     }
 
     @Test
@@ -77,11 +77,14 @@ public class SolidityParserTest {
         //given
         String sourceCodeLine = "\n" +
                 "    uint16[M] public ODDS = [0, 600, 300, 200, 150, 120];";
+        Optional<SolidityFunction> expectedFunction = Optional.of(new SolidityFunction("52382794", "ODDS(uint256)"));
 
         //when
         Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
 
         //then
+        assertTrue(actualFunction.isPresent());
+        assertThat(actualFunction, equalTo(expectedFunction));
         System.out.println(actualFunction);
     }
 }

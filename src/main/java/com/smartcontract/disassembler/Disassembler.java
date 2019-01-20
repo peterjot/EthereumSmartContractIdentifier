@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.smartcontract.disassembler.OpcodeTable.getOpcodeByHex;
@@ -15,18 +15,19 @@ import static java.lang.String.format;
 @Component
 public class Disassembler {
 
-    public List<Instruction> disassembly(String bytecode) {
+    public Set<Instruction> disassembly(String bytecode) {
         checkNotNull(bytecode, "Expected not-null bytecode");
-        return createInstructions(bytecode);
+        return getInstructions(bytecode);
     }
 
-    private List<Instruction> createInstructions(String bytecode) {
+    private Set<Instruction> getInstructions(String bytecode) {
         String preparedBytecode = prepareBytecode(bytecode);
 
-        List<Instruction> instructions = new ArrayList<>();
+        Set<Instruction> instructions = new LinkedHashSet<>();
         HexBytecodeIterator hexBytecodeIterator = new HexBytecodeIterator(preparedBytecode);
 
         while (hexBytecodeIterator.hasNext()) {
+
             Opcode opcode = getOpcodeByHex(hexBytecodeIterator.next());
 
             String instructionParameter = getInstructionParameter(opcode.getOperandSize(), hexBytecodeIterator);

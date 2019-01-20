@@ -24,25 +24,18 @@
 </head>
 <body>
 <div th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <a class="navbar-brand" th:href="@{/}">Smart contract identification</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/solidity/solidityFunctions}">Functions selector</a>
-                <a class="nav-item nav-link" th:href="@{/solidity/files}">Solidity files</a>
-                <a class="nav-item nav-link" th:href="@{/swagger-ui.html}">API</a>
-            </div>
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/solidity}">Insert solidity file</a>
-                <a class="nav-item nav-link" th:href="@{/bytecode}">Find implementation</a>
-
-            </div>
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/solidity}">Insert solidity file</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/bytecode}">Find implementation</a></li>
+            </ul>
         </div>
-
     </nav>
 </div>
 </body>

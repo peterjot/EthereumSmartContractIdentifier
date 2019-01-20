@@ -4,7 +4,7 @@ import com.smartcontract.solidity.SolidityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -19,7 +19,7 @@ public class MainController {
         this.solidityService = solidityService;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String mainPage(Model model) {
         checkNotNull(model, "Expected not-null model");
 

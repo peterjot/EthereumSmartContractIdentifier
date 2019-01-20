@@ -10,8 +10,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.smartcontract.Utils.stringHash;
 import static java.util.stream.Collectors.toList;
+import static org.web3j.crypto.Hash.sha3String;
 
 @Service
 @Slf4j
@@ -46,8 +46,8 @@ public class SolidityService {
         return solidityFileRepository.findAll();
     }
 
-    public List<SolidityFile> findSolidityFilesByFunctionSelector(String functionSelector) {
-        return solidityFileRepository.findSolidityFilesByFunctionSelector(functionSelector);
+    public List<SolidityFile> findSolidityFilesBySelectorIn(List<String> functionSelector) {
+        return solidityFileRepository.findSolidityFilesBySelectorContainsAll(functionSelector);
     }
 
     public long getSolidityFilesCount() {
@@ -61,7 +61,7 @@ public class SolidityService {
 
     SolidityFile save(byte[] sourceCodeBytes) throws IOException {
         String sourceCode = new String(sourceCodeBytes, CHARSET);
-        String sourceCodeHash = stringHash(sourceCode);
+        String sourceCodeHash = sha3String(sourceCode);
 
         Set<SolidityFunction> functionsFromFile = findSolidityFunctionsFromSourceFile(new ByteArrayInputStream(sourceCodeBytes));
 

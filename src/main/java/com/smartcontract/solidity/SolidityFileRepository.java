@@ -10,8 +10,12 @@ import java.util.Optional;
 @Repository
 interface SolidityFileRepository extends MongoRepository<SolidityFile, String> {
 
+    @Deprecated
     @Query("{\"solidityFunctions\": {$elemMatch: {\"selector\": ?0}}}")
     List<SolidityFile> findSolidityFilesByFunctionSelector(String functionSelector);
+
+    @Query("{\"solidityFunctions\": {$elemMatch: {\"selector\": {$in: ?0}}}}")
+    List<SolidityFile> findSolidityFilesBySelectorContainsAll(List<String> functionSelector);
 
     Optional<SolidityFile> findBySourceCodeHash(String sourceCodeHash);
 }

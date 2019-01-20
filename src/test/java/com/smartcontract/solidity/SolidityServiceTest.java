@@ -173,6 +173,7 @@ public class SolidityServiceTest {
         }
 
         //then
+        System.out.println("AAAAAAAAAAAAAA"+actualSolidityFunctions);
         assertThat(actualSolidityFunctions.size(), equalTo(8));
     }
 

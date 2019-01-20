@@ -1,7 +1,7 @@
 package com.smartcontract.bytecode;
 
 
-import com.smartcontract.solidity.SolidityFile;
+import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -36,7 +36,7 @@ public class BytecodeController {
         checkNotNull(bytecode, "Expected not-null bytecode");
         checkNotNull(model, "Expected not-null model");
 
-        Map<SolidityFile, Double> implementationsWithCount = bytecodeService.findSolidityFileWithCountByBytecode(bytecode);
+        List<Pair<String, Double>> implementationsWithCount = bytecodeService.findFileHashWithPercentageOfMatch(bytecode);
 
         model.addAttribute("implementationsWithCount", implementationsWithCount);
         if (implementationsWithCount.isEmpty()) {

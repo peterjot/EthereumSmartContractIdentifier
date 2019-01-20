@@ -57,24 +57,4 @@ public class SolidityController {
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
         return "solidity-reader";
     }
-
-    @GetMapping("/files")
-    public String findSolidityFiles(Model model) {
-        checkNotNull(model, "Expected not-null model");
-
-        List<SolidityFile> solidityFiles = solidityService.findAllFiles();
-
-        model.addAttribute("solidityFiles", solidityFiles);
-        return "solidity-files";
-    }
-
-    @GetMapping("/solidityFunctions")
-    public String findFunctions(Model model) {
-        checkNotNull(model, "Expected not-null model");
-
-        List<SolidityFunction> solidityFunctions = solidityService.findAllUniqueFunctions();
-
-        model.addAttribute("solidityFunctions", solidityFunctions);
-        return "solidity-functions";
-    }
 }

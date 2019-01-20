@@ -45,9 +45,9 @@
     <th:block th:each="implementationWithCount : ${implementationsWithCount}">
         <div class="row">
             <div class="col-md-10">
-                <a th:href="@{'/api/solidityFiles/sourceCode?fileHash='+${implementationWithCount.key.sourceCodeHash}}"
+                <a th:href="@{'/api/solidityFiles/sourceCode?fileHash='+${implementationWithCount.key}}"
                    th:target="_blank"
-                   th:text="${implementationWithCount.key.sourceCodeHash}"></a>
+                   th:text="${implementationWithCount.key}"></a>
             </div>
             <div class="col-md-2">
                 <p th:text="${#numbers.formatPercent(implementationWithCount.value,1,2)}"></p>
