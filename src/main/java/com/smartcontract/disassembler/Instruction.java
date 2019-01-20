@@ -2,7 +2,8 @@ package com.smartcontract.disassembler;
 
 import lombok.*;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static lombok.Lombok.checkNotNull;
+
 
 @Getter
 @ToString

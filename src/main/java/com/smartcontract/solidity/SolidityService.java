@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.stream.Collectors.toList;
+import static lombok.Lombok.checkNotNull;
 import static org.web3j.crypto.Hash.sha3String;
 
 @Service
@@ -47,6 +49,7 @@ public class SolidityService {
     }
 
     public List<SolidityFile> findSolidityFilesBySelectorIn(List<String> functionSelector) {
+        checkNotNull(functionSelector, "Expected not-null functionSelector");
         return solidityFileRepository.findSolidityFilesBySelectorContainsAll(functionSelector);
     }
 
@@ -88,15 +91,5 @@ public class SolidityService {
             });
         }
         return solidityFunctions;
-    }
-
-    List<SolidityFunction> findAllUniqueFunctions() {
-        return solidityFileRepository
-                .findAll()
-                .stream()
-                .map(SolidityFile::getSolidityFunctions)
-                .flatMap(Collection::stream)
-                .distinct()
-                .collect(toList());
     }
 }

@@ -3,11 +3,12 @@ package com.smartcontract.disassembler;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.isNull;
 
 class OpcodeTable {
 
-    private static Map<String, Opcode> opcodes = new HashMap<String, Opcode>() {{
+    private static final Map<String, Opcode> opcodes = unmodifiableMap(new HashMap<String, Opcode>() {{
         put("00", Opcode.STOP);
         put("01", Opcode.ADD);
         put("02", Opcode.MUL);
@@ -143,7 +144,7 @@ class OpcodeTable {
         put("fd", Opcode.REVERT);
         put("fe", Opcode.INVALID);
         put("ff", Opcode.SELFDESTRUCT);
-    }};
+    }});
 
     static Opcode getOpcodeByHex(String hex) {
         Opcode opcode = opcodes.get(hex);

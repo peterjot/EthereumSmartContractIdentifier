@@ -7,9 +7,8 @@ import org.thymeleaf.util.StringUtils;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.smartcontract.disassembler.OpcodeTable.getOpcodeByHex;
-import static java.lang.String.format;
+import static lombok.Lombok.checkNotNull;
 
 @Slf4j
 @Component
@@ -49,7 +48,7 @@ public class Disassembler {
 
     private void checkBytecodeLength(String bytecode) {
         if (bytecode.length() % 2 != 0) {
-            throw new BytecodeStringException(format("This bytecode has wrong length [%d]", bytecode.length()));
+            throw new IllegalStateException("Expected bytecode with even number of characters");
         }
     }
 

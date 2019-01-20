@@ -2,15 +2,13 @@ package com.smartcontract.disassembler;
 
 import java.util.Iterator;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 
 class HexBytecodeIterator implements Iterator<String> {
 
-    private String bytecode;
+    private final String bytecode;
     private int position;
 
     HexBytecodeIterator(String bytecode) {
-        checkNotNull(bytecode, "Expected not-null bytecode");
         this.bytecode = bytecode;
     }
 

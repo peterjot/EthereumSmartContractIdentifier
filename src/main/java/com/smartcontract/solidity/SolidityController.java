@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import static lombok.Lombok.checkNotNull;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 
 @Controller
 @RequestMapping("/solidity")

@@ -15,9 +15,9 @@ def main():
             response = session.get(
                 "https://api.etherscan.io/api?module=contract&action=getsourcecode&address=" + address.text)
             jsonresponse = simplejson.loads(response.content)
-            sourceCode = jsonresponse["result"][0]["SourceCode"]
+            source_code = jsonresponse["result"][0]["SourceCode"]
 
-            response = session.post("http://localhost:8080/api/solidityFiles", data=str(sourceCode).encode("utf-8"), )
+            response = session.post("http://localhost:8080/api/solidityFiles", data=str(source_code).encode("utf-8"), )
             if response.status_code == 200:
                 print("ok")
             else:

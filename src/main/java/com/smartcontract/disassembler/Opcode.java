@@ -3,7 +3,8 @@ package com.smartcontract.disassembler;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static lombok.Lombok.checkNotNull;
+
 
 @Getter
 @AllArgsConstructor

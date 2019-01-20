@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static lombok.Lombok.checkNotNull;
+
 
 @Controller
 public class MainController {
