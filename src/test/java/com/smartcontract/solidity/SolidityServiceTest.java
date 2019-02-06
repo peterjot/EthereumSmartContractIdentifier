@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThat;
 public class SolidityServiceTest {
 
     @MockBean
-    SolidityFileRepository solidityFileRepository;
+    private SolidityFileRepository solidityFileRepository;
     private SolidityService solidityService;
 
     @Before
@@ -33,18 +33,18 @@ public class SolidityServiceTest {
 
 
     @Test
-    public void shouldGetFunctionsFromFile() throws Exception {
+    public void shouldFindFunctionsFromFile() throws Exception {
         //given
-        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<>(Arrays.asList(
-                new SolidityFunction("10fdf92a", "commentFromAccount(uint256)"),
-                new SolidityFunction("8ebb4c15", "comments(uint256)"),
-                new SolidityFunction("cd65eabe", "commentsFromPost(uint256,uint256)"),
-                new SolidityFunction("5a9cfac8", "hasPosts()"),
-                new SolidityFunction("09787a2c", "newComment(uint256,string)"),
-                new SolidityFunction("23bcaae9", "newPost(string)")
-                ,
-                new SolidityFunction("0b1e7f83", "posts(uint256)"),
-                new SolidityFunction("acdc2cde", "postsFromAccount(address,uint256)")));
+        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<SolidityFunction>() {{
+            add(new SolidityFunction("10fdf92a", "commentFromAccount(uint256)"));
+            add(new SolidityFunction("8ebb4c15", "comments(uint256)"));
+            add(new SolidityFunction("cd65eabe", "commentsFromPost(uint256,uint256)"));
+            add(new SolidityFunction("5a9cfac8", "hasPosts()"));
+            add(new SolidityFunction("09787a2c", "newComment(uint256,string)"));
+            add(new SolidityFunction("23bcaae9", "newPost(string)"));
+            add(new SolidityFunction("0b1e7f83", "posts(uint256)"));
+            add(new SolidityFunction("acdc2cde", "postsFromAccount(address,uint256)"));
+        }};
 
         //when
         Set<SolidityFunction> actualSolidityFunctions;
@@ -59,36 +59,36 @@ public class SolidityServiceTest {
     @Test
     @Ignore
     //TODO: W przypadku jednego pliku z wieloma kontraktami, jest wyszukiwanych wiecej nic w bytekodzie
-    public void test2() throws Exception {
+    public void shouldFindOnlyFunctionsUsedByMainContract() throws Exception {
         //given
-        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<>(Arrays.asList(
-                new SolidityFunction("81830593", "adminAddr()"),
-                new SolidityFunction("3420c428", "AdminPercent()"),
-                new SolidityFunction("09efa259", "AdvertisePersent()"),
-                new SolidityFunction("799ea371", "DividendsPercent()"),
-                new SolidityFunction("235abffd", "FirstLevelReferrerPercent()"),
-                new SolidityFunction("a040efeb", "SecondLevelReferrerPercent()"),
-                new SolidityFunction("975b6f28", "advertiseAddr()"),
-                new SolidityFunction("ecbdbb32", "balanceETH()"),
-                new SolidityFunction("17bd6e37", "bestInvestor()"),
-                new SolidityFunction("5c3026d8", "bestPromoter()"),
-                new SolidityFunction("88072c78", "dividendsPeriod()"),
-                new SolidityFunction("7404417c", "doWaiver()"),
-                new SolidityFunction("ed442e14", "getDividends()"),
-                new SolidityFunction("03f9c793", "invest(address)"),
-                new SolidityFunction("dbcbaca4", "investorInfo(address)"),
-                new SolidityFunction("653c3174", "investorsNumber()"),
-                new SolidityFunction("73ad468a", "maxBalance()"),
-                new SolidityFunction("3d7ac9f8", "minInvesment()"),
-                new SolidityFunction("06fdde03", "name()"),
-                new SolidityFunction("8da5cb5b", "owner()"),
-                new SolidityFunction("984d4a93", "setAdminsAddress(address)"),
-                new SolidityFunction("cb192f2c", "setAdvertisingAddress(address)"),
-                new SolidityFunction("535bc861", "statistic(uint256)"),
-                new SolidityFunction("5216aeec", "totalInvested()"),
-                new SolidityFunction("29b8caff", "totalInvestors()"),
-                new SolidityFunction("eafecc7a", "waveStartup()"))
-        );
+        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<SolidityFunction>() {{
+            add(new SolidityFunction("81830593", "adminAddr()"));
+            add(new SolidityFunction("3420c428", "AdminPercent()"));
+            add(new SolidityFunction("09efa259", "AdvertisePersent()"));
+            add(new SolidityFunction("799ea371", "DividendsPercent()"));
+            add(new SolidityFunction("235abffd", "FirstLevelReferrerPercent()"));
+            add(new SolidityFunction("a040efeb", "SecondLevelReferrerPercent()"));
+            add(new SolidityFunction("975b6f28", "advertiseAddr()"));
+            add(new SolidityFunction("ecbdbb32", "balanceETH()"));
+            add(new SolidityFunction("17bd6e37", "bestInvestor()"));
+            add(new SolidityFunction("5c3026d8", "bestPromoter()"));
+            add(new SolidityFunction("88072c78", "dividendsPeriod()"));
+            add(new SolidityFunction("7404417c", "doWaiver()"));
+            add(new SolidityFunction("ed442e14", "getDividends()"));
+            add(new SolidityFunction("03f9c793", "invest(address)"));
+            add(new SolidityFunction("dbcbaca4", "investorInfo(address)"));
+            add(new SolidityFunction("653c3174", "investorsNumber()"));
+            add(new SolidityFunction("73ad468a", "maxBalance()"));
+            add(new SolidityFunction("3d7ac9f8", "minInvesment()"));
+            add(new SolidityFunction("06fdde03", "name()"));
+            add(new SolidityFunction("8da5cb5b", "owner()"));
+            add(new SolidityFunction("984d4a93", "setAdminsAddress(address)"));
+            add(new SolidityFunction("cb192f2c", "setAdvertisingAddress(address)"));
+            add(new SolidityFunction("535bc861", "statistic(uint256)"));
+            add(new SolidityFunction("5216aeec", "totalInvested()"));
+            add(new SolidityFunction("29b8caff", "totalInvestors()"));
+            add(new SolidityFunction("eafecc7a", "waveStartup()"));
+        }};
 
         //when
         Set<SolidityFunction> actualSolidityFunctions;
@@ -101,37 +101,37 @@ public class SolidityServiceTest {
     }
 
     @Test
-    public void test3() throws Exception {
+    public void shouldFindFunctionsWithoutInternalAndPrivateFunctions() throws Exception {
         //given
-        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<>(Arrays.asList(
-                new SolidityFunction("52382794", "ODDS(uint256)"),
-                new SolidityFunction("e210c049", "AMOUNTS(uint256)"),
-                new SolidityFunction("753feadd", "MASKS(uint256)"),
-                new SolidityFunction("c9e525df", "N()"),
-                new SolidityFunction("68be9822", "OWNER_AMOUNT()"),
-                new SolidityFunction("833afd43", "OWNER_MIN()"),
-                new SolidityFunction("2e1371bd", "OWNER_PERCENT()"),
-                new SolidityFunction("22b80ff8", "_cash()"),
-                new SolidityFunction("f851a440", "admin()"),
-                new SolidityFunction("793cd71e", "cashOut()"),
-                new SolidityFunction("502d0c30", "firstBN()"),
-                new SolidityFunction("1ccf6955", "getBets(uint256)"),
-                new SolidityFunction("a2f77bcc", "getGame(uint256)"),
-                new SolidityFunction("41c0e1b5", "kill()"),
-                new SolidityFunction("60b79784", "lockedIn()"),
-                new SolidityFunction("7206a199", "open(uint256,bytes32,uint256)"),
-                new SolidityFunction("f74797d1", "open2(uint256,bytes32,bytes32,uint256)"),
-                new SolidityFunction("f20eaeb8", "output()"),
-                new SolidityFunction("8da5cb5b", "owner()"),
-                new SolidityFunction("03edf914", "placeBet(uint256,uint8)"),
-                new SolidityFunction("715018a6", "renounceOwnership()"),
-                new SolidityFunction("704b6c02", "setAdmin(address)"),
-                new SolidityFunction("8afc2d35", "setN(uint8)"),
-                new SolidityFunction("31af8eb0", "setOwnerMin(uint256)"),
-                new SolidityFunction("ac7e64d5", "setOwnerPercent(uint256)"),
-                new SolidityFunction("f2fde38b", "transferOwnership(address)"),
-                new SolidityFunction("3ccfd60b", "withdraw()")
-        ));
+        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<SolidityFunction>() {{
+            add(new SolidityFunction("52382794", "ODDS(uint256)"));
+            add(new SolidityFunction("e210c049", "AMOUNTS(uint256)"));
+            add(new SolidityFunction("753feadd", "MASKS(uint256)"));
+            add(new SolidityFunction("c9e525df", "N()"));
+            add(new SolidityFunction("68be9822", "OWNER_AMOUNT()"));
+            add(new SolidityFunction("833afd43", "OWNER_MIN()"));
+            add(new SolidityFunction("2e1371bd", "OWNER_PERCENT()"));
+            add(new SolidityFunction("22b80ff8", "_cash()"));
+            add(new SolidityFunction("f851a440", "admin()"));
+            add(new SolidityFunction("793cd71e", "cashOut()"));
+            add(new SolidityFunction("502d0c30", "firstBN()"));
+            add(new SolidityFunction("1ccf6955", "getBets(uint256)"));
+            add(new SolidityFunction("a2f77bcc", "getGame(uint256)"));
+            add(new SolidityFunction("41c0e1b5", "kill()"));
+            add(new SolidityFunction("60b79784", "lockedIn()"));
+            add(new SolidityFunction("7206a199", "open(uint256,bytes32,uint256)"));
+            add(new SolidityFunction("f74797d1", "open2(uint256,bytes32,bytes32,uint256)"));
+            add(new SolidityFunction("f20eaeb8", "output()"));
+            add(new SolidityFunction("8da5cb5b", "owner()"));
+            add(new SolidityFunction("03edf914", "placeBet(uint256,uint8)"));
+            add(new SolidityFunction("715018a6", "renounceOwnership()"));
+            add(new SolidityFunction("704b6c02", "setAdmin(address)"));
+            add(new SolidityFunction("8afc2d35", "setN(uint8)"));
+            add(new SolidityFunction("31af8eb0", "setOwnerMin(uint256)"));
+            add(new SolidityFunction("ac7e64d5", "setOwnerPercent(uint256)"));
+            add(new SolidityFunction("f2fde38b", "transferOwnership(address)"));
+            add(new SolidityFunction("3ccfd60b", "withdraw()"));
+        }};
 
         //when
         Set<SolidityFunction> actualSolidityFunctions;
@@ -147,11 +147,12 @@ public class SolidityServiceTest {
     @Test
     public void shouldGetFunctionsFromFileWhenGeneratingGetterForMappingAndArray() throws Exception {
         //given
-        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<>(Arrays.asList(
-                new SolidityFunction("e5265c8a", "mymap1(uint256,uint232)"),
-                new SolidityFunction("f55f218e", "mymap2(uint256,uint256,uint256)"),
-                new SolidityFunction("238f6a0d", "mymap3(uint256,uint256,uint256,uint256)"),
-                new SolidityFunction("5732e7a9", "mymap4(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)")));
+        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<SolidityFunction>() {{
+            add(new SolidityFunction("e5265c8a", "mymap1(uint256,uint232)"));
+            add(new SolidityFunction("f55f218e", "mymap2(uint256,uint256,uint256)"));
+            add(new SolidityFunction("238f6a0d", "mymap3(uint256,uint256,uint256,uint256)"));
+            add(new SolidityFunction("5732e7a9", "mymap4(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)"));
+        }};
 
         //when
         Set<SolidityFunction> actualSolidityFunctions;
@@ -165,6 +166,17 @@ public class SolidityServiceTest {
 
     @Test
     public void diffrentArrays() throws Exception {
+        //given
+        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<SolidityFunction>() {{
+            add(new SolidityFunction("07e6cb8a", "mymap5(uint256,uint256,uint256)"));
+            add(new SolidityFunction("8cd6cadb", "mymap7(uint256,uint256,uint256,uint256,uint256)"));
+            add(new SolidityFunction("8ef0c5ff", "mymap10(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)"));
+            add(new SolidityFunction("6a985a77", "mymap2(uint256)"));
+            add(new SolidityFunction("e9244aac", "mymap1(uint256,uint256)"));
+            add(new SolidityFunction("1d7fb8a3", "mymap8(uint256,uint256,uint256,uint256,uint256,uint256)"));
+            add(new SolidityFunction("0402a851", "mymap6(uint256,uint256,uint256,uint256)"));
+            add(new SolidityFunction("bd58e491", "mymap9(uint256,uint256,uint256,uint256,uint256,uint256,uint256)"));
+        }};
 
         //when
         Set<SolidityFunction> actualSolidityFunctions;
@@ -173,8 +185,8 @@ public class SolidityServiceTest {
         }
 
         //then
-        System.out.println("AAAAAAAAAAAAAA"+actualSolidityFunctions);
         assertThat(actualSolidityFunctions.size(), equalTo(8));
+        assertThat(actualSolidityFunctions, equalTo(expectedSolidityFunctions));
     }
 
     @Test

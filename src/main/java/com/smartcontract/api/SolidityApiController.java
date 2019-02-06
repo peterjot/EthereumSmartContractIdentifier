@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
 
 
 @RestController
@@ -27,14 +27,15 @@ public class SolidityApiController {
     }
 
     @PostMapping("/solidityFiles")
-    public SolidityFile uploadFile(@RequestBody String sourceCode) throws IOException {
+    public ResponseEntity<SolidityFile> uploadFile(@RequestBody String sourceCode) throws IOException {
         checkNotNull(sourceCode, "Expected not-null sourceCode");
-        return solidityService.save(sourceCode);
+        return ResponseEntity.ok(solidityService.save(sourceCode));
     }
 
     @GetMapping(value = "/solidityFiles/sourceCode", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getSourceCodeByHash(@RequestParam("fileHash") String fileHash) {
         checkNotNull(fileHash, "Expected not-null fileHash");
+
         Optional<String> sourceCodeByHash = solidityService.findSourceCodeByHash(fileHash);
         return sourceCodeByHash
                 .map(ResponseEntity::ok)
@@ -42,7 +43,7 @@ public class SolidityApiController {
     }
 
     @GetMapping("/solidityFiles")
-    public List<SolidityFile> findFiles() {
-        return solidityService.findAllFiles();
+    public ResponseEntity<List<SolidityFile>> findFiles() {
+        return ResponseEntity.ok(solidityService.findAllFiles());
     }
 }

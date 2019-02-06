@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
 
 
 @Controller
@@ -21,7 +21,7 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String mainPage(Model model) {
+    public String showPage(Model model) {
         checkNotNull(model, "Expected not-null model");
 
         model.addAttribute("filesCount", solidityService.getSolidityFilesCount());

@@ -3,12 +3,12 @@ package com.smartcontract.disassembler;
 import java.util.Iterator;
 
 
-class HexBytecodeIterator implements Iterator<String> {
+class HexStringIterator implements Iterator<String> {
 
     private final String bytecode;
-    private int position;
+    private int position = 0;
 
-    HexBytecodeIterator(String bytecode) {
+    HexStringIterator(String bytecode) {
         this.bytecode = bytecode;
     }
 

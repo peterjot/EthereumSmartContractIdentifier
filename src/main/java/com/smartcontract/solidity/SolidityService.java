@@ -12,15 +12,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
+import static com.smartcontract.Util.sha3Hash;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.web3j.crypto.Hash.sha3String;
 
 @Service
 public class SolidityService {
 
     private static final Logger LOGGER = getLogger(SolidityService.class);
-
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     private final SolidityParser solidityParser = new SolidityParser();
@@ -34,23 +33,18 @@ public class SolidityService {
 
     public Optional<String> findSourceCodeByHash(String _fileHash) {
         checkNotNull(_fileHash, "Expected not-null _fileHash");
-        String fileHash;
-        if (!_fileHash.startsWith("0x")) {
-            fileHash = "0x" + _fileHash;
-        } else {
-            fileHash = _fileHash;
-        }
+        String fileHash = _fileHash.startsWith("0x") ? _fileHash : "0x" + _fileHash;
 
-        Optional<SolidityFile> solidityFile = solidityFileRepository.findBySourceCodeHash(fileHash);
-
-        return solidityFile.map(SolidityFile::getSourceCode);
+        return solidityFileRepository
+                .findBySourceCodeHash(fileHash)
+                .map(SolidityFile::getSourceCode);
     }
 
     public List<SolidityFile> findAllFiles() {
         return solidityFileRepository.findAll();
     }
 
-    public List<SolidityFile> findSolidityFilesBySelectorIn(List<String> functionSelector) {
+    public List<SolidityFile> findSolidityFilesBySelectorIn(Set<String> functionSelector) {
         checkNotNull(functionSelector, "Expected not-null functionSelector");
         return solidityFileRepository.findSolidityFilesBySelectorContainsAll(functionSelector);
     }
@@ -66,7 +60,7 @@ public class SolidityService {
 
     SolidityFile save(byte[] sourceCodeBytes) throws IOException {
         String sourceCode = new String(sourceCodeBytes, CHARSET);
-        String sourceCodeHash = sha3String(sourceCode);
+        String sourceCodeHash = sha3Hash(sourceCode);
 
         Set<SolidityFunction> functionsFromFile = findSolidityFunctionsFromSourceFile(new ByteArrayInputStream(sourceCodeBytes));
 

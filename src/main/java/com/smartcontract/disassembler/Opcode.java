@@ -1,9 +1,10 @@
 package com.smartcontract.disassembler;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
 
 
 enum Opcode {
+
     STOP(0, "Halts execution."),
     ADD(0, "Addition operation."),
     MUL(0, "Multiplication operation."),
@@ -146,14 +147,14 @@ enum Opcode {
     SELFDESTRUCT(0, "Halt execution and register account for later deletion."),
     UNKNOWNCODE(0, "Unknown code");
 
+    private final int operandSize;
+    private final String description;
+
     Opcode(int operandSize, String description) {
         checkNotNull(description, "Expected not-null description");
         this.operandSize = operandSize;
         this.description = description;
     }
-
-    private final int operandSize;
-    private final String description;
 
     public boolean hasMnemonic(String mnemonic) {
         checkNotNull(mnemonic, "Expected not-null mnemonic");
@@ -164,7 +165,11 @@ enum Opcode {
         return operandSize;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public String toString() {
+        return "Opcode{" +
+                "operandSize=" + operandSize +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

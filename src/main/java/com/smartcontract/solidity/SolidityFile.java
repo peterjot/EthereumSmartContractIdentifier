@@ -5,21 +5,20 @@ import org.springframework.data.annotation.Id;
 import java.util.Objects;
 import java.util.Set;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
 
 public class SolidityFile {
 
     @Id
     private final String sourceCodeHash;
-
     private final String sourceCode;
-
     private final Set<SolidityFunction> solidityFunctions;
 
     SolidityFile(String sourceCodeHash, String sourceCode, Set<SolidityFunction> solidityFunctions) {
         checkNotNull(sourceCodeHash, "Expected not-null sourceCodeHash");
         checkNotNull(sourceCode, "Expected not-null sourceCode");
         checkNotNull(solidityFunctions, "Expected not-null solidityFunctions");
+
         this.sourceCodeHash = sourceCodeHash;
         this.sourceCode = sourceCode;
         this.solidityFunctions = solidityFunctions;
@@ -60,5 +59,4 @@ public class SolidityFile {
     public int hashCode() {
         return Objects.hash(sourceCodeHash, sourceCode, solidityFunctions);
     }
-
 }

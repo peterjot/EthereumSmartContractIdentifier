@@ -13,7 +13,7 @@ public class SolidityParserTest {
     private final SolidityParser solidityParser = new SolidityParser();
 
     @Test
-    public void findMappingGetter() {
+    public void shouldFindMappingGetter() {
         //given
         String sourceCodeLine = "mapping(int=>mapping(int=>string)) public test;";
         String selector = "24d45ec3";
@@ -22,13 +22,12 @@ public class SolidityParserTest {
         Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
 
         //then
-        System.out.println(actualFunction);
         assertTrue(actualFunction.isPresent());
         assertThat(actualFunction.get().getSelector(), equalTo(selector));
     }
 
     @Test
-    public void findArray1Getter() {
+    public void shouldFindArray1Getter() {
         //given
         String sourceCodeLine = "uint256[][][] public test;";
         String selector = "61805cc3";
@@ -39,11 +38,10 @@ public class SolidityParserTest {
         //then
         assertTrue(actualFunction.isPresent());
         assertThat(actualFunction.get().getSelector(), equalTo(selector));
-        System.out.println(actualFunction);
     }
 
     @Test
-    public void findArray2Getter() {
+    public void shouldFindArray2Getter() {
         //given
         String sourceCodeLine = "uint256[ ][31][] public test;";
         String selector = "61805cc3";
@@ -54,11 +52,10 @@ public class SolidityParserTest {
         //then
         assertTrue(actualFunction.isPresent());
         assertThat(actualFunction.get().getSelector(), equalTo(selector));
-        System.out.println(actualFunction);
     }
 
     @Test
-    public void findArray3Getter() {
+    public void shouldFindArray3Getter() {
         //given
         String sourceCodeLine = "uint256[1][][1] public test;";
         String selector = "61805cc3";
@@ -69,7 +66,6 @@ public class SolidityParserTest {
         //then
         assertTrue(actualFunction.isPresent());
         assertThat(actualFunction.get().getSelector(), equalTo(selector));
-        System.out.println(actualFunction);
     }
 
     @Test
@@ -85,6 +81,5 @@ public class SolidityParserTest {
         //then
         assertTrue(actualFunction.isPresent());
         assertThat(actualFunction, equalTo(expectedFunction));
-        System.out.println(actualFunction);
     }
 }

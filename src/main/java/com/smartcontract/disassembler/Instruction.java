@@ -2,13 +2,12 @@ package com.smartcontract.disassembler;
 
 import java.util.Objects;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
 
 
 public class Instruction {
 
     private final Opcode opcode;
-
     private final String hexParameters;
 
     public boolean hasMnemonic(String mnemonic) {

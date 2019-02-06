@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.List;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
 
 
 @Controller
 @RequestMapping("/bytecode")
 public class BytecodeController {
-
-    private static final String NO_IMPL_MESSAGE = "Any implementation was found" ;
 
     private final BytecodeService bytecodeService;
 
@@ -31,22 +29,22 @@ public class BytecodeController {
     }
 
     @PostMapping
-    public String findImplementationsByBytecode(@RequestParam("bytecode") String bytecode, Model model) {
+    public String findFileHashesByBytecode(@RequestParam("bytecode") String bytecode, Model model) {
         checkNotNull(bytecode, "Expected not-null bytecode");
         checkNotNull(model, "Expected not-null model");
 
-        List<Pair<String, Double>> implementationsWithCount = bytecodeService.findFileHashWithPercentageOfMatch(bytecode);
+        List<Pair<String, Double>> implementations = bytecodeService.findFileHashWithValueOfMatch(bytecode);
 
-        model.addAttribute("implementationsWithCount", implementationsWithCount);
-        if (implementationsWithCount.isEmpty()) {
-            model.addAttribute("message", NO_IMPL_MESSAGE);
+        model.addAttribute("implementationsWithValueOfMatch", implementations);
+        if (implementations.isEmpty()) {
+            model.addAttribute("message", "No implementation was found");
         }
 
         return "bytecode-reader";
     }
 
     @GetMapping
-    public String greeting(Model model) {
+    public String showPage(Model model) {
         checkNotNull(model, "Expected not-null model");
 
         model.addAttribute("implementationsWithCount", new HashMap<>());

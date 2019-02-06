@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
@@ -29,7 +29,7 @@ public class SolidityController {
     }
 
     @GetMapping
-    public String mainPage() {
+    public String showPage() {
         return "solidity-reader";
     }
 
@@ -37,8 +37,6 @@ public class SolidityController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception {
         checkNotNull(file, "Expected not-null file");
         checkNotNull(model, "Expected not-null model");
-
-        LOGGER.info("Reading file name: [{}]", file.getOriginalFilename());
 
         SolidityFile savedSolidityFile = solidityService.save(file.getBytes());
 

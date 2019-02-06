@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MongoConfiguration">
+    <option name="serverConfigurations">
+      <list>
+        <ServerConfiguration>
+          <option name="authenticationDatabase" value="testfortest" />
+          <option name="authenticationMechanism" value="SCRAM-SHA-1" />
+          <option name="label" value="DB" />
+          <option name="password" value="testtest1" />
+          <option name="serverUrls">
+            <list>
+              <option value="ds129904.mlab.com:29904" />
+            </list>
+          </option>
+          <option name="sshTunnelingConfiguration">
+            <SshTunnelingConfiguration />
+          </option>
+          <option name="userDatabase" value="testfortest" />
+          <option name="username" value="testtest" />
+        </ServerConfiguration>
+      </list>
+    </option>
+  </component>
+</project>

@@ -2,12 +2,11 @@ package com.smartcontract.solidity;
 
 import java.util.Objects;
 
-import static lombok.Lombok.checkNotNull;
+import static com.smartcontract.Util.checkNotNull;
 
 public class SolidityFunction {
 
     private final String selector;
-
     private final String signature;
 
     SolidityFunction(String selector, String signature) {

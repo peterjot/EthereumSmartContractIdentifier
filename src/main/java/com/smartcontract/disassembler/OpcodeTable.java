@@ -147,7 +147,7 @@ class OpcodeTable {
     }});
 
     static Opcode getOpcodeByHex(String hex) {
-        Opcode opcode = opcodes.get(hex);
+        Opcode opcode = opcodes.get(hex.toLowerCase());
         if (isNull(opcode)) {
             return Opcode.UNKNOWNCODE;
         }

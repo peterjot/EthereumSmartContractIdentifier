@@ -3,45 +3,36 @@ package com.smartcontract.disassembler;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+import static com.smartcontract.Util.checkNotNull;
 import static com.smartcontract.disassembler.OpcodeTable.getOpcodeByHex;
-import static lombok.Lombok.checkNotNull;
 
 @Component
 public class Disassembler {
 
-    public Set<Instruction> disassembly(String bytecode) {
+    public List<Instruction> disassembly(String bytecode) {
         checkNotNull(bytecode, "Expected not-null bytecode");
         return getInstructions(bytecode);
     }
 
-    private Set<Instruction> getInstructions(String bytecode) {
-        String preparedBytecode = prepareBytecode(bytecode);
+    private List<Instruction> getInstructions(String bytecode) {
+        String validBytecode = getValidBytecode(bytecode);
+        HexStringIterator hexStringIterator = new HexStringIterator(validBytecode);
 
-        Set<Instruction> instructions = new LinkedHashSet<>();
-        HexBytecodeIterator hexBytecodeIterator = new HexBytecodeIterator(preparedBytecode);
-
-        while (hexBytecodeIterator.hasNext()) {
-
-            Opcode opcode = getOpcodeByHex(hexBytecodeIterator.next());
-
-            String instructionParameter = getInstructionParameter(opcode.getOperandSize(), hexBytecodeIterator);
-
-            Instruction instruction = new Instruction(opcode, instructionParameter.toLowerCase());
-
-            instructions.add(instruction);
+        List<Instruction> instructions = new ArrayList<>();
+        while (hexStringIterator.hasNext()) {
+            Opcode opcode = getOpcodeByHex(hexStringIterator.next());
+            String instructionParameter = getInstructionOperand(opcode.getOperandSize(), hexStringIterator);
+            instructions.add(new Instruction(opcode, instructionParameter.toLowerCase()));
         }
         return instructions;
     }
 
-    private String prepareBytecode(String bytecode) {
+    private String getValidBytecode(String bytecode) {
         checkBytecodeLength(bytecode);
-        if (bytecode.startsWith("0x")) {
-            return bytecode.substring(2).toLowerCase();
-        }
-        return bytecode;
+        return bytecode.startsWith("0x") ? bytecode.substring(2).toLowerCase() : bytecode.toLowerCase();
     }
 
     private void checkBytecodeLength(String bytecode) {
@@ -50,22 +41,16 @@ public class Disassembler {
         }
     }
 
-    private String getInstructionParameter(int parametersSize, HexBytecodeIterator iterator) {
+    private String getInstructionOperand(int operandSize, HexStringIterator iterator) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        int parametersCounter = parametersSize;
-        while (iterator.hasNext() && parametersCounter > 0) {
+        int i = operandSize;
+        while (iterator.hasNext() && i > 0) {
             stringBuilder.append(iterator.next());
-            parametersCounter--;
+            i--;
         }
+        stringBuilder.append(StringUtils.repeat("0", i * 2));
 
-        String othersParameterBytes = fillOthersBytesWithZero(parametersCounter);
-        stringBuilder.append(othersParameterBytes);
         return stringBuilder.toString();
-    }
-
-    private String fillOthersBytesWithZero(int parametersCounter) {
-        int parameterOthersCharsCount = 2 * parametersCounter;
-        return StringUtils.repeat("0", parameterOthersCharsCount);
     }
 }
