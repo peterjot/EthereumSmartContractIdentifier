@@ -47,7 +47,7 @@ public class BytecodeController {
     public String showPage(Model model) {
         checkNotNull(model, "Expected not-null model");
 
-        model.addAttribute("implementationsWithCount", new HashMap<>());
+        model.addAttribute("implementationsWithValueOfMatch", new HashMap<>());
         return "bytecode-reader";
     }
 }
