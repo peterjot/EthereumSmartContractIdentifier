@@ -25,6 +25,7 @@ public class BytecodeService {
     private static final String EQ_MNEMONIC = "EQ";
     private static final String PUSH_2_MNEMONIC = "PUSH2";
     private static final Logger LOGGER = getLogger(BytecodeService.class);
+    public static final int RESULT_LIMIT = 10;
 
     private final SolidityService solidityService;
     private final Disassembler disassembler;
@@ -37,7 +38,21 @@ public class BytecodeService {
         this.disassembler = disassembler;
     }
 
-    List<Pair<String, Double>> findFileHashWithValueOfMatch(String bytecode) {
+    List<Pair<String, Double>> findTop10FileHashesWithValueOfMatch(String bytecode) {
+        Set<String> functionSelectors = findFunctionSelectors(bytecode);
+        LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
+
+        return solidityService
+                .findSolidityFilesBySelectorIn(functionSelectors)
+                .stream()
+                .map(solidityFile -> getSelectorWithMatchValue(functionSelectors, solidityFile))
+                .sorted((pair1, pair2) -> Double.compare(pair2.getValue(), pair1.getValue()))
+                .limit(RESULT_LIMIT)
+                .collect(toList());
+
+    }
+
+    List<Pair<String, Double>> findAllFileHashesWithValueOfMatch(String bytecode) {
         Set<String> functionSelectors = findFunctionSelectors(bytecode);
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
 
@@ -47,7 +62,6 @@ public class BytecodeService {
                 .map(solidityFile -> getSelectorWithMatchValue(functionSelectors, solidityFile))
                 .sorted((pair1, pair2) -> Double.compare(pair2.getValue(), pair1.getValue()))
                 .collect(toList());
-
     }
 
     private Set<String> findFunctionSelectors(String bytecode) {

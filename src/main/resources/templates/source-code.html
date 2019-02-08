@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/header :: header"/>
+    <link rel="stylesheet"
+          th:href="@{/highlight/styles/default.css}"
+          href="/highlight/styles/default.css">
+</head>
+<body style="background-color: #F0F0F0">
+
+<th:block th:include="fragments/header :: navbar"/>
+
+<div class="container">
+    <pre>
+        <code class="solidity"><th:block th:text="${sourceCode}">Implementation not found</th:block></code>
+    </pre>
+</div>
+
+</body>
+<!--https://github.com/AgeManning/highlight.js-Solidity-->
+<script th:src="@{/highlight/highlight.pack.js}" src="/highlight/highlight.pack.js"></script>
+<!--https://github.com/wcoder/highlightjs-line-numbers.js/-->
+<script th:src="@{/js/highlightjs-line-numbers.js}" src="/js/highlightjs-line-numbers.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+</html>
+
+
+

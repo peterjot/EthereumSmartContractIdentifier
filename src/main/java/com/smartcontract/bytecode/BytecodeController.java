@@ -29,25 +29,39 @@ public class BytecodeController {
     }
 
     @PostMapping
-    public String findFileHashesByBytecode(@RequestParam("bytecode") String bytecode, Model model) {
+    public String findTop10FileHashesByBytecode(
+            @RequestParam(value = "bytecode") String bytecode,
+            @RequestParam(value = "allFiles") boolean allFiles,
+            Model model) {
         checkNotNull(bytecode, "Expected not-null bytecode");
         checkNotNull(model, "Expected not-null model");
 
-        List<Pair<String, Double>> implementations = bytecodeService.findFileHashWithValueOfMatch(bytecode);
+        model.addAttribute("actualAllFiles", allFiles);
+        model.addAttribute("actualBytecode", bytecode);
 
-        model.addAttribute("implementationsWithValueOfMatch", implementations);
+        List<Pair<String, Double>> implementations;
+        if (isSearchTopTenFiles(allFiles)) {
+            implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
+            model.addAttribute("implementationsWithValueOfMatch", implementations);
+        } else {
+            implementations = bytecodeService.findAllFileHashesWithValueOfMatch(bytecode);
+            model.addAttribute("implementationsWithValueOfMatch", implementations);
+        }
+
         if (implementations.isEmpty()) {
             model.addAttribute("message", "No implementation was found");
         }
 
-        return "bytecode-reader";
+        return "bytecode-page";
     }
 
     @GetMapping
-    public String showPage(Model model) {
-        checkNotNull(model, "Expected not-null model");
-
+    public String showpage(Model model) {
         model.addAttribute("implementationsWithValueOfMatch", new HashMap<>());
-        return "bytecode-reader";
+        return "bytecode-page";
+    }
+
+    private boolean isSearchTopTenFiles(Boolean allFiles) {
+        return !allFiles;
     }
 }

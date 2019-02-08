@@ -3,6 +3,8 @@
 <head>
     <!-- this is header -->
     <div th:fragment="header">
+        <link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+        <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
 
         <title>Smart contract identification</title>
         <meta charset="utf-8">
@@ -31,10 +33,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/solidity}">Insert solidity file</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/bytecode}">Find implementation</a></li>
-            </ul>
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link" th:href="@{/bytecode}">Find implementation</a>
+                <a class="nav-item nav-link" th:href="@{/solidity}">Upload solidity</a>
+            </div>
         </div>
     </nav>
 </div>

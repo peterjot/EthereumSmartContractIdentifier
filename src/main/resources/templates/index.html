@@ -2,16 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="fragments/header :: header"/>
-    <!--<div th:replace="/fragments/header :: header"></div>-->
 </head>
 <body>
+
 <th:block th:include="fragments/header :: navbar"/>
-<!--<div th:replace="/fragments/header :: navbar"></div>-->
 
 <div class="container">
     <div class="row mt-3 justify-content-between">
         <div class="col-lg-6">
-            <h4>Files count: <span th:text="${filesCount}">NONE</span></h4>
+            <h4 th:if="${filesCount}">Files count: <span th:text="${filesCount}"></span></h4>
         </div>
         <div class="col-lg-6">
             <p>
@@ -40,9 +39,6 @@
         </div>
     </div>
 </div>
-
-<!-- /.container -->
-
 </body>
 </html>
 
