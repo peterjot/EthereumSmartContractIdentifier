@@ -9,33 +9,61 @@
 
 <div class="container">
     <div class="row mt-3 justify-content-between">
-        <div class="col-lg-6">
-            <h4 th:if="${filesCount}">Files count: <span th:text="${filesCount}"></span></h4>
-        </div>
-        <div class="col-lg-6">
-            <p>
-                <b>The EVM</b> - the runtime environment for smart contracts in Ethereum. It is not only sandboxed, but
-                actually
-                completely isolated, which means that code running inside the EVM has no access to network, filesystem,
-                or
-                other processes.
-                Contracts are typically written in an Ethereum high level language, compiled into byte code using an EVM
-                compiler, and finally uploaded on the blockchain using an Ethereum client.
-            </p>
-            <p>
-                <b>Solidity</b> - a contract-oriented, high-level language for implementing smart contracts. It was
-                influenced
-                by
-                C++, Python and JavaScript and is designed to target the Ethereum Virtual Machine (EVM).
-            </p>
-            <p>
-                <b>Function Selector</b> - The first four bytes of the Keccak (SHA-3) hash of the function signature.
-            </p>
-            <p>
-                <b>Function Signature</b> - The canonical expression of the basic prototype, i.e. the function name with
-                the
-                parenthesised list of parameter types. Parameter types are split by a single comma - no spaces are used.
-            </p>
+        <div class="col-md-12">
+            <div class="jumbotron" style="padding: 1rem 1rem; background-color:#eeeeee54">
+                <h1 class="display-3">Welcome to the Ethereum Smart Contract Identifier</h1>
+                <p class="lead">
+                    <b>
+                        This application helps you identify Ethereum Smart Contract based on raw
+                        bytecode. As a result you get implementations written in solidity language.
+                    </b>
+                </p>
+                <p class="lead">
+                    <b>The EVM</b> - the runtime environment for smart contracts in Ethereum. It is not only sandboxed,
+                    but
+                    actually
+                    completely isolated, which means that code running inside the EVM has no access to network,
+                    filesystem,
+                    or
+                    other processes.
+                    Contracts are typically written in an Ethereum high level language, compiled into byte code using an
+                    EVM
+                    compiler, and finally uploaded on the blockchain using an Ethereum client.
+                </p>
+                <p class="lead">
+                    <b>Solidity</b> - a contract-oriented, high-level language for implementing smart contracts. It was
+                    influenced
+                    by
+                    C++, Python and JavaScript and is designed to target the Ethereum Virtual Machine (EVM).
+                </p>
+                <p class="lead">
+                    <b>Function Selector</b> - The first four bytes of the Keccak (SHA-3) hash of the function
+                    signature.
+                </p>
+                <p class="lead">
+                    <b>Function Signature</b> - The canonical expression of the basic prototype, i.e. the function name
+                    with
+                    the
+                    parenthesised list of parameter types. Parameter types are split by a single comma - no spaces are
+                    used.
+                </p>
+                <hr class="m-y-2">
+
+                <h2 th:if="${filesCount}">There are <span th:text="${filesCount}"></span> files in the database!</h2>
+                <p class="lead">
+                <form class="form-inline" method="post" action="#" th:action="@{/bytecode}">
+                    <div class="form-group ">
+                        <label for="bytecodeForm">Paste your bytecode</label>
+                        <input id="bytecodeForm" name="bytecode" class="form-control ml-2 mr-2" type="text"
+                               placeholder="0x9d0b3a19f91ffff...">
+                        <input type="hidden"
+                               name="allFiles"
+                               value="false">
+                    </div>
+                    <button type="submit" class="btn btn-info">Identify</button>
+                </form>
+                </p>
+            </div>
         </div>
     </div>
 </div>
