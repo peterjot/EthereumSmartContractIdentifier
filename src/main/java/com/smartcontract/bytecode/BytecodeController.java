@@ -1,7 +1,7 @@
 package com.smartcontract.bytecode;
 
 
-import com.smartcontract.Pair;
+import com.smartcontract.solidity.IdentifiedSolidityFileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.smartcontract.Util.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 
 @Controller
@@ -24,7 +24,7 @@ public class BytecodeController {
 
     @Autowired
     public BytecodeController(BytecodeService bytecodeService) {
-        checkNotNull(bytecodeService, "Expected not-null bytecodeService");
+        requireNonNull(bytecodeService, "Expected not-null bytecodeService");
         this.bytecodeService = bytecodeService;
     }
 
@@ -33,20 +33,19 @@ public class BytecodeController {
             @RequestParam(value = "bytecode") String bytecode,
             @RequestParam(value = "allFiles") boolean allFiles,
             Model model) {
-        checkNotNull(bytecode, "Expected not-null bytecode");
-        checkNotNull(model, "Expected not-null model");
+        requireNonNull(bytecode, "Expected not-null bytecode");
+        requireNonNull(model, "Expected not-null model");
 
         model.addAttribute("actualAllFiles", allFiles);
         model.addAttribute("actualBytecode", bytecode);
 
-        List<Pair<String, Double>> implementations;
-        if (isSearchTopTenFiles(allFiles)) {
-            implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
-            model.addAttribute("implementationsWithValueOfMatch", implementations);
-        } else {
+        List<IdentifiedSolidityFileDto> implementations;
+        if (allFiles) {
             implementations = bytecodeService.findAllFileHashesWithValueOfMatch(bytecode);
-            model.addAttribute("implementationsWithValueOfMatch", implementations);
+        } else {
+            implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
         }
+        model.addAttribute("implementationsWithValueOfMatch", implementations);
 
         if (implementations.isEmpty()) {
             model.addAttribute("message", "No implementation was found");
@@ -56,12 +55,11 @@ public class BytecodeController {
     }
 
     @GetMapping
-    public String showpage(Model model) {
+    public String showPage(Model model) {
+        requireNonNull(model, "Expected not-null model");
+
         model.addAttribute("implementationsWithValueOfMatch", new HashMap<>());
         return "bytecode-page";
     }
 
-    private boolean isSearchTopTenFiles(Boolean allFiles) {
-        return !allFiles;
-    }
 }

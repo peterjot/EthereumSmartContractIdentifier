@@ -7,8 +7,8 @@
 
 <th:block th:include="fragments/header :: navbar"/>
 
-<div class="container">
-    <div class="row mt-3 justify-content-center">
+<main role="main" class="container">
+    <div class="row m-3 justify-content-center">
         <h2>Upload Solidity source code</h2>
     </div>
     <div class="row align-items-center justify-content-center">
@@ -65,7 +65,7 @@
     </table>
     </div>
     </th:block>
-</div>
+</main>
 
 <script type="application/javascript">
     $('input[type="file"]').change(function (e) {
@@ -74,6 +74,7 @@
     });
 </script>
 
+<th:block th:include="fragments/footer :: footer"/>
 </body>
 </html>
 

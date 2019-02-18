@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import static com.smartcontract.Util.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 
 @Controller
@@ -16,13 +16,13 @@ public class MainController {
 
     @Autowired
     public MainController(SolidityService solidityService) {
-        checkNotNull(solidityService, "Expected not-null solidityService");
+        requireNonNull(solidityService, "Expected not-null solidityService");
         this.solidityService = solidityService;
     }
 
     @GetMapping("/")
     public String showPage(Model model) {
-        checkNotNull(model, "Expected not-null model");
+        requireNonNull(model, "Expected not-null model");
 
         model.addAttribute("filesCount", solidityService.getSolidityFilesCount());
         return "index";

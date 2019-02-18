@@ -1,8 +1,8 @@
 package com.smartcontract.bytecode;
 
-import com.smartcontract.Pair;
 import com.smartcontract.disassembler.Disassembler;
 import com.smartcontract.disassembler.Instruction;
+import com.smartcontract.solidity.IdentifiedSolidityFileDto;
 import com.smartcontract.solidity.SolidityFile;
 import com.smartcontract.solidity.SolidityFunction;
 import com.smartcontract.solidity.SolidityService;
@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.smartcontract.Util.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -25,20 +25,22 @@ public class BytecodeService {
     private static final String EQ_MNEMONIC = "EQ";
     private static final String PUSH_2_MNEMONIC = "PUSH2";
     private static final Logger LOGGER = getLogger(BytecodeService.class);
-    public static final int RESULT_LIMIT = 10;
+    private static final int RESULT_LIMIT = 10;
 
     private final SolidityService solidityService;
     private final Disassembler disassembler;
 
     @Autowired
     public BytecodeService(SolidityService solidityService, Disassembler disassembler) {
-        checkNotNull(solidityService, "Expected not-null solidityService");
-        checkNotNull(disassembler, "Expected not-null disassembler");
+        requireNonNull(solidityService, "Expected not-null solidityService");
+        requireNonNull(disassembler, "Expected not-null disassembler");
         this.solidityService = solidityService;
         this.disassembler = disassembler;
     }
 
-    List<Pair<String, Double>> findTop10FileHashesWithValueOfMatch(String bytecode) {
+    public List<IdentifiedSolidityFileDto> findTop10FileHashesWithValueOfMatch(String bytecode) {
+        requireNonNull(bytecode, "Expected not-null bytecode");
+
         Set<String> functionSelectors = findFunctionSelectors(bytecode);
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
 
@@ -46,13 +48,15 @@ public class BytecodeService {
                 .findSolidityFilesBySelectorIn(functionSelectors)
                 .stream()
                 .map(solidityFile -> getSelectorWithMatchValue(functionSelectors, solidityFile))
-                .sorted((pair1, pair2) -> Double.compare(pair2.getValue(), pair1.getValue()))
+                .sorted((pair1, pair2) -> Double.compare(pair2.getValueOfMatch(), pair1.getValueOfMatch()))
                 .limit(RESULT_LIMIT)
                 .collect(toList());
 
     }
 
-    List<Pair<String, Double>> findAllFileHashesWithValueOfMatch(String bytecode) {
+    public List<IdentifiedSolidityFileDto> findAllFileHashesWithValueOfMatch(String bytecode) {
+        requireNonNull(bytecode, "Expected not-null bytecode");
+
         Set<String> functionSelectors = findFunctionSelectors(bytecode);
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
 
@@ -60,7 +64,7 @@ public class BytecodeService {
                 .findSolidityFilesBySelectorIn(functionSelectors)
                 .stream()
                 .map(solidityFile -> getSelectorWithMatchValue(functionSelectors, solidityFile))
-                .sorted((pair1, pair2) -> Double.compare(pair2.getValue(), pair1.getValue()))
+                .sorted((pair1, pair2) -> Double.compare(pair2.getValueOfMatch(), pair1.getValueOfMatch()))
                 .collect(toList());
     }
 
@@ -82,12 +86,12 @@ public class BytecodeService {
         return functionSelector;
     }
 
-    private Pair<String, Double> getSelectorWithMatchValue(Set<String> bytecodeSelectors, SolidityFile solidityFile) {
+    private IdentifiedSolidityFileDto getSelectorWithMatchValue(Set<String> bytecodeSelectors, SolidityFile solidityFile) {
         String sourceCodeHash = solidityFile.getSourceCodeHash();
         Set<SolidityFunction> solidityFunctions = solidityFile.getSolidityFunctions();
 
         if (solidityFunctions.size() <= 0) {
-            return new Pair<>(sourceCodeHash, 0D);
+            return new IdentifiedSolidityFileDto(sourceCodeHash, 0D);
         }
 
         long numberOfMatches = solidityFunctions
@@ -101,6 +105,6 @@ public class BytecodeService {
         LOGGER.info("Matched functions: {}", numberOfMatches);
         LOGGER.info("Functions in solidity file hash: {}, size: {}", solidityFile.getSourceCodeHash(), solidityFunctions.size());
 
-        return new Pair<>(sourceCodeHash, percentOfMatch);
+        return new IdentifiedSolidityFileDto(sourceCodeHash, percentOfMatch);
     }
 }

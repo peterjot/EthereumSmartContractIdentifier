@@ -15,13 +15,13 @@ import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.List;
 
-import static com.smartcontract.Util.sha3Hash;
 import static java.lang.System.lineSeparator;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.web3j.crypto.Hash.sha3String;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -44,13 +44,13 @@ public class SolidityFileRepositoryTest {
         solidityFileRepository.deleteAll();
 
         String testSourceCode = getTestSourceCode();
-        String testSourceCodeHash = sha3Hash(testSourceCode);
+        String testSourceCodeHash = sha3String(testSourceCode);
 
         String testSourceCode2 = testSourceCode + "FFFFFFFFFFF";
-        String testSourceCodeHash2 = sha3Hash(testSourceCode2);
+        String testSourceCodeHash2 = sha3String(testSourceCode2);
 
         String testSourceCode3 = testSourceCode + "GGGGGGGGGGGG";
-        String testSourceCodeHash3 = sha3Hash(testSourceCode3);
+        String testSourceCodeHash3 = sha3String(testSourceCode3);
 
 
         solidityFileRepository.save(new SolidityFile(
@@ -74,7 +74,7 @@ public class SolidityFileRepositoryTest {
     public void shouldSaveSourceCode() {
         //given
         String expectedSourceCode = "dsadsadsadadklujsadoisajfsdkljgdfkl";
-        String expectedSourceCodeHash = sha3Hash(expectedSourceCode);
+        String expectedSourceCodeHash = sha3String(expectedSourceCode);
 
         SolidityFunction mockSolidityFunction1 = new SolidityFunction("dsap", "dsappp");
         SolidityFunction mockSolidityFunction2 = new SolidityFunction("dsa", "321appp");
@@ -100,7 +100,7 @@ public class SolidityFileRepositoryTest {
     public void shouldFinAllContains() {
         //given
         String expectedSourceCode = "dsadsadsadadklujsadoisajfsdkljgdfkl";
-        String expectedSourceCodeHash = sha3Hash(expectedSourceCode);
+        String expectedSourceCodeHash = sha3String(expectedSourceCode);
 
         SolidityFunction mockSolidityFunction1 = new SolidityFunction("dsap", "dsappp");
         SolidityFunction mockSolidityFunction2 = new SolidityFunction("dsa", "321appp");

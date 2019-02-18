@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.smartcontract.Util.checkNotNull;
-import static com.smartcontract.Util.sha3Hash;
+import static java.util.Objects.requireNonNull;
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.web3j.crypto.Hash.sha3String;
 
 @Service
 public class SolidityService {
@@ -22,17 +22,19 @@ public class SolidityService {
     private static final Logger LOGGER = getLogger(SolidityService.class);
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    private final SolidityParser solidityParser = new SolidityParser();
+    private final SolidityParser solidityParser;
     private final SolidityFileRepository solidityFileRepository;
 
     @Autowired
-    public SolidityService(SolidityFileRepository solidityFileRepository) {
-        checkNotNull(solidityFileRepository, "Expected not-null solidityFileRepository");
+    public SolidityService(SolidityFileRepository solidityFileRepository, SolidityParser solidityParser) {
+        requireNonNull(solidityFileRepository, "Expected not-null solidityFileRepository");
+        requireNonNull(solidityParser, "Expected not-null solidityParser");
         this.solidityFileRepository = solidityFileRepository;
+        this.solidityParser = solidityParser;
     }
 
     public Optional<String> findSourceCodeByHash(String _fileHash) {
-        checkNotNull(_fileHash, "Expected not-null _fileHash");
+        requireNonNull(_fileHash, "Expected not-null _fileHash");
         String fileHash = _fileHash.startsWith("0x") ? _fileHash : "0x" + _fileHash;
 
         return solidityFileRepository
@@ -45,7 +47,7 @@ public class SolidityService {
     }
 
     public List<SolidityFile> findSolidityFilesBySelectorIn(Set<String> functionSelector) {
-        checkNotNull(functionSelector, "Expected not-null functionSelector");
+        requireNonNull(functionSelector, "Expected not-null functionSelector");
         return solidityFileRepository.findSolidityFilesBySelectorContainsAll(functionSelector);
     }
 
@@ -54,13 +56,13 @@ public class SolidityService {
     }
 
     public SolidityFile save(String sourceCode) throws IOException {
-        checkNotNull(sourceCode, "Expected not-null sourceCode");
+        requireNonNull(sourceCode, "Expected not-null sourceCode");
         return save(sourceCode.getBytes());
     }
 
     SolidityFile save(byte[] sourceCodeBytes) throws IOException {
         String sourceCode = new String(sourceCodeBytes, CHARSET);
-        String sourceCodeHash = sha3Hash(sourceCode);
+        String sourceCodeHash = sha3String(sourceCode);
 
         Set<SolidityFunction> functionsFromFile = findSolidityFunctionsFromSourceFile(new ByteArrayInputStream(sourceCodeBytes));
 
@@ -71,7 +73,7 @@ public class SolidityService {
     }
 
     Set<SolidityFunction> findSolidityFunctionsFromSourceFile(InputStream inputStream) throws IOException {
-        checkNotNull(inputStream, "Expected not-null inputStream");
+        requireNonNull(inputStream, "Expected not-null inputStream");
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
