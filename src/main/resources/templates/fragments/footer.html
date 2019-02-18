@@ -1,40 +1,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div th:fragment="footer">
-    <!-- Footer -->
-    <footer class="page-footer font-small blue">
+<!-- Footer -->
+<footer class="footer">
 
-    <div class="row">
-        <!-- Grid column -->
-        <div class="col-6"
+    <!-- Grid row-->
+    <div class="container-fluid">
+        <div class="row bg-dark text-white py-1">
 
-          <!-- Content -->
-            <h6 class="text-uppercase font-weight-bold">Created by: Piotr Jasina</h6>
-            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-            <a class="li-ic" href="#">
-                <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x">LinkedIn</i>
-            </a>
-
+            <!-- Grid column -->
+            <div class="col-md-6 text-md-right">
+                Created by: Piotr Jasina
+                <!--Linkedin -->
+                <a href="https://linkedin.com/in/piotr-jasina-191a0b134" target="_blank">
+                    <i class="fab fa-linkedin-in fa-lg social social-linkedin"> </i>
+                </a>
+                <a href="https://github.com/peterjot" target="_blank">
+                    <i class="fab fa-github-square fa-lg social social-github"> </i>
+                </a>
+            </div>
+            <div class="col-md-6 text-md-left">
+                Idea by: Damian Rusinek
+                <!--Linkedin -->
+                <a href="https://linkedin.com/in/damianrusinek" target="_blank">
+                    <i class="fab fa-linkedin-in fa-lg social social-linkedin"> </i>
+                </a>
+            </div>
+            <!-- Grid column -->
         </div>
-        <!-- Grid column -->
-        <div class="col-6">
-          <!-- Links -->
-            <h6 class="text-uppercase font-weight-bold">Idea by: Damian Rusinek</h6>
-            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-            <a class="li-ic" href="#">
-                <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x">LinkedIn</i>
-            </a>
-        </div>
-        <!-- Grid column -->
+        <div class="row bg-dark text-white py-1">
 
-      <!-- Grid row -->
-        <div class="footer-copyright text-center py-3">© 2019 Copyright:
-            <a href="https://umcs.pl">UMCS</a>
+            <!-- Copyright -->
+            <div class="col-12 text-center footer-copyright">
+                © 2019 Copyright: <a href="https://umcs.pl/" target="_blank" class="social">UMCS</a>
+            </div>
+            <!-- Copyright -->
         </div>
-
     </div>
-    </footer>
-    <!-- Footer -->
+</footer>
 </div>
 
 </html>

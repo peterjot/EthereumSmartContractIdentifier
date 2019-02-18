@@ -3,7 +3,7 @@ package com.smartcontract.disassembler;
 import java.util.Iterator;
 
 
-class HexStringIterator implements Iterator<String> {
+class HexStringIterator implements Iterator<Integer> {
 
     private final String bytecode;
     private int position = 0;
@@ -18,9 +18,9 @@ class HexStringIterator implements Iterator<String> {
     }
 
     @Override
-    public String next() {
+    public Integer next() {
         String hexByte = bytecode.substring(position, position + 2);
         position += 2;
-        return hexByte;
+        return Integer.parseInt(hexByte, 16);
     }
 }

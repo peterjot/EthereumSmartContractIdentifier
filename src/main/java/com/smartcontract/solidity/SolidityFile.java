@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.smartcontract.Util.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 public class SolidityFile {
 
@@ -15,9 +15,9 @@ public class SolidityFile {
     private final Set<SolidityFunction> solidityFunctions;
 
     SolidityFile(String sourceCodeHash, String sourceCode, Set<SolidityFunction> solidityFunctions) {
-        checkNotNull(sourceCodeHash, "Expected not-null sourceCodeHash");
-        checkNotNull(sourceCode, "Expected not-null sourceCode");
-        checkNotNull(solidityFunctions, "Expected not-null solidityFunctions");
+        requireNonNull(sourceCodeHash, "Expected not-null sourceCodeHash");
+        requireNonNull(sourceCode, "Expected not-null sourceCode");
+        requireNonNull(solidityFunctions, "Expected not-null solidityFunctions");
 
         this.sourceCodeHash = sourceCodeHash;
         this.sourceCode = sourceCode;

@@ -6,14 +6,14 @@ import org.thymeleaf.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.smartcontract.Util.checkNotNull;
 import static com.smartcontract.disassembler.OpcodeTable.getOpcodeByHex;
+import static java.util.Objects.requireNonNull;
 
 @Component
 public class Disassembler {
 
     public List<Instruction> disassembly(String bytecode) {
-        checkNotNull(bytecode, "Expected not-null bytecode");
+        requireNonNull(bytecode, "Expected not-null bytecode");
         return getInstructions(bytecode);
     }
 

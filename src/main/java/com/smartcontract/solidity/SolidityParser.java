@@ -1,13 +1,13 @@
 package com.smartcontract.solidity;
 
 import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static com.smartcontract.Util.sha3Hash;
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableMap;
@@ -15,7 +15,9 @@ import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.web3j.crypto.Hash.sha3String;
 
+@Component
 class SolidityParser {
 
     private static final Logger LOGGER = getLogger(SolidityParser.class);
@@ -121,9 +123,6 @@ class SolidityParser {
                     String arrayValue = arrayMatcher.group(ARRAY_VALUE_GROUP_ID);
 
                     int dimensionCount = getArrayDimensionCount(arrayValue);
-                    if (dimensionCount <= 0) {
-                        throw new IllegalStateException("Expected greater than one dimensionCount, but got: " + dimensionCount);
-                    }
 
                     for (int i = 0; i < dimensionCount; i++) {
                         canonicalMappingKeys.add(CANONICAL_ARRAY_KEY_TYPE);
@@ -150,9 +149,6 @@ class SolidityParser {
             String arrayValue = matcher.group(ARRAY_PUBLIC_VALUE_GROUP_ID);
 
             int dimensionCount = getArrayDimensionCount(arrayValue);
-            if (dimensionCount <= 0) {
-                throw new IllegalStateException("Expected greater than one dimensionCount, but got: " + dimensionCount);
-            }
 
             List<String> arrayArguments = new ArrayList<>();
             for (int i = 0; i < dimensionCount; i++) {
@@ -174,7 +170,14 @@ class SolidityParser {
                 dimensionCount++;
             }
         }
+        checkDimensionCount(dimensionCount);
         return dimensionCount;
+    }
+
+    private void checkDimensionCount(int dimensionCount) {
+        if (dimensionCount <= 0) {
+            throw new IllegalStateException("Expected greater than one dimensionCount, but got: " + dimensionCount);
+        }
     }
 
     private Optional<SolidityFunction> findNormalVariableGetter(String line) {
@@ -192,7 +195,7 @@ class SolidityParser {
     }
 
     private String getFunctionSelector(String normalizedFunctionSignature) {
-        return sha3Hash(normalizedFunctionSignature).substring(2, 10);
+        return sha3String(normalizedFunctionSignature).substring(2, 10);
     }
 
     private String normalizeFunctionSignature(String functionName, String functionArgumentsString) {

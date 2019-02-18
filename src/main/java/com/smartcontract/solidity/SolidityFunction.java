@@ -2,7 +2,7 @@ package com.smartcontract.solidity;
 
 import java.util.Objects;
 
-import static com.smartcontract.Util.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 public class SolidityFunction {
 
@@ -10,8 +10,8 @@ public class SolidityFunction {
     private final String signature;
 
     SolidityFunction(String selector, String signature) {
-        checkNotNull(selector, "Expected not-null selector");
-        checkNotNull(signature, "Expected not-null signature");
+        requireNonNull(selector, "Expected not-null selector");
+        requireNonNull(signature, "Expected not-null signature");
         this.selector = selector;
         this.signature = signature;
     }

@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
     <!-- this is header -->
@@ -12,16 +12,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-        <link rel="stylesheet" type="text/css"
-              th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}"
-              href="webjars/bootstrap/4.0.0/css/bootstrap.min.css"/>
-
-        <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
-        <script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+        <link rel="stylesheet"
+              th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link rel="stylesheet" th:href="@{/css/main.css}"
               href="/css/main.css"/>
+        <link rel="stylesheet" th:href="@{/css/sticky-footer.css}"
+              href="/css/sticky-footer.css"/>
 
+        <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+        <script th:src="@{/webjars/font-awesome/5.6.3/js/fontawesome.js}"></script>
     </div>
 </head>
 <body>
@@ -36,6 +37,9 @@
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link" th:href="@{/bytecode}">Identify bytecode</a>
                 <a class="nav-item nav-link" th:href="@{/solidity}">Upload solidity</a>
+                <!--<div ">-->
+                <a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+                <!--</div>-->
             </div>
         </div>
     </nav>

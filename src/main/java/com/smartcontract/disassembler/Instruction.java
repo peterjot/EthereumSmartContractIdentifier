@@ -2,7 +2,7 @@ package com.smartcontract.disassembler;
 
 import java.util.Objects;
 
-import static com.smartcontract.Util.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 
 public class Instruction {
@@ -11,13 +11,13 @@ public class Instruction {
     private final String hexParameters;
 
     public boolean hasMnemonic(String mnemonic) {
-        checkNotNull(mnemonic, "Expected not-null mnemonic");
+        requireNonNull(mnemonic, "Expected not-null mnemonic");
         return opcode.hasMnemonic(mnemonic);
     }
 
     Instruction(Opcode opcode, String hexParameters) {
-        checkNotNull(opcode, "Expected not-null opcode");
-        checkNotNull(hexParameters, "Expected not-null hexParameters");
+        requireNonNull(opcode, "Expected not-null opcode");
+        requireNonNull(hexParameters, "Expected not-null hexParameters");
         this.opcode = opcode;
         this.hexParameters = hexParameters;
     }

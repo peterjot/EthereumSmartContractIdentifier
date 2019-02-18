@@ -25,10 +25,11 @@ public class SolidityServiceTest {
     @MockBean
     private SolidityFileRepository solidityFileRepository;
     private SolidityService solidityService;
+    private SolidityParser solidityParser = new SolidityParser();
 
     @Before
     public void setUp() {
-        solidityService = new SolidityService(solidityFileRepository);
+        solidityService = new SolidityService(solidityFileRepository, solidityParser);
     }
 
 
