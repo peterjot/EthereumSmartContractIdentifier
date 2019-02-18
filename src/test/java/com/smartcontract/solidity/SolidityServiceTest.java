@@ -166,7 +166,7 @@ public class SolidityServiceTest {
     }
 
     @Test
-    public void diffrentArrays() throws Exception {
+    public void shouldFindFunctionsWithDiffrentArrayParameters() throws Exception {
         //given
         Set<SolidityFunction> expectedSolidityFunctions = new HashSet<SolidityFunction>() {{
             add(new SolidityFunction("07e6cb8a", "mymap5(uint256,uint256,uint256)"));
@@ -191,7 +191,7 @@ public class SolidityServiceTest {
     }
 
     @Test
-    public void test6() throws Exception {
+    public void shouldFindFunctionWithDifferentModifiers() throws Exception {
         //given
         Set<SolidityFunction> expectedSolidityFunctions = new HashSet<>(Arrays.asList(
                 new SolidityFunction("3e3ee859", "NewQuestion(string,bytes32)"),
