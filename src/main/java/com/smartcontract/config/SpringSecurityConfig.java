@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -18,14 +19,15 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Configuration
+@PropertySource("classpath:application.properties")
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final Logger LOGGER = getLogger(SpringSecurityConfig.class);
 
-//    @Value("${admin.login}")
-    private String adminLogin = "admin";
-//    @Value("${admin.password}")
-    private String adminPassword = "admin";
+    @Value("${admin.login}")
+    private String adminLogin;
+    @Value("${admin.password}")
+    private String adminPassword;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
