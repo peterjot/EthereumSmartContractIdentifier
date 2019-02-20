@@ -63,6 +63,7 @@ public class SolidityController {
         Optional<String> sourceCodeByHash = solidityService.findSourceCodeByHash(fileHash);
         if (sourceCodeByHash.isPresent()) {
             model.addAttribute("sourceCode", sourceCodeByHash.get());
+            model.addAttribute("sourceCodeHash", fileHash);
         } else {
             model.addAttribute("sourceCode", "Source code not found");
         }

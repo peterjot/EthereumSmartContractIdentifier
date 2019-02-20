@@ -11,9 +11,16 @@
 <th:block th:include="fragments/header :: navbar"/>
 
 <main role="main" class="container">
-    <pre>
-        <code class="solidity"><th:block th:text="${sourceCode}">Implementation not found</th:block></code>
-    </pre>
+    <div class="row mt-2 ml-4">
+        <a th:href="@{'/api/solidityFiles/sourceCode/'+${sourceCodeHash}+'.sol'}" download class="btn btn-info">
+            Download file
+        </a>
+    </div>
+    <div class="row">
+        <pre>
+            <code class="solidity"><th:block th:text="${sourceCode}">Implementation not found</th:block></code>
+        </pre>
+    </div>
 </main>
 
 <th:block th:include="fragments/footer :: footer"/>

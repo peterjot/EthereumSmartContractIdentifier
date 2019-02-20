@@ -58,8 +58,8 @@ public class SolidityApiController {
         return ResponseEntity.ok(solidityService.save(sourceCode));
     }
 
-    @GetMapping(value = "/solidityFiles/sourceCode", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> getSourceCodeByHash(@RequestParam("fileHash") String fileHash) {
+    @GetMapping(value = "/solidityFiles/sourceCode/{fileHash}.sol", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> getSourceCodeByHash(@PathVariable("fileHash") String fileHash) {
         requireNonNull(fileHash, "Expected not-null fileHash");
 
         Optional<String> sourceCodeByHash = solidityService.findSourceCodeByHash(fileHash);

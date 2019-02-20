@@ -3,6 +3,7 @@ package com.smartcontract.config;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,10 +22,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final Logger LOGGER = getLogger(SpringSecurityConfig.class);
 
-    @Value("${admin.login}")
-    private String adminLogin;
-    @Value("${admin.password}")
-    private String adminPassword;
+//    @Value("${admin.login}")
+    private String adminLogin = "admin";
+//    @Value("${admin.password}")
+    private String adminPassword = "admin";
 
     @Autowired
     private PasswordEncoder passwordEncoder;
