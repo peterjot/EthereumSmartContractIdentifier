@@ -3,7 +3,7 @@ package com.smartcontract.disassembler;
 
 import static java.util.Objects.requireNonNull;
 
-enum Opcode {
+public enum Opcode {
 
     STOP(0x00, 0, "Halts execution."),
     ADD(0x01, 0, "Addition operation."),
@@ -136,16 +136,17 @@ enum Opcode {
     LOG3(0xA3, 0, "Append log record with three topics."),
     LOG4(0xA4, 0, "Append log record with four topics."),
 
-    CREATE(0x0, 0, "Create a new account with associated code."),
-    CALL(0x0, 0, "Message-call into an account."),
-    CALLCODE(0x0, 0, "Message-call into this account with alternative account's code."),
-    RETURN(0x0, 0, "Halt execution returning output data."),
-    DELEGATECALL(0x0, 0, "Message-call into this account with an alternative account's code, but persisting into this account with an alternative account's code."),
-    STATICCALL(0x0, 0, "Static message-call into an account."),
-    REVERT(0x0, 0, "Stop execution and revert state changes, without consuming all provided gas and providing a reason."),
-    INVALID(0x0, 0, "Designated invalid instruction"),
-    SELFDESTRUCT(0x0, 0, "Halt execution and register account for later deletion."),
-    UNKNOWNCODE(0x0, 0, "Unknown code");
+    CREATE(0xF0, 0, "Create a new account with associated code."),
+    CALL(0xF1, 0, "Message-call into an account."),
+    CALLCODE(0xF2, 0, "Message-call into this account with alternative account's code."),
+    RETURN(0xF3, 0, "Halt execution returning output data."),
+    DELEGATECALL(0xF4, 0, "Message-call into this account with an alternative account's code, but persisting into this account with an alternative account's code."),
+    STATICCALL(0xFA, 0, "Static message-call into an account."),
+    REVERT(0xFD, 0, "Stop execution and revert state changes, without consuming all provided gas and providing a reason."),
+    INVALID(0xFE, 0, "Designated invalid instruction"),
+    SELFDESTRUCT(0xFF, 0, "Halt execution and register account for later deletion."),
+
+    UNKNOWNCODE(0xFFFFF, 0, "Unknown code");
 
     private final int hexValue;
     private final int operandSize;
@@ -174,7 +175,7 @@ enum Opcode {
     @Override
     public String toString() {
         return "Opcode{" +
-                "hexValue=" + hexValue +
+                "hexValue=" + String.format("%02X", hexValue) +
                 ", operandSize=" + operandSize +
                 ", description='" + description + '\'' +
                 '}';

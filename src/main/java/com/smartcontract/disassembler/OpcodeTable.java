@@ -15,12 +15,13 @@ class OpcodeTable {
     private static final Map<Integer, Opcode> opcodes =
             unmodifiableMap(new HashMap<Integer, Opcode>() {{
                 for (Opcode opcode : Opcode.values()) {
-                    put(opcode.getHexValue(), opcode);
+                    if (!opcode.equals(Opcode.UNKNOWNCODE))
+                        put(opcode.getHexValue(), opcode);
                 }
             }});
 
     static Opcode getOpcodeByHex(String stringHex) {
-        if(stringHex.length() != 2){
+        if (stringHex.length() != 2) {
             throw new IllegalArgumentException("Expected length=2 stringHex");
         }
         return getOpcodeByHex(Integer.parseInt(stringHex, 16));

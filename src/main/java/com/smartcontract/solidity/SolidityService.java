@@ -46,7 +46,7 @@ public class SolidityService {
         return solidityFileRepository.findAll();
     }
 
-    public List<SolidityFile> findSolidityFilesBySelectorIn(Set<String> functionSelector) {
+    public List<SolidityFile> findSolidityFilesBySelectorIn(List<String> functionSelector) {
         requireNonNull(functionSelector, "Expected not-null functionSelector");
         return solidityFileRepository.findSolidityFilesBySelectorContainsAll(functionSelector);
     }

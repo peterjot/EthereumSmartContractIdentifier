@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +41,7 @@ public class BytecodeService {
     public List<IdentifiedSolidityFileDto> findTop10FileHashesWithValueOfMatch(String bytecode) {
         requireNonNull(bytecode, "Expected not-null bytecode");
 
-        Set<String> functionSelectors = findFunctionSelectors(bytecode);
+        List<String> functionSelectors = findFunctionSelectors(bytecode);
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
 
         return solidityService
@@ -57,7 +57,7 @@ public class BytecodeService {
     public List<IdentifiedSolidityFileDto> findAllFileHashesWithValueOfMatch(String bytecode) {
         requireNonNull(bytecode, "Expected not-null bytecode");
 
-        Set<String> functionSelectors = findFunctionSelectors(bytecode);
+        List<String> functionSelectors = findFunctionSelectors(bytecode);
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
 
         return solidityService
@@ -68,10 +68,10 @@ public class BytecodeService {
                 .collect(toList());
     }
 
-    private Set<String> findFunctionSelectors(String bytecode) {
+    private List<String> findFunctionSelectors(String bytecode) {
         List<Instruction> instructions = disassembler.disassembly(bytecode);
 
-        Set<String> functionSelector = new HashSet<>();
+        List<String> functionSelector = new ArrayList<>();
         for (int i = 0; i < instructions.size() - 2; i++) {
             Instruction first = instructions.get(i);
             Instruction second = instructions.get(i + 1);
@@ -79,6 +79,7 @@ public class BytecodeService {
 
             boolean isFunctionSchemeFound =
                     first.hasMnemonic(PUSH_4_MNEMONIC) && second.hasMnemonic(EQ_MNEMONIC) && third.hasMnemonic(PUSH_2_MNEMONIC);
+
             if (isFunctionSchemeFound) {
                 functionSelector.add(first.getHexParameters());
             }
@@ -86,7 +87,7 @@ public class BytecodeService {
         return functionSelector;
     }
 
-    private IdentifiedSolidityFileDto getSelectorWithMatchValue(Set<String> bytecodeSelectors, SolidityFile solidityFile) {
+    private IdentifiedSolidityFileDto getSelectorWithMatchValue(List<String> bytecodeSelectors, SolidityFile solidityFile) {
         String sourceCodeHash = solidityFile.getSourceCodeHash();
         Set<SolidityFunction> solidityFunctions = solidityFile.getSolidityFunctions();
 

@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1011e5dd-cf81-4eb5-ad9e-57f6628a34a2" name="Default Changelist" comment="" />
+    <list default="true" id="1011e5dd-cf81-4eb5-ad9e-57f6628a34a2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/smartcontract/config/SpringSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smartcontract/config/SpringSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Disassembler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Disassembler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Opcode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Opcode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/OpcodeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/OpcodeTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityFileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/bytecode-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/bytecode-page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/smartcontract/solidity/SolidityFileRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/smartcontract/solidity/SolidityFileRepositoryTest.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +30,9 @@
         <counts>
           <entry key="class" value="2" />
           <entry key="css" value="4" />
-          <entry key="html" value="6" />
-          <entry key="java" value="5" />
+          <entry key="gitignore" value="1" />
+          <entry key="html" value="7" />
+          <entry key="java" value="24" />
           <entry key="properties" value="2" />
           <entry key="xml" value="2" />
         </counts>
@@ -28,8 +41,9 @@
         <counts>
           <entry key="CLASS" value="2" />
           <entry key="CSS" value="4" />
-          <entry key="HTML" value="6" />
-          <entry key="JAVA" value="5" />
+          <entry key="HTML" value="7" />
+          <entry key="JAVA" value="24" />
+          <entry key="PLAIN_TEXT" value="1" />
           <entry key="Properties" value="2" />
           <entry key="XML" value="2" />
         </counts>
@@ -37,8 +51,9 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="3" />
-          <entry key="html" value="100" />
-          <entry key="java" value="45" />
+          <entry key="gitignore" value="1" />
+          <entry key="html" value="101" />
+          <entry key="java" value="407" />
           <entry key="properties" value="69" />
           <entry key="txt" value="40" />
           <entry key="xml" value="6" />
@@ -47,18 +62,20 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="3" />
-          <entry key="HTML" value="100" />
-          <entry key="JAVA" value="45" />
-          <entry key="PLAIN_TEXT" value="40" />
+          <entry key="HTML" value="101" />
+          <entry key="JAVA" value="407" />
+          <entry key="PLAIN_TEXT" value="41" />
           <entry key="Properties" value="69" />
           <entry key="XML" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.13" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
     </session>
@@ -68,104 +85,99 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/bytecode-page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
-              <folding>
-                <element signature="n#style#0;n#form#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="219">
+              <caret line="64" column="16" lean-forward="true" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/index.html">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/config/SpringSecurityConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
+            <state relative-caret-position="136">
+              <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/solidity-page.html">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="13" column="56" lean-forward="true" selection-start-line="13" selection-start-column="56" selection-end-line="13" selection-end-column="56" />
+            <state relative-caret-position="256">
+              <caret line="48" column="38" selection-start-line="48" selection-start-column="38" selection-end-line="48" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="185">
+              <caret line="53" column="10" lean-forward="true" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/footer.html">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="32" column="30" lean-forward="true" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+            <state relative-caret-position="259">
+              <caret line="74" column="8" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/webjars/bootstrap/4.2.1/bootstrap-4.2.1.jar!/META-INF/resources/webjars/bootstrap/4.2.1/css/bootstrap.css">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/HexStringIterator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="405" column="7" selection-start-line="405" selection-start-column="7" selection-end-line="405" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/webjars/bootstrap/4.2.1/bootstrap-4.2.1.jar!/META-INF/resources/webjars/bootstrap/4.2.1/css/bootstrap.min-jsf.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="5" column="4699" selection-start-line="5" selection-start-column="4699" selection-end-line="5" selection-end-column="4699" />
+            <state relative-caret-position="340">
+              <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
               <folding>
-                <element signature="e#25977#26211#2" expanded="true" />
-                <element signature="e#26816#26969#1" expanded="true" />
-                <element signature="e#27009#27243#1" expanded="true" />
-                <element signature="e#30336#30612#2" expanded="true" />
-                <element signature="e#31245#31398#1" expanded="true" />
-                <element signature="e#31438#31714#1" expanded="true" />
-                <element signature="e#61310#61497#2" expanded="true" />
-                <element signature="e#61726#61862#2" expanded="true" />
-                <element signature="e#62265#62398#2" expanded="true" />
-                <element signature="e#63869#64022#1" expanded="true" />
-                <element signature="e#76076#76306#2" expanded="true" />
-                <element signature="e#77173#77409#2" expanded="true" />
-                <element signature="e#104435#104612#2" expanded="true" />
-                <element signature="e#104658#104835#2" expanded="true" />
+                <element signature="e#231#232#0" expanded="true" />
+                <element signature="e#271#272#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/main.css">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/sticky-footer.css">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/OpcodeTable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+            <state relative-caret-position="140">
+              <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.9.RELEASE/spring-beans-5.0.9.RELEASE-sources.jar!/org/springframework/beans/factory/annotation/Value.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityFileRepository.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+            <state relative-caret-position="136">
+              <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.5.RELEASE/spring-boot-2.0.5.RELEASE-sources.jar!/org/springframework/boot/context/properties/EnableConfigurationProperties.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Opcode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="39" column="18" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+            <state relative-caret-position="188">
+              <caret line="166" column="15" selection-start-line="166" selection-start-column="15" selection-end-line="166" selection-end-column="15" />
+              <folding>
+                <element signature="e#8563#8564#0" expanded="true" />
+                <element signature="e#8594#8595#0" expanded="true" />
+                <element signature="e#8629#8630#0" expanded="true" />
+                <element signature="e#8663#8664#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -175,6 +187,15 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>Admin account</find>
+      <find>operandSize=2</find>
+      <find>PUSH4</find>
+      <find>Integer.</find>
+      <find>.next()</find>
+      <find>implementation</find>
+      <find>.key</find>
+      <find>.value</find>
+      <find>.fileHash</find>
+      <find>sha</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -184,11 +205,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/Pair.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/HexBytecodeIterator.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/smartcontract/disassembler/DisassemblerTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/smartcontract/solidity/SolidityParserTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityFileRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/Util.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/solidity.js" />
         <option value="$PROJECT_DIR$/src/main/resources/static/highlight/solidity.js" />
@@ -202,19 +221,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/IdentifiedSolidityFileDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/config/MvcConfig.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Disassembler.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/HexStringIterator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Opcode.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Instruction.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityFunction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityParser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/MainController.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/smartcontract/solidity/SolidityFileRepositoryTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/OpcodeTable.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/smartcontract/solidity/SolidityServiceTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/LoginController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/index.html" />
@@ -227,13 +240,21 @@
         <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/api/SolidityApiController.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/login.html" />
-        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/config/SpringSecurityConfig.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/test/resources/application.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/static/css/sticky-footer.css" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/solidity-page.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/bytecode-page.html" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/footer.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/static/css/sticky-footer.css" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityFileRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/smartcontract/solidity/SolidityFileRepositoryTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Disassembler.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/bytecode-page.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/config/SpringSecurityConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Opcode.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/OpcodeTable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeService.java" />
       </list>
     </option>
   </component>
@@ -259,10 +280,9 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="95" />
-    <option name="y" value="15" />
-    <option name="width" value="1723" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-7" />
+    <option name="width" value="1552" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -282,11 +302,6 @@
             <path>
               <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
               <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -309,15 +324,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="smartcontract" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartcontract" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
@@ -335,15 +341,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="smartcontract" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartcontract" type="462c0819:PsiDirectoryNode" />
               <item name="disassembler" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -354,106 +351,6 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="smartcontract" type="462c0819:PsiDirectoryNode" />
               <item name="solidity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="fragments" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartcontract" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartcontract" type="462c0819:PsiDirectoryNode" />
-              <item name="disassembler" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartcontract" type="462c0819:PsiDirectoryNode" />
-              <item name="solidity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smart_contract" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contract-identifier" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -469,7 +366,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550673982458" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550681114446" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -689,6 +586,8 @@
       <workItem from="1549562215401" duration="24319000" />
       <workItem from="1550435641051" duration="24376000" />
       <workItem from="1550674304840" duration="605000" />
+      <workItem from="1550675262072" duration="52000" />
+      <workItem from="1550677739360" duration="3610000" />
     </task>
     <task id="LOCAL-00001" summary="Add download button">
       <created>1550670849749</created>
@@ -711,12 +610,12 @@
       <option name="project" value="LOCAL" />
       <updated>1550674904961</updated>
     </task>
-    <task id="LOCAL-00004" summary="Some refactore">
-      <created>1540500058189</created>
+    <task id="LOCAL-00004" summary="Fix footer heigh and bytecode text area width">
+      <created>1550675285386</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1540500058189</updated>
+      <updated>1550675285386</updated>
     </task>
     <task id="LOCAL-00005" summary="Refactoring">
       <created>1544403340032</created>
@@ -774,16 +673,17 @@
       <option name="project" value="LOCAL" />
       <updated>1547985835187</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="283571000" />
+    <option name="totallyTimeSpent" value="287233000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="0" width="1552" height="1047" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22867803" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28753352" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -793,15 +693,15 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49573562" weight="0.45119306" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8672922" weight="0.5279299" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.329718" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49413645" visible="true" weight="0.3286334" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50586355" side_tool="true" visible="true" weight="0.3286334" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.4989339" weight="0.3253796" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49262735" visible="true" weight="0.32858709" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5073727" side_tool="true" visible="true" weight="0.32858709" />
+      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49840087" weight="0.3253796" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="13" weight="0.329718" />
@@ -815,7 +715,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="right" id="Maven Projects" order="5" visible="true" weight="0.18176973" />
+      <window_info anchor="right" id="Maven Projects" order="5" visible="true" weight="0.03686327" />
       <window_info anchor="right" id="Database" order="6" weight="0.32995737" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
@@ -862,15 +762,35 @@
     <MESSAGE value="Fix footer heigh and bytecode text area width" />
     <option name="LAST_COMMIT_MESSAGE" value="Fix footer heigh and bytecode text area width" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeController.java</url>
+          <line>43</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeController.java</url>
+          <line>45</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityService.java</url>
+          <line>50</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/api/SolidityApiController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-92">
           <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-          <folding>
-            <element signature="e#2787#2788#0" expanded="true" />
-            <element signature="e#2859#2860#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -888,31 +808,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="59" column="43" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/ErrorController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="15" column="38" lean-forward="true" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="64" column="69" selection-start-line="64" selection-start-column="69" selection-end-line="64" selection-end-column="69" />
         </state>
       </provider>
     </entry>
@@ -934,9 +833,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -961,40 +857,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/config/SpringSecurityConfig.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        <state relative-caret-position="272">
+          <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/main.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/sticky-footer.css">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/solidity-page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+        <state relative-caret-position="221">
+          <caret line="13" column="56" selection-start-line="13" selection-start-column="56" selection-end-line="13" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.9.RELEASE/spring-beans-5.0.9.RELEASE-sources.jar!/org/springframework/beans/factory/annotation/Value.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/footer.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+        <state relative-caret-position="544">
+          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.5.RELEASE/spring-boot-2.0.5.RELEASE-sources.jar!/org/springframework/boot/context/properties/EnableConfigurationProperties.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/webjars/bootstrap/4.2.1/bootstrap-4.2.1.jar!/META-INF/resources/webjars/bootstrap/4.2.1/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="39" column="18" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+        <state relative-caret-position="6885">
+          <caret line="405" column="7" selection-start-line="405" selection-start-column="7" selection-end-line="405" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/webjars/bootstrap/4.2.1/bootstrap-4.2.1.jar!/META-INF/resources/webjars/bootstrap/4.2.1/css/bootstrap.min-jsf.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
+        <state relative-caret-position="153">
           <caret line="5" column="4699" selection-start-line="5" selection-start-column="4699" selection-end-line="5" selection-end-column="4699" />
           <folding>
             <element signature="e#25977#26211#2" expanded="true" />
@@ -1015,41 +908,155 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/webjars/bootstrap/4.2.1/bootstrap-4.2.1.jar!/META-INF/resources/webjars/bootstrap/4.2.1/css/bootstrap.css">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/main.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.9.RELEASE/spring-beans-5.0.9.RELEASE-sources.jar!/org/springframework/beans/factory/annotation/Value.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="405" column="7" selection-start-line="405" selection-start-column="7" selection-end-line="405" selection-end-column="7" />
+        <state relative-caret-position="612">
+          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/index.html">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.5.RELEASE/spring-boot-2.0.5.RELEASE-sources.jar!/org/springframework/boot/context/properties/EnableConfigurationProperties.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
+        <state relative-caret-position="306">
+          <caret line="39" column="18" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/sticky-footer.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/smartcontract/solidity/SolidityFileRepositoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="118" column="11" lean-forward="true" selection-start-line="118" selection-start-column="11" selection-end-line="118" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Instruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+          <folding>
+            <element signature="e#889#890#0" expanded="true" />
+            <element signature="e#918#919#0" expanded="true" />
+            <element signature="e#958#959#0" expanded="true" />
+            <element signature="e#994#995#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Disassembler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="81" column="43" selection-start-line="81" selection-start-column="43" selection-end-line="81" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="41" column="20" lean-forward="true" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/IdentifiedSolidityFileDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/bytecode-page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+        <state relative-caret-position="219">
+          <caret line="64" column="16" lean-forward="true" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="53" column="10" lean-forward="true" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/config/SpringSecurityConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/HexStringIterator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
           <folding>
-            <element signature="n#style#0;n#form#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#231#232#0" expanded="true" />
+            <element signature="e#271#272#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/solidity-page.html">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="13" column="56" lean-forward="true" selection-start-line="13" selection-start-column="56" selection-end-line="13" selection-end-column="56" />
+        <state relative-caret-position="289">
+          <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/footer.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/Opcode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="32" column="30" lean-forward="true" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+        <state relative-caret-position="188">
+          <caret line="166" column="15" selection-start-line="166" selection-start-column="15" selection-end-line="166" selection-end-column="15" />
+          <folding>
+            <element signature="e#8563#8564#0" expanded="true" />
+            <element signature="e#8594#8595#0" expanded="true" />
+            <element signature="e#8629#8630#0" expanded="true" />
+            <element signature="e#8663#8664#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/disassembler/OpcodeTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityFileRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/solidity/SolidityService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="48" column="38" selection-start-line="48" selection-start-column="38" selection-end-line="48" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartcontract/bytecode/BytecodeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="74" column="8" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
         </state>
       </provider>
     </entry>

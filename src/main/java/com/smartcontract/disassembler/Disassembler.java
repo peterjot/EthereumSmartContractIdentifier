@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.smartcontract.disassembler.OpcodeTable.getOpcodeByHex;
+import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 
 @Component
@@ -27,7 +28,7 @@ public class Disassembler {
             String instructionParameter = getInstructionOperand(opcode.getOperandSize(), hexStringIterator);
             instructions.add(new Instruction(opcode, instructionParameter.toLowerCase()));
         }
-        return instructions;
+        return unmodifiableList(instructions);
     }
 
     private String getValidBytecode(String bytecode) {
@@ -46,7 +47,7 @@ public class Disassembler {
 
         int i = operandSize;
         while (iterator.hasNext() && i > 0) {
-            stringBuilder.append(iterator.next());
+            stringBuilder.append(String.format("%02X", iterator.next()));
             i--;
         }
         stringBuilder.append(StringUtils.repeat("0", i * 2));

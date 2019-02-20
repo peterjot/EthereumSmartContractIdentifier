@@ -3,7 +3,6 @@ package com.smartcontract.config;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -43,18 +42,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/bytecode/**",
                         "/api/bytecode/**",
                         "/api/solidityFiles/sourceCode",
+                        "/solidity/sourceCode/**",
                         "/login",
                         "/swagger-ui.html",
                         "/webjars/**", "/css/**", "/js/**", "/highlight/**").permitAll()
                 .anyRequest().authenticated()
-                    .and()
+                .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .and()
+                .loginPage("/login")
+                .permitAll()
+                .and()
                 .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/");
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
     }
 
 

@@ -6,13 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 interface SolidityFileRepository extends MongoRepository<SolidityFile, String> {
 
     @Query("{\"solidityFunctions\": {$elemMatch: {\"selector\": {$in: ?0}}}}")
-    List<SolidityFile> findSolidityFilesBySelectorContainsAll(Set<String> functionSelector);
+    List<SolidityFile> findSolidityFilesBySelectorContainsAll(List<String> functionSelector);
 
     Optional<SolidityFile> findBySourceCodeHash(String sourceCodeHash);
 }

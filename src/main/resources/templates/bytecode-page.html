@@ -56,10 +56,10 @@
         <tr>
             <td th:text="${iterator.count}"></td>
             <td>
-                <a th:href="@{'/solidity/sourceCode?fileHash='+${implementationWithValueOfMatch.key}}"
-                    th:target="_blank"><code th:text="${implementationWithValueOfMatch.key}"></code></a>
+                <a th:href="@{'/solidity/sourceCode?fileHash='+${implementationWithValueOfMatch.fileHash}}"
+                    th:target="_blank"><code th:text="${implementationWithValueOfMatch.fileHash}"></code></a>
             </td>
-            <td th:text="${#numbers.formatPercent(implementationWithValueOfMatch.value,1,2)}">></td>
+            <td th:text="${#numbers.formatPercent(implementationWithValueOfMatch.valueOfMatch,1,2)}">></td>
         </tr>
         </th:block>
         </tbody>

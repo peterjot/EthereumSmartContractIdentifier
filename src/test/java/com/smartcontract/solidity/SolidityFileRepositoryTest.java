@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -113,7 +114,7 @@ public class SolidityFileRepositoryTest {
                 expectedSolidityFunctions
         );
         solidityFileRepository.save(solidityFile);
-        final HashSet<String> functionSelector = new HashSet<String>() {{
+        final List<String> functionSelector = new ArrayList<String>() {{
             add("dsap");
         }};
 
