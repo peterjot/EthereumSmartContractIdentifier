@@ -59,7 +59,7 @@ public class SolidityServiceTest {
 
     @Test
     @Ignore
-    //TODO: W przypadku jednego pliku z wieloma kontraktami, jest wyszukiwanych wiecej nic w bytekodzie
+    //TODO: Need separate contracts from one file
     public void shouldFindOnlyFunctionsUsedByMainContract() throws Exception {
         //given
         Set<SolidityFunction> expectedSolidityFunctions = new HashSet<SolidityFunction>() {{

@@ -172,6 +172,10 @@ public enum Opcode {
         return operandSize;
     }
 
+    public String getMnemonic(){
+        return this.name();
+    }
+
     @Override
     public String toString() {
         return "Opcode{" +

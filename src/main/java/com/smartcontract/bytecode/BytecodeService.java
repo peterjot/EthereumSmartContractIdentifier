@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.smartcontract.disassembler.Opcode.*;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -21,14 +22,12 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Service
 public class BytecodeService {
 
-    private static final String PUSH_4_MNEMONIC = "PUSH4";
-    private static final String EQ_MNEMONIC = "EQ";
-    private static final String PUSH_2_MNEMONIC = "PUSH2";
     private static final Logger LOGGER = getLogger(BytecodeService.class);
     private static final int RESULT_LIMIT = 10;
 
     private final SolidityService solidityService;
     private final Disassembler disassembler;
+
 
     @Autowired
     public BytecodeService(SolidityService solidityService, Disassembler disassembler) {
@@ -47,7 +46,7 @@ public class BytecodeService {
         return solidityService
                 .findSolidityFilesBySelectorIn(functionSelectors)
                 .stream()
-                .map(solidityFile -> getSelectorWithMatchValue(functionSelectors, solidityFile))
+                .map(solidityFile -> getIdentifiedSolidityFileWithMatchValue(functionSelectors, solidityFile))
                 .sorted((pair1, pair2) -> Double.compare(pair2.getValueOfMatch(), pair1.getValueOfMatch()))
                 .limit(RESULT_LIMIT)
                 .collect(toList());
@@ -63,7 +62,7 @@ public class BytecodeService {
         return solidityService
                 .findSolidityFilesBySelectorIn(functionSelectors)
                 .stream()
-                .map(solidityFile -> getSelectorWithMatchValue(functionSelectors, solidityFile))
+                .map(solidityFile -> getIdentifiedSolidityFileWithMatchValue(functionSelectors, solidityFile))
                 .sorted((pair1, pair2) -> Double.compare(pair2.getValueOfMatch(), pair1.getValueOfMatch()))
                 .collect(toList());
     }
@@ -78,7 +77,9 @@ public class BytecodeService {
             Instruction third = instructions.get(i + 2);
 
             boolean isFunctionSchemeFound =
-                    first.hasMnemonic(PUSH_4_MNEMONIC) && second.hasMnemonic(EQ_MNEMONIC) && third.hasMnemonic(PUSH_2_MNEMONIC);
+                    first.hasMnemonic(PUSH4.getMnemonic())
+                            && second.hasMnemonic(EQ.getMnemonic())
+                            && third.hasMnemonic(PUSH2.getMnemonic());
 
             if (isFunctionSchemeFound) {
                 functionSelectors.add(first.getHexParameters());
@@ -87,25 +88,28 @@ public class BytecodeService {
         return functionSelectors;
     }
 
-    private IdentifiedSolidityFileDto getSelectorWithMatchValue(List<String> bytecodeSelectors, SolidityFile solidityFile) {
+    private IdentifiedSolidityFileDto getIdentifiedSolidityFileWithMatchValue(List<String> bytecodeSelectors, SolidityFile solidityFile) {
         String sourceCodeHash = solidityFile.getSourceCodeHash();
         Set<SolidityFunction> solidityFunctions = solidityFile.getSolidityFunctions();
 
         if (solidityFunctions.size() <= 0) {
-            return new IdentifiedSolidityFileDto(sourceCodeHash, 0D);
+            return new IdentifiedSolidityFileDto(sourceCodeHash);
         }
 
-        long numberOfMatches = solidityFunctions
+        long numberOfMatches = getNumberOfMatches(bytecodeSelectors, solidityFunctions);
+        double percentOfMatch = calculatePercentOfMatch(bytecodeSelectors, solidityFunctions, numberOfMatches);
+
+        return new IdentifiedSolidityFileDto(sourceCodeHash, percentOfMatch);
+    }
+
+    private long getNumberOfMatches(List<String> bytecodeSelectors, Set<SolidityFunction> solidityFunctions) {
+        return solidityFunctions
                 .stream()
                 .map(SolidityFunction::getSelector)
                 .filter(bytecodeSelectors::contains).count();
+    }
 
-        double percentOfMatch =
-                2 * numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size());
-
-        LOGGER.info("Matched functions: {}", numberOfMatches);
-        LOGGER.info("Functions in solidity file hash: {}, size: {}", solidityFile.getSourceCodeHash(), solidityFunctions.size());
-
-        return new IdentifiedSolidityFileDto(sourceCodeHash, percentOfMatch);
+    private double calculatePercentOfMatch(List<String> bytecodeSelectors, Set<SolidityFunction> solidityFunctions, long numberOfMatches) {
+        return 2 * numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size());
     }
 }

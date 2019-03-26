@@ -17,10 +17,10 @@ import static java.util.Objects.requireNonNull;
 
 
 @Controller
-@RequestMapping("/bytecode")
 public class BytecodeController {
 
     private final BytecodeService bytecodeService;
+
 
     @Autowired
     public BytecodeController(BytecodeService bytecodeService) {
@@ -28,7 +28,7 @@ public class BytecodeController {
         this.bytecodeService = bytecodeService;
     }
 
-    @PostMapping
+    @PostMapping("/bytecode")
     public String findTop10FileHashesByBytecode(
             @RequestParam(value = "bytecode") String bytecode,
             @RequestParam(value = "allFiles") boolean allFiles,
@@ -54,12 +54,11 @@ public class BytecodeController {
         return "bytecode-page";
     }
 
-    @GetMapping
+    @GetMapping("/bytecode")
     public String showPage(Model model) {
         requireNonNull(model, "Expected not-null model");
 
         model.addAttribute("implementationsWithValueOfMatch", new HashMap<>());
         return "bytecode-page";
     }
-
 }

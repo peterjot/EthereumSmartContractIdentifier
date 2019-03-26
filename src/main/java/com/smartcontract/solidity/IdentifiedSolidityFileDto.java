@@ -11,6 +11,11 @@ public class IdentifiedSolidityFileDto {
         this.valueOfMatch = valueOfMatch;
     }
 
+    public IdentifiedSolidityFileDto(String fileHash) {
+        this.fileHash = fileHash;
+        this.valueOfMatch = 0D;
+    }
+
     public String getFileHash() {
         return fileHash;
     }

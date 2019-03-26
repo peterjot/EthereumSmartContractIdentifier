@@ -7,6 +7,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.web3j.crypto.Hash.sha3String;
 
 public class SolidityParserTest {
 

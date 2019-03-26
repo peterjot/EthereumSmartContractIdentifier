@@ -10,11 +10,6 @@ public class Instruction {
     private final Opcode opcode;
     private final String hexParameters;
 
-    public boolean hasMnemonic(String mnemonic) {
-        requireNonNull(mnemonic, "Expected not-null mnemonic");
-        return opcode.hasMnemonic(mnemonic);
-    }
-
     Instruction(Opcode opcode, String hexParameters) {
         requireNonNull(opcode, "Expected not-null opcode");
         requireNonNull(hexParameters, "Expected not-null hexParameters");
@@ -22,12 +17,9 @@ public class Instruction {
         this.hexParameters = hexParameters;
     }
 
-    @Override
-    public String toString() {
-        return "Instruction{" +
-                "opcode=" + opcode +
-                ", hexParameters='" + hexParameters + '\'' +
-                '}';
+    public boolean hasMnemonic(String mnemonic) {
+        requireNonNull(mnemonic, "Expected not-null mnemonic");
+        return opcode.hasMnemonic(mnemonic);
     }
 
     public Opcode getOpcode() {
@@ -36,6 +28,14 @@ public class Instruction {
 
     public String getHexParameters() {
         return hexParameters;
+    }
+
+    @Override
+    public String toString() {
+        return "Instruction{" +
+                "opcode=" + opcode +
+                ", hexParameters='" + hexParameters + '\'' +
+                '}';
     }
 
     @Override

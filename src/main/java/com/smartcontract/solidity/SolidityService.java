@@ -20,7 +20,6 @@ import static org.web3j.crypto.Hash.sha3String;
 public class SolidityService {
 
     private static final Logger LOGGER = getLogger(SolidityService.class);
-    private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     private final SolidityParser solidityParser;
     private final SolidityFileRepository solidityFileRepository;
@@ -36,7 +35,6 @@ public class SolidityService {
     public Optional<String> findSourceCodeByHash(String _fileHash) {
         requireNonNull(_fileHash, "Expected not-null _fileHash");
         String fileHash = _fileHash.startsWith("0x") ? _fileHash : "0x" + _fileHash;
-
         return solidityFileRepository
                 .findBySourceCodeHash(fileHash)
                 .map(SolidityFile::getSourceCode);
@@ -51,34 +49,26 @@ public class SolidityService {
         return solidityFileRepository.findSolidityFilesBySelectorContainsAll(functionSelector);
     }
 
-    public long getSolidityFilesCount() {
-        return solidityFileRepository.count();
-    }
-
     public SolidityFile save(String sourceCode) throws IOException {
         requireNonNull(sourceCode, "Expected not-null sourceCode");
         return save(sourceCode.getBytes());
     }
 
+    long getSolidityFilesCount() {
+        return solidityFileRepository.count();
+    }
+
     SolidityFile save(byte[] sourceCodeBytes) throws IOException {
-        String sourceCode = new String(sourceCodeBytes, CHARSET);
+        String sourceCode = new String(sourceCodeBytes, StandardCharsets.UTF_8);
         String sourceCodeHash = sha3String(sourceCode);
-
         Set<SolidityFunction> functionsFromFile = findSolidityFunctionsFromSourceFile(new ByteArrayInputStream(sourceCodeBytes));
-
-        LOGGER.info("SourceCode hash: [{}]", sourceCodeHash);
-        LOGGER.info("SourceCode functions count: {}", functionsFromFile.size());
-
         return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, functionsFromFile));
     }
 
     Set<SolidityFunction> findSolidityFunctionsFromSourceFile(InputStream inputStream) throws IOException {
         requireNonNull(inputStream, "Expected not-null inputStream");
-
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
         Set<SolidityFunction> solidityFunctions = new HashSet<>();
-
         String line;
         while ((line = bufferedReader.readLine()) != null) {
             Optional<SolidityFunction> function = solidityParser.findFunctionInLine(line);

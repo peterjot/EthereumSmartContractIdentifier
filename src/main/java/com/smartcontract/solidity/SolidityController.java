@@ -16,7 +16,6 @@ import static java.util.Objects.requireNonNull;
 
 
 @Controller
-@RequestMapping("/solidity")
 public class SolidityController {
 
     private final SolidityService solidityService;
@@ -27,12 +26,20 @@ public class SolidityController {
         this.solidityService = solidityService;
     }
 
-    @GetMapping
+    @GetMapping("/")
+    public String showPage(Model model) {
+        requireNonNull(model, "Expected not-null model");
+
+        model.addAttribute("filesCount", solidityService.getSolidityFilesCount());
+        return "index";
+    }
+
+    @GetMapping("/solidity")
     public String showPage() {
         return "solidity-page";
     }
 
-    @PostMapping
+    @PostMapping("/solidity")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception {
         requireNonNull(file, "Expected not-null file");
         requireNonNull(model, "Expected not-null model");
@@ -44,7 +51,7 @@ public class SolidityController {
         return "solidity-page";
     }
 
-    @PostMapping("/text")
+    @PostMapping("/solidity/text")
     public String handleSourceCodeUpload(@RequestParam("sourceCode") String sourceCode, Model model) throws Exception {
         requireNonNull(sourceCode, "Expected not-null sourceCode");
         requireNonNull(model, "Expected not-null model");
@@ -56,7 +63,7 @@ public class SolidityController {
         return "solidity-page";
     }
 
-    @GetMapping(value = "/sourceCode", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "/solidity/sourceCode", produces = MediaType.TEXT_PLAIN_VALUE)
     public String getSourceCodeByHash(@RequestParam("fileHash") String fileHash, Model model) {
         requireNonNull(fileHash, "Expected not-null fileHash");
 

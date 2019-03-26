@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static com.smartcontract.solidity.SolidityPattern.*;
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableMap;
@@ -21,42 +21,6 @@ import static org.web3j.crypto.Hash.sha3String;
 class SolidityParser {
 
     private static final Logger LOGGER = getLogger(SolidityParser.class);
-
-    private static final Pattern FUNCTION_PATTERN = Pattern.compile(
-            "^\\s*function\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*([^(){}]*)\\s*\\)\\s*(?!.*(internal|private)).*$");
-    private static final int FUNCTION_NAME_GROUP_ID = 1;
-    private static final int FUNCTION_ARGUMENTS_GROUP_ID = 2;
-
-
-    private static final Pattern MAPPING_PUBLIC_VARIABLE_PATTERN = Pattern.compile(
-            "^\\s*mapping\\s*\\(\\s*([a-zA-Z][a-zA-Z]*)\\s*=>\\s*(.*)\\s*\\)\\s*public\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*(//.*)?$");
-    private static final int MAPPING_VARIABLE_KEY_GROUP_ID = 1;
-    private static final int MAPPING_VARIABLE_VALUE_GROUP_ID = 2;
-    private static final int MAPPING_VARIABLE_NAME_GROUP_ID = 3;
-
-
-    private static final Pattern MAPPING_PATTERN = Pattern.compile(
-            "^\\s*mapping\\s*\\(\\s*([a-zA-Z0-9][a-zA-Z0-9]*)\\s*=>\\s*(.*)\\s*\\)\\s*");
-    private static final int MAPPING_KEY_GROUP_ID = 1;
-    private static final int MAPPING_VALUE_GROUP_ID = 2;
-
-
-    private static final Pattern ARRAY_PUBLIC_VARIABLE_PATTERN = Pattern.compile(
-            "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[a-zA-Z0-9]*\\s*]\\s*)+)\\s*public\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*(//.*)?$");
-    private static final int ARRAY_PUBLIC_VALUE_GROUP_ID = 1;
-    private static final int ARRAY_PUBLIC_NAME_GROUP_ID = 3;
-
-
-    private static final Pattern ARRAY_PATTERN = Pattern.compile(
-            "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*((\\s*\\[\\s*[a-zA-Z0-9]*\\s*]\\s*)+)\\s*");
-    private static final int ARRAY_VALUE_GROUP_ID = 1;
-
-
-    private static final String VARIABLE_MODIFIER_REGEX = "\\bpublic|\\binternal|\\bprivate|\\bconstant";
-    private static final Pattern NORMAL_VARIABLE_PATTERN = Pattern.compile(
-            "^\\s*[a-zA-Z0-9][a-zA-Z0-9]*\\s*(" + VARIABLE_MODIFIER_REGEX + ")*\\s*public\\s*(" +
-                    VARIABLE_MODIFIER_REGEX + ")*\\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\\s*(=.*)?\\s*;+\\s*(//.*)?$");
-    private static final int NORMAL_VARIABLE_NAME_GROUP_ID = 3;
 
     private static final String CANONICAL_ARRAY_KEY_TYPE = "uint256";
 
@@ -87,7 +51,6 @@ class SolidityParser {
     private Optional<SolidityFunction> findFunctionSignature(String line) {
         Matcher matcher = FUNCTION_PATTERN.matcher(line);
         if (matcher.find()) {
-            LOGGER.info("Found function: {}", line);
             String functionName = matcher.group(FUNCTION_NAME_GROUP_ID);
             String functionArguments = matcher.group(FUNCTION_ARGUMENTS_GROUP_ID);
             String functionSignature = normalizeFunctionSignature(functionName, functionArguments);
@@ -121,20 +84,13 @@ class SolidityParser {
                 }
                 if (arrayMatcher.find()) {
                     String arrayValue = arrayMatcher.group(ARRAY_VALUE_GROUP_ID);
-
-                    int dimensionCount = getArrayDimensionCount(arrayValue);
-
-                    for (int i = 0; i < dimensionCount; i++) {
-                        canonicalMappingKeys.add(CANONICAL_ARRAY_KEY_TYPE);
-                    }
+                    List<String> arrayDimensionParameters = getArrayDimensionParameters(arrayValue);
+                    canonicalMappingKeys.addAll(arrayDimensionParameters);
                 }
                 break;
             }
-
-            LOGGER.info("MappingArgs: {}", canonicalMappingKeys);
             String functionSignature = mappingName + "(" + join(",", canonicalMappingKeys) + ")";
             String functionSelector = getFunctionSelector(functionSignature);
-
             return Optional.of(new SolidityFunction(functionSelector, functionSignature));
         }
         return Optional.empty();
@@ -144,20 +100,33 @@ class SolidityParser {
         Matcher matcher = ARRAY_PUBLIC_VARIABLE_PATTERN.matcher(line);
         if (matcher.find()) {
             LOGGER.info("Found public array variable: {}", line);
-
             String arrayName = matcher.group(ARRAY_PUBLIC_NAME_GROUP_ID);
             String arrayValue = matcher.group(ARRAY_PUBLIC_VALUE_GROUP_ID);
-
-            int dimensionCount = getArrayDimensionCount(arrayValue);
-
-            List<String> arrayArguments = new ArrayList<>();
-            for (int i = 0; i < dimensionCount; i++) {
-                arrayArguments.add(CANONICAL_ARRAY_KEY_TYPE);
-            }
-
+            List<String> arrayArguments = getArrayDimensionParameters(arrayValue);
             String functionSignature = arrayName + "(" + join(",", arrayArguments) + ")";
             String functionSelector = getFunctionSelector(functionSignature);
 
+            return Optional.of(new SolidityFunction(functionSelector, functionSignature));
+        }
+        return Optional.empty();
+    }
+
+    private List<String> getArrayDimensionParameters(String arrayValue) {
+        int dimensionCount = getArrayDimensionCount(arrayValue);
+        List<String> arrayArguments = new ArrayList<>();
+        for (int i = 0; i < dimensionCount; i++) {
+            arrayArguments.add(CANONICAL_ARRAY_KEY_TYPE);
+        }
+        return arrayArguments;
+    }
+
+    private Optional<SolidityFunction> findNormalVariableGetter(String line) {
+        Matcher matcher = NORMAL_VARIABLE_PATTERN.matcher(line);
+        if (matcher.find()) {
+            LOGGER.info("Found public normal variable: {}", line);
+            String variableName = matcher.group(NORMAL_VARIABLE_NAME_GROUP_ID);
+            String functionSignature = variableName + "()";
+            String functionSelector = getFunctionSelector(functionSignature);
             return Optional.of(new SolidityFunction(functionSelector, functionSignature));
         }
         return Optional.empty();
@@ -180,39 +149,26 @@ class SolidityParser {
         }
     }
 
-    private Optional<SolidityFunction> findNormalVariableGetter(String line) {
-        Matcher matcher = NORMAL_VARIABLE_PATTERN.matcher(line);
-        if (matcher.find()) {
-            LOGGER.info("Found public normal variable: {}", line);
-            String variableName = matcher.group(NORMAL_VARIABLE_NAME_GROUP_ID);
-
-            String functionSignature = variableName + "()";
-            String functionSelector = getFunctionSelector(functionSignature);
-
-            return Optional.of(new SolidityFunction(functionSelector, functionSignature));
-        }
-        return Optional.empty();
-    }
-
     private String getFunctionSelector(String normalizedFunctionSignature) {
         return sha3String(normalizedFunctionSignature).substring(2, 10);
     }
 
     private String normalizeFunctionSignature(String functionName, String functionArgumentsString) {
-        String[] functionArguments = functionArgumentsString.split("\\s*,\\s*");
-
-        List<String> functionArgumentsList = asList(functionArguments);
-
-        String normalizedArguments =
-                functionArgumentsList
-                        .stream()
-                        .map(s -> toCanonicalType(getFirstWord(s)))
-                        .collect(joining(","));
-
+        String normalizedArguments = getNormalizedArguments(functionArgumentsString);
         String normalizedFunctionSignature = functionName + "(" + normalizedArguments + ")";
         LOGGER.info(("SolidityFunction signature(normalized): [{}]"), normalizedFunctionSignature);
 
         return normalizedFunctionSignature;
+    }
+
+    private String getNormalizedArguments(String functionArgumentsString) {
+        String[] functionArguments = functionArgumentsString.split("\\s*,\\s*");
+        List<String> functionArgumentsList = asList(functionArguments);
+
+        return functionArgumentsList
+                .stream()
+                .map(s -> toCanonicalType(getFirstWord(s)))
+                .collect(joining(","));
     }
 
     private String toCanonicalType(String baseType) {

@@ -17,11 +17,11 @@ import static java.util.Objects.requireNonNull;
 
 
 @RestController
-@RequestMapping("/api")
 public class SolidityApiController {
 
     private final BytecodeService bytecodeService;
     private final SolidityService solidityService;
+
 
     @Autowired
     public SolidityApiController(BytecodeService bytecodeService, SolidityService solidityService) {
@@ -31,12 +31,11 @@ public class SolidityApiController {
         this.solidityService = solidityService;
     }
 
-    @PostMapping("/bytecode")
+    @PostMapping("/api/bytecode")
     public ResponseEntity<List<IdentifiedSolidityFileDto>> findTop10FileHashesByBytecode(
             @RequestParam(value = "bytecode") String bytecode,
             @RequestParam(value = "allFiles") boolean allFiles) {
         requireNonNull(bytecode, "Expected not-null bytecode");
-
 
         List<IdentifiedSolidityFileDto> implementations;
         if (allFiles) {
@@ -48,17 +47,16 @@ public class SolidityApiController {
         if (implementations.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(implementations);
     }
 
-    @PostMapping("/solidityFiles")
+    @PostMapping("/api/solidityFiles")
     public ResponseEntity<SolidityFile> uploadFile(@RequestBody String sourceCode) throws IOException {
         requireNonNull(sourceCode, "Expected not-null sourceCode");
         return ResponseEntity.ok(solidityService.save(sourceCode));
     }
 
-    @GetMapping(value = "/solidityFiles/sourceCode/{fileHash}.sol", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "/api/sourceCode/{fileHash}.sol", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getSourceCodeByHash(@PathVariable("fileHash") String fileHash) {
         requireNonNull(fileHash, "Expected not-null fileHash");
 
@@ -68,7 +66,7 @@ public class SolidityApiController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/solidityFiles")
+    @GetMapping("/api/solidityFiles")
     public ResponseEntity<List<SolidityFile>> findFiles() {
         return ResponseEntity.ok(solidityService.findAllFiles());
     }
