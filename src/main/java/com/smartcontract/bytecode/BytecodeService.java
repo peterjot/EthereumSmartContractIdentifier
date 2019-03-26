@@ -71,7 +71,7 @@ public class BytecodeService {
     private List<String> findFunctionSelectors(String bytecode) {
         List<Instruction> instructions = disassembler.disassembly(bytecode);
 
-        List<String> functionSelector = new ArrayList<>();
+        List<String> functionSelectors = new ArrayList<>();
         for (int i = 0; i < instructions.size() - 2; i++) {
             Instruction first = instructions.get(i);
             Instruction second = instructions.get(i + 1);
@@ -81,10 +81,10 @@ public class BytecodeService {
                     first.hasMnemonic(PUSH_4_MNEMONIC) && second.hasMnemonic(EQ_MNEMONIC) && third.hasMnemonic(PUSH_2_MNEMONIC);
 
             if (isFunctionSchemeFound) {
-                functionSelector.add(first.getHexParameters());
+                functionSelectors.add(first.getHexParameters());
             }
         }
-        return functionSelector;
+        return functionSelectors;
     }
 
     private IdentifiedSolidityFileDto getSelectorWithMatchValue(List<String> bytecodeSelectors, SolidityFile solidityFile) {
