@@ -62,13 +62,13 @@ def main():
             raise Exception("This file does not have contracts")
         log("Contract name: "+contract_name)
 
-        bin = solc.compile_files([file_path])["{}:{}".format(file_path, contract_name)]["bin"]
+        bin_data = solc.compile_files([file_path])["{}:{}".format(file_path, contract_name)]["bin"]
 
         bin_file_path = "{}/bin/{}--{}--.bin".format(folder_path, file_name[:-6], contract_name)
 
         log("Saving bin to " + bin_file_path)
-        with open (bin_file_path, "w") as file:
-           file.write(bin)
+        with open (bin_file_path, "w") as f:
+           f.write(bin_data)
 
 def log(msg):
     print("- [LOGGING] - {}".format(msg))

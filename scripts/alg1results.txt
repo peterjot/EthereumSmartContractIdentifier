@@ -1,0 +1,17 @@
+Scanned Files: 473
+Test length: 471
+Passed: 395 Total: 471
+Passed avg percent: 89.77117176712264
+Total avg percent: 83.8694834561495
+
+Wzor na wskaznik dopasowania: 2 * numberOfMatches / (bytecodeSelectors.size() + solidityFunctions.size() )
+
+Na 471 testow poprawie zidentyfikowano 395
+Dla zidentyfikowanych testow sredni wspolczynnik to 89.77%
+Dla wszystkich testow sredni wspolczynnik 83.86%
+
+Z 473 plikow udalo sie zidentyfikowac 471
+Dwa pliki nie zostaly zidentyfikowane ze wzgledu na nieprawidlowa kompilacje
+
+Zle skompilowane kontrakty:
+['0.4.25--0x888888ecb41d5abb38bdd9c5e2f653f411c70765--Lottery--.bin', '0.4.25--0xbb340a2eaf55c5e67a5a05fe5ceed9b9702d76f4--BolttCoin--.bin']
