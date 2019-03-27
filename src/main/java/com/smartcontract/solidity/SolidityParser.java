@@ -54,6 +54,7 @@ class SolidityParser {
             String functionName = matcher.group(FUNCTION_NAME_GROUP_ID);
             String functionArguments = matcher.group(FUNCTION_ARGUMENTS_GROUP_ID);
             String functionSignature = normalizeFunctionSignature(functionName, functionArguments);
+            LOGGER.info("Function signature: {}", functionSignature);
             String functionSelector = getFunctionSelector(functionSignature);
             return Optional.of(new SolidityFunction(functionSelector, functionSignature));
         }
@@ -156,7 +157,7 @@ class SolidityParser {
     private String normalizeFunctionSignature(String functionName, String functionArgumentsString) {
         String normalizedArguments = getNormalizedArguments(functionArgumentsString);
         String normalizedFunctionSignature = functionName + "(" + normalizedArguments + ")";
-        LOGGER.info(("SolidityFunction signature(normalized): [{}]"), normalizedFunctionSignature);
+//        LOGGER.info(("SolidityFunction signature(normalized): [{}]"), normalizedFunctionSignature);
 
         return normalizedFunctionSignature;
     }
@@ -172,11 +173,29 @@ class SolidityParser {
     }
 
     private String toCanonicalType(String baseType) {
-        String canonicalType = CANONICAL_TYPES.get(baseType);
+        if (CANONICAL_TYPES.values().contains(baseType)) {
+            return baseType;
+        }
+
+        for (int i = 0; i < baseType.length(); i++) {
+            if (baseType.charAt(i) == '[') {
+                String s = baseType.substring(0, i);
+                String offSet = baseType.substring(i);
+                return getCanonicalType(s) + offSet;
+            }
+        }
+
+//        LOGGER.info("Base type: {}", baseType);
+        return getCanonicalType(baseType);
+    }
+
+    private String getCanonicalType(String s) {
+        String canonicalType = CANONICAL_TYPES.get(s);
         if (nonNull(canonicalType)) {
             return canonicalType;
+        } else {
+            return s;
         }
-        return baseType;
     }
 
     private String getFirstWord(String s) {
