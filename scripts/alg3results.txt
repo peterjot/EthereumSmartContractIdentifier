@@ -1,3 +1,4 @@
+Scanned Files: 473
 Test length: 471
 Passed: 431 Total: 471
 Passed avg percent: 95.56182940789718

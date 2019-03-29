@@ -15,3 +15,6 @@ Z 473 plikow udalo sie zidentyfikowac 471
 Dwa pliki nie zostaly zidentyfikowane ze wzgledu na nieprawidlowa kompilacje
 
 Wyniki dla poszczegolnych plikow sa zapisane w alg2results.csv
+
+Zle skompilowane kontrakty:
+['0.4.25--0x888888ecb41d5abb38bdd9c5e2f653f411c70765--Lottery--.bin', '0.4.25--0xbb340a2eaf55c5e67a5a05fe5ceed9b9702d76f4--BolttCoin--.bin']
