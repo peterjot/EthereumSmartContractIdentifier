@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
@@ -44,9 +43,9 @@ public class SolidityService {
         return solidityFileRepository.findAll();
     }
 
-    public List<SolidityFile> findSolidityFilesBySelectorIn(List<String> functionSelector) {
-        requireNonNull(functionSelector, "Expected not-null functionSelector");
-        return solidityFileRepository.findSolidityFilesBySelectorContainsAll(functionSelector);
+    public List<SolidityFile> findSolidityFilesBySelectors(List<String> functionSelectors) {
+        requireNonNull(functionSelectors, "Expected not-null functionSelectors");
+        return solidityFileRepository.findSolidityFilesBySelectorContains(functionSelectors);
     }
 
     public SolidityFile save(String sourceCode) throws IOException {
@@ -60,7 +59,15 @@ public class SolidityService {
 
     SolidityFile save(byte[] sourceCodeBytes) throws IOException {
         String sourceCode = new String(sourceCodeBytes, StandardCharsets.UTF_8);
-        String sourceCodeHash = sha3String(sourceCode);
+
+        final String sourceCodeWithoutEmptyLinesAndUselessSpaces = sourceCode
+                .replaceAll("(?m)\\s+$", "")
+                .replaceAll("(?m) +", " ")
+                .replaceAll("(?m)^\\s+","");
+        // (?m) - tells Java to accept the anchors ^ and $ to match at the start and end of each line
+        // (otherwise they only match at the start/end of the entire string).
+        String sourceCodeHash = sha3String(sourceCodeWithoutEmptyLinesAndUselessSpaces);
+
         Set<SolidityFunction> functionsFromFile = findSolidityFunctionsFromSourceFile(new ByteArrayInputStream(sourceCodeBytes));
         return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, functionsFromFile));
     }

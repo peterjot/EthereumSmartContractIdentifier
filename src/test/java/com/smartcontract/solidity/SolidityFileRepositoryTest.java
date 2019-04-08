@@ -119,7 +119,7 @@ public class SolidityFileRepositoryTest {
         }};
 
         //when
-        final List<SolidityFile> dsap = solidityFileRepository.findSolidityFilesBySelectorContainsAll(
+        final List<SolidityFile> dsap = solidityFileRepository.findSolidityFilesBySelectorContains(
                 functionSelector);
 
         //then

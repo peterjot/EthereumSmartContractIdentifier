@@ -11,7 +11,7 @@ import java.util.Optional;
 interface SolidityFileRepository extends MongoRepository<SolidityFile, String> {
 
     @Query("{\"solidityFunctions\": {$elemMatch: {\"selector\": {$in: ?0}}}}")
-    List<SolidityFile> findSolidityFilesBySelectorContainsAll(List<String> functionSelector);
+    List<SolidityFile> findSolidityFilesBySelectorContains(List<String> functionSelector);
 
     Optional<SolidityFile> findBySourceCodeHash(String sourceCodeHash);
 }

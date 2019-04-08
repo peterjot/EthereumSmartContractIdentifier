@@ -44,7 +44,7 @@ public class BytecodeService {
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
 
         return solidityService
-                .findSolidityFilesBySelectorIn(functionSelectors)
+                .findSolidityFilesBySelectors(functionSelectors)
                 .stream()
                 .map(solidityFile -> getIdentifiedSolidityFileWithMatchValue(functionSelectors, solidityFile))
                 .sorted((pair1, pair2) -> Double.compare(pair2.getValueOfMatch(), pair1.getValueOfMatch()))
@@ -60,7 +60,7 @@ public class BytecodeService {
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
 
         return solidityService
-                .findSolidityFilesBySelectorIn(functionSelectors)
+                .findSolidityFilesBySelectors(functionSelectors)
                 .stream()
                 .map(solidityFile -> getIdentifiedSolidityFileWithMatchValue(functionSelectors, solidityFile))
                 .sorted((pair1, pair2) -> Double.compare(pair2.getValueOfMatch(), pair1.getValueOfMatch()))
@@ -110,6 +110,7 @@ public class BytecodeService {
     }
 
     private double calculatePercentOfMatch(List<String> bytecodeSelectors, Set<SolidityFunction> solidityFunctions, long numberOfMatches) {
-        return 2 * numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size());
+        return numberOfMatches / (double)bytecodeSelectors.size();
+//        return 2 * numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size());
     }
 }
