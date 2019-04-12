@@ -1,19 +1,21 @@
-import solc
 import os
+import solc
 import sys
 from pathlib import Path
-import re
+
+# solc library is only for linux
 
 PATH_HOME = str(Path.home())
 
 COMPILER_BIN = {
-    "0.4.22" : PATH_HOME + "/.py-solc/solc-v0.4.22/bin/solc", 
-    "0.4.23" : PATH_HOME + "/.py-solc/solc-v0.4.23/bin/solc",
-    "0.4.24" : PATH_HOME + "/.py-solc/solc-v0.4.24/bin/solc",
-    "0.4.25" : PATH_HOME + "/.py-solc/solc-v0.4.25/bin/solc"
+    "0.4.22": PATH_HOME + "/.py-solc/solc-v0.4.22/bin/solc",
+    "0.4.23": PATH_HOME + "/.py-solc/solc-v0.4.23/bin/solc",
+    "0.4.24": PATH_HOME + "/.py-solc/solc-v0.4.24/bin/solc",
+    "0.4.25": PATH_HOME + "/.py-solc/solc-v0.4.25/bin/solc"
 }
 
 CONTRACT_BLACKLIST = ["SafeMath"]
+
 
 def main():
     if len(sys.argv) != 2:
@@ -28,54 +30,49 @@ def main():
     for file_name in os.listdir(folder_path):
         if ".sol" not in file_name:
             continue
-        log("\n\n\n")
 
-        log("Compiling file: " + file_name)
+        log("\n\n\nCompiling file: " + file_name)
 
-        file_path = folder_path + '/'+file_name
-        file_solc_version,_,_ = file_name.split("--")
+        file_path = folder_path + '/' + file_name
+        file_solc_version, _, contract_name, _ = file_name.split("--")
 
-        if file_solc_version in COMPILER_BIN.keys():
-            current_version = file_solc_version
-        else:
+        if file_solc_version is None or contract_name is None:
+            sys.stderr.write("Bad file name: " + file_name)
+            exit(2)
+
+        bin_file_path = "{}/bin/{}--.bin".format(folder_path, file_name[:-6])
+        if os.path.exists(bin_file_path):  # Skip if file is compiled
+            log("Skipping. File compiled: " + bin_file_path)
+            continue
+
+        if file_solc_version not in COMPILER_BIN.keys():
             sys.stderr.write("File has no supported compiler version: " + file_solc_version)
             exit(2)
 
-        solc_path = COMPILER_BIN[current_version]
+        solc_path = COMPILER_BIN[file_solc_version]
 
         log("Compiler version: " + file_solc_version)
         log("File path: " + file_path)
-        log("Set env SOLC_BINARY path to " + solc_path)
+        log("Set env SOLC_BINARY path to: " + solc_path)
+        log("Contract name: " + contract_name)
 
         os.environ["SOLC_BINARY"] = solc_path
 
-        contract_name = None
-        log("Opening file: "+file_path)
-        with open (file_path) as ff:
-            for line in ff:
-                match = re.match(r"\s*(\bcontract\b|\blibrary\b)\s*([a-zA-Z_$][a-zA-Z_$0-9]*).*",line)
+        bin_data = solc.compile_files([file_path], optimize=True)["{}:{}".format(file_path, contract_name)]["bin"]
 
-                if match and match.group(2) not in CONTRACT_BLACKLIST:
-                    contract_name = match.group(2)
+        log("Saving bin to: " + bin_file_path)
+        with open(bin_file_path, "w") as f:
+            f.write(bin_data)
 
-        if contract_name is None:
-            raise Exception("This file does not have contracts")
-        log("Contract name: "+contract_name)
-
-        bin_data = solc.compile_files([file_path])["{}:{}".format(file_path, contract_name)]["bin"]
-
-        bin_file_path = "{}/bin/{}--{}--.bin".format(folder_path, file_name[:-6], contract_name)
-
-        log("Saving bin to " + bin_file_path)
-        with open (bin_file_path, "w") as f:
-           f.write(bin_data)
 
 def log(msg):
     print("- [LOGGING] - {}".format(msg))
 
+
 def create_folder(path):
     if not os.path.exists(path):
         os.makedirs(path)
+
 
 if __name__ == "__main__":
     main()

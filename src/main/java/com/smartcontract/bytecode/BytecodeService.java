@@ -110,7 +110,6 @@ public class BytecodeService {
     }
 
     private double calculatePercentOfMatch(List<String> bytecodeSelectors, Set<SolidityFunction> solidityFunctions, long numberOfMatches) {
-        return numberOfMatches / (double)bytecodeSelectors.size();
-//        return 2 * numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size());
+        return numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size() - numberOfMatches);
     }
 }

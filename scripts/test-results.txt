@@ -1,0 +1,34 @@
+Alg 1 
+
+return numberOfMatches / (double)bytecodeSelectors.size();
+
+Test length: 441
+Passed: 422 Total: 441
+Passed avg percent: 96.64183215730806
+Total avg percent: 94.72443030583625
+Total avg percenr of matched impls: 0.022937275790846832
+All matched impls: 18398.0
+
+Alg 2 
+
+return numberOfMatches / (double)solidityFunctions.size();
+
+Test length: 441
+Passed: 311 Total: 441
+Passed avg percent: 82.58682780694811
+Total avg percent: 78.98224947624591
+Total avg percenr of matched impls: 0.03278861360042172
+All matched impls: 9485.0
+
+Alg 3 
+
+return numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size() - numberOfMatches);
+
+
+Test length: 441
+Passed: 388 Total: 441
+Passed avg percent: 80.58864288392942
+Total avg percent: 77.07072797744885
+Total avg percenr of matched impls: 0.14254224834680382
+All matched impls: 2722.0
+
