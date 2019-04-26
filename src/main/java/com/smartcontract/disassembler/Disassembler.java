@@ -26,7 +26,7 @@ public class Disassembler {
         while (hexStringIterator.hasNext()) {
             Opcode opcode = getOpcodeByHex(hexStringIterator.next());
             String instructionParameter = getInstructionOperand(opcode.getOperandSize(), hexStringIterator);
-            instructions.add(new Instruction(opcode, instructionParameter.toLowerCase()));
+            instructions.add(new Instruction(opcode, instructionParameter));
         }
         return unmodifiableList(instructions);
     }

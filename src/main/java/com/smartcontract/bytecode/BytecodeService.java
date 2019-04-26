@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.smartcontract.disassembler.Instruction.PUSH4_MASK;
 import static com.smartcontract.disassembler.Opcode.*;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -42,6 +43,7 @@ public class BytecodeService {
 
         List<String> functionSelectors = findFunctionSelectors(bytecode);
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
+        LOGGER.info("{}", functionSelectors);
 
         return solidityService
                 .findSolidityFilesBySelectors(functionSelectors)
@@ -69,22 +71,47 @@ public class BytecodeService {
 
     private List<String> findFunctionSelectors(String bytecode) {
         List<Instruction> instructions = disassembler.disassembly(bytecode);
-
         List<String> functionSelectors = new ArrayList<>();
-        for (int i = 0; i < instructions.size() - 2; i++) {
+
+        int i = 0;
+        while (i < instructions.size() - 2) {
             Instruction first = instructions.get(i);
             Instruction second = instructions.get(i + 1);
             Instruction third = instructions.get(i + 2);
 
-            boolean isFunctionSchemeFound =
-                    first.hasMnemonic(PUSH4.getMnemonic())
-                            && second.hasMnemonic(EQ.getMnemonic())
-                            && third.hasMnemonic(PUSH2.getMnemonic());
+            boolean isCreationCodeEndFound =
+                    first.hasOpcode(PUSH1) && first.hasHexParameter("00") &&
+                            second.hasOpcode(RETURN) &&
+                            third.hasOpcode(STOP);
 
-            if (isFunctionSchemeFound) {
-                functionSelectors.add(first.getHexParameters());
+            if (isCreationCodeEndFound) {
+                i += 3;
+                break;
             }
+            i++;
         }
+
+        boolean isCalldataloadOpcodeFound = false;
+
+        while (i < instructions.size()) {
+            Instruction instruction = instructions.get(i);
+
+            if (instruction.hasOpcode(JUMPDEST)) {
+                break;
+            }
+
+            if (instruction.hasOpcode(CALLDATALOAD)) {
+                isCalldataloadOpcodeFound = true;
+            }
+
+            if (isCalldataloadOpcodeFound &&
+                    instruction.hasOpcode(PUSH4) &&
+                    !(instruction.hasHexParameter(PUSH4_MASK))) {
+                functionSelectors.add(instruction.getHexParameter());
+            }
+            i++;
+        }
+
         return functionSelectors;
     }
 

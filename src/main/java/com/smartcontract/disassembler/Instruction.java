@@ -7,34 +7,37 @@ import static java.util.Objects.requireNonNull;
 
 public class Instruction {
 
+    public static final String PUSH4_MASK = "ffffffff";
+
     private final Opcode opcode;
-    private final String hexParameters;
+    private final String hexParameter;
 
-    Instruction(Opcode opcode, String hexParameters) {
+    Instruction(Opcode opcode, String hexParameter) {
         requireNonNull(opcode, "Expected not-null opcode");
-        requireNonNull(hexParameters, "Expected not-null hexParameters");
+        requireNonNull(hexParameter, "Expected not-null hexParameter");
         this.opcode = opcode;
-        this.hexParameters = hexParameters;
+        this.hexParameter = hexParameter.toLowerCase();
     }
 
-    public boolean hasMnemonic(String mnemonic) {
-        requireNonNull(mnemonic, "Expected not-null mnemonic");
-        return opcode.hasMnemonic(mnemonic);
+    public boolean hasOpcode(Opcode opcode) {
+        requireNonNull(opcode, "Expected not-null opcode");
+        return this.opcode.equals(opcode);
     }
 
-    public Opcode getOpcode() {
-        return opcode;
+    public boolean hasHexParameter(String hexParameter) {
+        requireNonNull(hexParameter, "Expceted not-null hexParameter");
+        return this.hexParameter.equals(hexParameter);
     }
 
-    public String getHexParameters() {
-        return hexParameters;
+    public String getHexParameter() {
+        return hexParameter;
     }
 
     @Override
     public String toString() {
         return "Instruction{" +
                 "opcode=" + opcode +
-                ", hexParameters='" + hexParameters + '\'' +
+                ", hexParameter='" + hexParameter + '\'' +
                 '}';
     }
 
@@ -44,11 +47,11 @@ public class Instruction {
         if (!(o instanceof Instruction)) return false;
         Instruction that = (Instruction) o;
         return opcode == that.opcode &&
-                Objects.equals(hexParameters, that.hexParameters);
+                Objects.equals(hexParameter, that.hexParameter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(opcode, hexParameters);
+        return Objects.hash(opcode, hexParameter);
     }
 }
