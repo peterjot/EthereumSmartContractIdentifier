@@ -21,15 +21,16 @@ chmod +x mvnw
 ./mvnw clean install -DskipTest=true -Dmaven.javadoc.skip-true -B
 ```
 
-
 <h2><b>How to run?</b></h2>
-Replace every property that starts with "my"
 
 ```bash
 java -jar ./target/contract-identifier-1.1.0-SNAPSHOT.jar --DB_LOGIN=myDbLogin --DB_PASSWORD=myDbPassword --DB_NAME=myDbName --DB_PORT=myGreatPort --DB_HOST=myDatabaseHost --ADMIN_LOGIN=myAdminLogin --ADMIN_PASSWORD=myAdminPassword --SERVER_PORT=myServerPort
 ```
 
-<h2><b>Requirements:</b></h2>
-- Java8</br>
-- MongoDB server
-</<br>
+<h2><b>docker-compose</b></h2>
+
+```bash
+git clone https://github.com/peterjot/EthereumSmartContractIdentifier.git
+cd EthereumSmartContractIdentifier
+docker-compose up
+```

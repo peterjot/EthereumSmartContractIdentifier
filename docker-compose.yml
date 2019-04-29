@@ -1,0 +1,35 @@
+version: '3.2'
+
+services:
+
+  esci-db:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABSE=${DATABASE_NAME:-default}
+    networks:
+      - esci-network
+    command: mongod --port ${DATABASE_INTERNAL_PORT:-27017}
+
+  esci-app:
+    image: esci/app
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+      args:
+        - PROJECT_VERSION=${PROJECT_VERSION:-1.0.0}
+    networks:
+      - esci-network
+    ports:
+      - ${APP_SERVER_EXTERNAL_PORT-8080}:${APP_SERVER_INTERNAL_PORT:-8080}
+    environment:
+      - admin.login=${APP_ADMIN_LOGIN:-login}
+      - admin.password=${APP_ADMIN_PASSWORD:-password}
+      - spring.data.mongodb.database=${DATABASE_NAME:-default}
+      - spring.data.mongodb.uri=mongodb://esci-db:${DATABASE_INTERNAL_PORT:-27017}
+      - server.port=${APP_SERVER_PORT:-8080}
+    depends_on:
+      - esci-db
+
+networks:
+  esci-network:
