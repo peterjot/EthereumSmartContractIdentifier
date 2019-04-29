@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.piotrjasina</groupId>
-    <artifactId>contract-identifier</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <artifactId>EthereumSmartContractIdentifier</artifactId>
+    <version>${projectVersion</version>
     <packaging>jar</packaging>
 
     <name>contract-identifier</name>
@@ -20,6 +20,8 @@
 
 
     <properties>
+        <projectVersion>NOTSET</projectVersion>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -91,6 +93,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}-${projectVersion}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

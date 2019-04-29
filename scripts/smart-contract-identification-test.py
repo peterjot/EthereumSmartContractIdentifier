@@ -23,9 +23,12 @@ def main():
 
     results = {}
     bad_file_binaries = []
-    for file_name in os.listdir(folder_path):
-        if ".sol" not in file_name:
-            continue
+
+    files_name = [name for name in os.listdir(folder_path) if os.path.isfile(folder_path+"/"+name) and ".sol" in name]
+    totalFiles = len(files_name)
+    processedFiles = 0
+
+    for file_name in files_name:
 
         with open(folder_path + "/" + file_name, "r", encoding="utf-8") as ff:
             source_code = ff.read()
@@ -88,6 +91,8 @@ def main():
 
         else:
             print("Failed uploading")
+        processedFiles += 1
+        print("{} / {}".format(str(processedFiles), str(totalFiles)))
 
     print("Result: " + str(results))
     print("Bad contract bins: " + str(bad_file_binaries))

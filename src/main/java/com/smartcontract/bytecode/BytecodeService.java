@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +44,7 @@ public class BytecodeService {
 
         List<String> functionSelectors = findFunctionSelectors(bytecode);
         LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
-        LOGGER.info("{}", functionSelectors);
+        LOGGER.info("Function selectors: {}", functionSelectors);
 
         return solidityService
                 .findSolidityFilesBySelectors(functionSelectors)
@@ -70,11 +71,13 @@ public class BytecodeService {
     }
 
     private List<String> findFunctionSelectors(String bytecode) {
-        List<Instruction> instructions = disassembler.disassembly(bytecode);
-        List<String> functionSelectors = new ArrayList<>();
+        final List<Instruction> instructions = disassembler.disassembly(bytecode);
+        final List<String> functionSelectors = new LinkedList<>();
 
         int i = 0;
-        while (i < instructions.size() - 2) {
+        final int size = instructions.size();
+
+        while (i < size - 2) {
             Instruction first = instructions.get(i);
             Instruction second = instructions.get(i + 1);
             Instruction third = instructions.get(i + 2);
@@ -93,7 +96,7 @@ public class BytecodeService {
 
         boolean isCalldataloadOpcodeFound = false;
 
-        while (i < instructions.size()) {
+        while (i < size) {
             Instruction instruction = instructions.get(i);
 
             if (instruction.hasOpcode(JUMPDEST)) {
@@ -137,6 +140,7 @@ public class BytecodeService {
     }
 
     private double calculatePercentOfMatch(List<String> bytecodeSelectors, Set<SolidityFunction> solidityFunctions, long numberOfMatches) {
-        return numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size() - numberOfMatches);
+        return numberOfMatches / (double)bytecodeSelectors.size();
+        //        return numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size() - numberOfMatches);
     }
 }

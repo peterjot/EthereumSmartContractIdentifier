@@ -28,6 +28,8 @@ class SolidityParser {
         put("uint", "uint256");
         put("int", "int256");
         put("byte", "bytes1");
+        put("fixed", "fixed128x18");
+        put("ufixed", "ufixed128x18");
     }});
 
 
@@ -157,7 +159,7 @@ class SolidityParser {
     private String normalizeFunctionSignature(String functionName, String functionArgumentsString) {
         String normalizedArguments = getNormalizedArguments(functionArgumentsString);
         String normalizedFunctionSignature = functionName + "(" + normalizedArguments + ")";
-//        LOGGER.info(("SolidityFunction signature(normalized): [{}]"), normalizedFunctionSignature);
+        LOGGER.info(("SolidityFunction signature(normalized): [{}]"), normalizedFunctionSignature);
 
         return normalizedFunctionSignature;
     }
