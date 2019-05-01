@@ -24,7 +24,7 @@ chmod +x mvnw
 <h2><b>How to run?</b></h2>
 
 ```bash
-java -jar ./target/contract-identifier-1.1.0-SNAPSHOT.jar --DB_LOGIN=myDbLogin --DB_PASSWORD=myDbPassword --DB_NAME=myDbName --DB_PORT=myGreatPort --DB_HOST=myDatabaseHost --ADMIN_LOGIN=myAdminLogin --ADMIN_PASSWORD=myAdminPassword --SERVER_PORT=myServerPort
+java -jar ./target/contract-identifier-1.0.0-SNAPSHOT.jar --DB_URI=mongodb://myDbLogin:myDbPass@myHost:myPort/myDbName --ADMIN_LOGIN=myAdminLogin --ADMIN_PASSWORD=myAdminPassword --SERVER_PORT=myServerPort
 ```
 
 <h2><b>docker-compose</b></h2>

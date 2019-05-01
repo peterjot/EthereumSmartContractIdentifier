@@ -22,9 +22,6 @@
                         rows="3"
                         placeholder="0x9d0b3a19f91ffff..."
                 ></textarea>
-                <input type="hidden"
-                       name="allFiles"
-                       value="false">
             </div>
             <button type="submit" class="btn btn-info">Identify</button>
         </form>
@@ -40,8 +37,7 @@
 
     <th:block th:unless="${implementationsWithValueOfMatch.isEmpty()}">
     <table class="table table-striped table-bordered table-responsive-sm">
-        <caption th:if="${actualAllFiles == false}" style="caption-side: top">Top ten the most matching files</caption>
-        <caption th:if="${actualAllFiles == true}" style="caption-side: top">All matching files</caption>
+        <caption style="caption-side: top">Top ten the most matching files</caption>
         <thead>
         <tr>
             <th class="id">ID</th>
@@ -64,15 +60,6 @@
         </th:block>
         </tbody>
     </table>
-    <form th:if="${actualAllFiles == false}" th:method="post" th:action="@{/bytecode}">
-        <input type="hidden"
-               name="bytecode"
-               th:value="${actualBytecode}">
-        <input type="hidden"
-               name="allFiles"
-               value="true">
-        <button type="submit" class="btn btn-info">Get all</button>
-    </form>
     </th:block>
 </main>
 <th:block th:include="fragments/footer :: footer"/>

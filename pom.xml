@@ -5,7 +5,7 @@
 
     <groupId>com.piotrjasina</groupId>
     <artifactId>EthereumSmartContractIdentifier</artifactId>
-    <version>${projectVersion</version>
+    <version>${projectVersion}</version>
     <packaging>jar</packaging>
 
     <name>contract-identifier</name>
@@ -20,7 +20,7 @@
 
 
     <properties>
-        <projectVersion>NOTSET</projectVersion>
+        <projectVersion>1.0.0</projectVersion>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

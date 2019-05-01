@@ -52,7 +52,10 @@ def main():
             with open(folder_bin_path + "/" + file_bin_name) as f:
                 bytecode = f.read()
 
-            payload = {'bytecode': bytecode, 'allFiles': 'true'}
+            payload = {'bytecode': bytecode, 'allFiles': 'true'}  # DEPRECATED
+            print("This test is deprecated. Now you cannot get all files")
+            exit(1)
+
             byte_response = session.post("http://localhost:8080/api/bytecode", data=payload,
                                          auth=('myadmin321', 'myadmin321'))
             bytecode_response_status_code = byte_response.status_code

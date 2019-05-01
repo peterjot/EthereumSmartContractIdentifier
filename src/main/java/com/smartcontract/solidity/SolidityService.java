@@ -39,10 +39,6 @@ public class SolidityService {
                 .map(SolidityFile::getSourceCode);
     }
 
-    public List<SolidityFile> findAllFiles() {
-        return solidityFileRepository.findAll();
-    }
-
     public List<SolidityFile> findSolidityFilesBySelectors(List<String> functionSelectors) {
         requireNonNull(functionSelectors, "Expected not-null functionSelectors");
         return solidityFileRepository.findSolidityFilesBySelectorContains(functionSelectors);

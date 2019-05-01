@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
@@ -31,20 +30,13 @@ public class BytecodeController {
     @PostMapping("/bytecode")
     public String findTop10FileHashesByBytecode(
             @RequestParam(value = "bytecode") String bytecode,
-            @RequestParam(value = "allFiles") boolean allFiles,
             Model model) {
         requireNonNull(bytecode, "Expected not-null bytecode");
         requireNonNull(model, "Expected not-null model");
 
-        model.addAttribute("actualAllFiles", allFiles);
         model.addAttribute("actualBytecode", bytecode);
 
-        List<IdentifiedSolidityFileDto> implementations;
-        if (allFiles) {
-            implementations = bytecodeService.findAllFileHashesWithValueOfMatch(bytecode);
-        } else {
-            implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
-        }
+        List<IdentifiedSolidityFileDto> implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
         model.addAttribute("implementationsWithValueOfMatch", implementations);
 
         if (implementations.isEmpty()) {

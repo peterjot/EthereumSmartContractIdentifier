@@ -21,7 +21,6 @@
     padding-left: 10px;
 }
 
-
 .social:hover {
     -webkit-transform: scale(1.1);
     -moz-transform: scale(1.1);
@@ -45,3 +44,10 @@
     color: #4099FF;
 }
 
+main.main-container {
+    margin-bottom: 5rem;
+}
+
+div.form-group {
+    text-align: center;
+}

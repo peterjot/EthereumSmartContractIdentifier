@@ -33,16 +33,10 @@ public class SolidityApiController {
 
     @PostMapping("/api/bytecode")
     public ResponseEntity<List<IdentifiedSolidityFileDto>> findTop10FileHashesByBytecode(
-            @RequestParam(value = "bytecode") String bytecode,
-            @RequestParam(value = "allFiles") boolean allFiles) {
+            @RequestBody String bytecode) {
         requireNonNull(bytecode, "Expected not-null bytecode");
 
-        List<IdentifiedSolidityFileDto> implementations;
-        if (allFiles) {
-            implementations = bytecodeService.findAllFileHashesWithValueOfMatch(bytecode);
-        } else {
-            implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
-        }
+        List<IdentifiedSolidityFileDto> implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
 
         if (implementations.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -64,10 +58,5 @@ public class SolidityApiController {
         return sourceCodeByHash
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/api/solidityFiles")
-    public ResponseEntity<List<SolidityFile>> findFiles() {
-        return ResponseEntity.ok(solidityService.findAllFiles());
     }
 }

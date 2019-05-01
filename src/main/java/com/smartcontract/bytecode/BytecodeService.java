@@ -55,20 +55,6 @@ public class BytecodeService {
 
     }
 
-    public List<IdentifiedSolidityFileDto> findAllFileHashesWithValueOfMatch(String bytecode) {
-        requireNonNull(bytecode, "Expected not-null bytecode");
-
-        List<String> functionSelectors = findFunctionSelectors(bytecode);
-        LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
-
-        return solidityService
-                .findSolidityFilesBySelectors(functionSelectors)
-                .stream()
-                .map(solidityFile -> getIdentifiedSolidityFileWithMatchValue(functionSelectors, solidityFile))
-                .sorted((pair1, pair2) -> Double.compare(pair2.getValueOfMatch(), pair1.getValueOfMatch()))
-                .collect(toList());
-    }
-
     private List<String> findFunctionSelectors(String bytecode) {
         final List<Instruction> instructions = disassembler.disassembly(bytecode);
         final List<String> functionSelectors = new LinkedList<>();
