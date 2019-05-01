@@ -21,7 +21,7 @@ def main():
             source_code = ff.read()
 
         response = session.post("http://localhost:8080/api/solidityFiles", data=str(source_code).encode('utf-8'),
-                                auth=('myadmin321', 'myadmin321'))
+                                auth=('admin', 'admin'))
         if response.status_code == 200:
             print("Uploaded file: {}".format(file_name))
         else:

@@ -5,8 +5,8 @@ import sys
 import requests
 
 MATCHING_THRESHOLD = 0.80
-TEST_LOGIN = 'myadmin321'
-TEST_PASSWORD = 'myadmin321'
+TEST_LOGIN = 'admin'
+TEST_PASSWORD = 'admin'
 
 
 def main():
