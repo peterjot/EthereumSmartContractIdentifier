@@ -1,6 +1,12 @@
 package com.smartcontract.disassembler;
 
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import static java.util.Collections.unmodifiableMap;
+
 public enum Opcode {
 
     STOP(0x00, 0),// "Halts execution."
@@ -148,12 +154,21 @@ public enum Opcode {
 
     private final int hexValue;
     private final int operandSize;
+    private static final Map<Integer, Opcode> opcodes;
+
+    static {
+        opcodes = unmodifiableMap(new HashMap<Integer, Opcode>() {{
+            for (Opcode opcode : Opcode.values()) {
+                put(opcode.getHexValue(), opcode);
+            }
+        }});
+    }
 
     Opcode(int hexValue, int operandSize) {
         this.hexValue = hexValue;
         this.operandSize = operandSize;
     }
-    
+
     public int getHexValue() {
         return hexValue;
     }
@@ -161,12 +176,25 @@ public enum Opcode {
     public int getOperandSize() {
         return operandSize;
     }
-    
+
     @Override
     public String toString() {
         return "Opcode{" +
                 "hexValue=" + String.format("%02X", hexValue) +
                 ", operandSize=" + operandSize +
                 '}';
+    }
+
+    static Opcode getOpcodeByHex(String stringHex) {
+        if (stringHex.length() != 2) {
+            throw new IllegalArgumentException("Expected length=2 stringHex");
+        }
+        return getOpcodeByHex(Integer.parseInt(stringHex, 16));
+    }
+
+    static Opcode getOpcodeByHex(int hex) {
+        return Optional
+                .ofNullable(opcodes.get(hex))
+                .orElse(Opcode.UNKNOWNCODE);
     }
 }

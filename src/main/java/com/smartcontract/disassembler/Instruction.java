@@ -1,5 +1,7 @@
 package com.smartcontract.disassembler;
 
+import lombok.NonNull;
+
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
@@ -12,19 +14,17 @@ public class Instruction {
     private final Opcode opcode;
     private final String hexParameter;
 
-    Instruction(Opcode opcode, String hexParameter) {
-        requireNonNull(opcode, "Expected not-null opcode");
-        requireNonNull(hexParameter, "Expected not-null hexParameter");
+    Instruction(@NonNull Opcode opcode, @NonNull String hexParameter) {
         this.opcode = opcode;
         this.hexParameter = hexParameter.toLowerCase();
     }
 
-    public boolean hasOpcode(Opcode opcode) {
+    public boolean hasOpcode(@NonNull Opcode opcode) {
         requireNonNull(opcode, "Expected not-null opcode");
         return this.opcode.equals(opcode);
     }
 
-    public boolean hasHexParameter(String hexParameter) {
+    public boolean hasHexParameter(@NonNull String hexParameter) {
         requireNonNull(hexParameter, "Expceted not-null hexParameter");
         return this.hexParameter.equals(hexParameter);
     }

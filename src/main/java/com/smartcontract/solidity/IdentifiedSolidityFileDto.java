@@ -1,17 +1,19 @@
 package com.smartcontract.solidity;
 
+import lombok.NonNull;
+
 public class IdentifiedSolidityFileDto {
 
     private final String fileHash;
     private final Double valueOfMatch;
 
 
-    public IdentifiedSolidityFileDto(String fileHash, Double valueOfMatch) {
+    public IdentifiedSolidityFileDto(@NonNull String fileHash, @NonNull Double valueOfMatch) {
         this.fileHash = fileHash;
         this.valueOfMatch = valueOfMatch;
     }
 
-    public IdentifiedSolidityFileDto(String fileHash) {
+    public IdentifiedSolidityFileDto(@NonNull String fileHash) {
         this.fileHash = fileHash;
         this.valueOfMatch = 0D;
     }

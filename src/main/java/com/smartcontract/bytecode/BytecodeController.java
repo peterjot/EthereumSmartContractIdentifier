@@ -2,7 +2,7 @@ package com.smartcontract.bytecode;
 
 
 import com.smartcontract.solidity.IdentifiedSolidityFileDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-
 
 @Controller
 public class BytecodeController {
@@ -21,23 +19,18 @@ public class BytecodeController {
     private final BytecodeService bytecodeService;
 
 
-    @Autowired
-    public BytecodeController(BytecodeService bytecodeService) {
-        requireNonNull(bytecodeService, "Expected not-null bytecodeService");
+    public BytecodeController(@NonNull BytecodeService bytecodeService) {
         this.bytecodeService = bytecodeService;
     }
 
     @PostMapping("/bytecode")
     public String findTop10FileHashesByBytecode(
-            @RequestParam(value = "bytecode") String bytecode,
-            Model model) {
-        requireNonNull(bytecode, "Expected not-null bytecode");
-        requireNonNull(model, "Expected not-null model");
-
-        model.addAttribute("actualBytecode", bytecode);
+            @NonNull @RequestParam(value = "bytecode") String bytecode,
+            @NonNull Model model) {
 
         List<IdentifiedSolidityFileDto> implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
         model.addAttribute("implementationsWithValueOfMatch", implementations);
+        model.addAttribute("actualBytecode", bytecode);
 
         if (implementations.isEmpty()) {
             model.addAttribute("message", "No implementation was found");
@@ -47,9 +40,7 @@ public class BytecodeController {
     }
 
     @GetMapping("/bytecode")
-    public String showPage(Model model) {
-        requireNonNull(model, "Expected not-null model");
-
+    public String showPage(@NonNull Model model) {
         model.addAttribute("implementationsWithValueOfMatch", new HashMap<>());
         return "bytecode-page";
     }

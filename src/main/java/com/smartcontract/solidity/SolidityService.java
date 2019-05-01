@@ -1,7 +1,7 @@
 package com.smartcontract.solidity;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -20,32 +20,28 @@ public class SolidityService {
 
     private static final Logger LOGGER = getLogger(SolidityService.class);
 
-    private final SolidityParser solidityParser;
+    private final SourceCodeParser sourceCodeParser;
     private final SolidityFileRepository solidityFileRepository;
 
-    @Autowired
-    public SolidityService(SolidityFileRepository solidityFileRepository, SolidityParser solidityParser) {
-        requireNonNull(solidityFileRepository, "Expected not-null solidityFileRepository");
-        requireNonNull(solidityParser, "Expected not-null solidityParser");
+
+    public SolidityService(@NonNull SolidityFileRepository solidityFileRepository,
+                           @NonNull SourceCodeParser sourceCodeParser) {
         this.solidityFileRepository = solidityFileRepository;
-        this.solidityParser = solidityParser;
+        this.sourceCodeParser = sourceCodeParser;
     }
 
-    public Optional<String> findSourceCodeByHash(String _fileHash) {
-        requireNonNull(_fileHash, "Expected not-null _fileHash");
+    public Optional<String> findSourceCodeByHash(@NonNull String _fileHash) {
         String fileHash = _fileHash.startsWith("0x") ? _fileHash : "0x" + _fileHash;
         return solidityFileRepository
                 .findBySourceCodeHash(fileHash)
                 .map(SolidityFile::getSourceCode);
     }
 
-    public List<SolidityFile> findSolidityFilesBySelectors(List<String> functionSelectors) {
-        requireNonNull(functionSelectors, "Expected not-null functionSelectors");
+    public List<SolidityFile> findSolidityFilesBySelectors(@NonNull List<String> functionSelectors) {
         return solidityFileRepository.findSolidityFilesBySelectorContains(functionSelectors);
     }
 
-    public SolidityFile save(String sourceCode) throws IOException {
-        requireNonNull(sourceCode, "Expected not-null sourceCode");
+    public SolidityFile save(@NonNull String sourceCode) throws IOException {
         return save(sourceCode.getBytes());
     }
 
@@ -59,7 +55,7 @@ public class SolidityService {
         final String sourceCodeWithoutEmptyLinesAndUselessSpaces = sourceCode
                 .replaceAll("(?m)\\s+$", "")
                 .replaceAll("(?m) +", " ")
-                .replaceAll("(?m)^\\s+","");
+                .replaceAll("(?m)^\\s+", "");
         // (?m) - tells Java to accept the anchors ^ and $ to match at the start and end of each line
         // (otherwise they only match at the start/end of the entire string).
         String sourceCodeHash = sha3String(sourceCodeWithoutEmptyLinesAndUselessSpaces);
@@ -74,7 +70,7 @@ public class SolidityService {
         Set<SolidityFunction> solidityFunctions = new HashSet<>();
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            Optional<SolidityFunction> function = solidityParser.findFunctionInLine(line);
+            Optional<SolidityFunction> function = sourceCodeParser.findFunctionInLine(line);
 
             function.ifPresent(solidityFunction -> {
                 solidityFunctions.add(solidityFunction);

@@ -7,11 +7,11 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.web3j.crypto.Hash.sha3String;
 
-public class SolidityParserTest {
+public class SourceCodeParserTest {
 
-    private final SolidityParser solidityParser = new SolidityParser();
+    private final SourceCodeParser sourceCodeParser = new SourceCodeParser();
+
 
     @Test
     public void shouldFindMappingGetter() {
@@ -20,7 +20,7 @@ public class SolidityParserTest {
         String selector = "24d45ec3";
 
         //when
-        Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
+        Optional<SolidityFunction> actualFunction = sourceCodeParser.findFunctionInLine(sourceCodeLine);
 
         //then
         assertTrue(actualFunction.isPresent());
@@ -34,7 +34,7 @@ public class SolidityParserTest {
         String selector = "61805cc3";
 
         //when
-        Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
+        Optional<SolidityFunction> actualFunction = sourceCodeParser.findFunctionInLine(sourceCodeLine);
 
         //then
         assertTrue(actualFunction.isPresent());
@@ -48,7 +48,7 @@ public class SolidityParserTest {
         String selector = "61805cc3";
 
         //when
-        Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
+        Optional<SolidityFunction> actualFunction = sourceCodeParser.findFunctionInLine(sourceCodeLine);
 
         //then
         assertTrue(actualFunction.isPresent());
@@ -62,7 +62,7 @@ public class SolidityParserTest {
         String selector = "61805cc3";
 
         //when
-        Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
+        Optional<SolidityFunction> actualFunction = sourceCodeParser.findFunctionInLine(sourceCodeLine);
 
         //then
         assertTrue(actualFunction.isPresent());
@@ -77,7 +77,7 @@ public class SolidityParserTest {
         Optional<SolidityFunction> expectedFunction = Optional.of(new SolidityFunction("52382794", "ODDS(uint256)"));
 
         //when
-        Optional<SolidityFunction> actualFunction = solidityParser.findFunctionInLine(sourceCodeLine);
+        Optional<SolidityFunction> actualFunction = sourceCodeParser.findFunctionInLine(sourceCodeLine);
 
         //then
         assertTrue(actualFunction.isPresent());

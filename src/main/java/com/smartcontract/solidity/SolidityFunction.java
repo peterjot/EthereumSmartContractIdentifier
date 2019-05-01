@@ -1,17 +1,15 @@
 package com.smartcontract.solidity;
 
-import java.util.Objects;
+import lombok.NonNull;
 
-import static java.util.Objects.requireNonNull;
+import java.util.Objects;
 
 public class SolidityFunction {
 
     private final String selector;
     private final String signature;
 
-    SolidityFunction(String selector, String signature) {
-        requireNonNull(selector, "Expected not-null selector");
-        requireNonNull(signature, "Expected not-null signature");
+    SolidityFunction(@NonNull String selector, @NonNull String signature) {
         this.selector = selector;
         this.signature = signature;
     }

@@ -1,7 +1,6 @@
 package com.smartcontract.solidity;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -25,13 +23,13 @@ public class SolidityServiceTest {
     @MockBean
     private SolidityFileRepository solidityFileRepository;
     private SolidityService solidityService;
-    private SolidityParser solidityParser = new SolidityParser();
+    private SourceCodeParser sourceCodeParser = new SourceCodeParser();
+
 
     @Before
     public void setUp() {
-        solidityService = new SolidityService(solidityFileRepository, solidityParser);
+        solidityService = new SolidityService(solidityFileRepository, sourceCodeParser);
     }
-
 
     @Test
     public void shouldFindFunctionsFromFile() throws Exception {
@@ -55,50 +53,6 @@ public class SolidityServiceTest {
 
         //then
         assertThat(actualSolidityFunctions, equalTo(expectedSolidityFunctions));
-    }
-
-    @Test
-    @Ignore
-    //TODO: Need separate contracts from one file
-    public void shouldFindOnlyFunctionsUsedByMainContract() throws Exception {
-        //given
-        Set<SolidityFunction> expectedSolidityFunctions = new HashSet<SolidityFunction>() {{
-            add(new SolidityFunction("81830593", "adminAddr()"));
-            add(new SolidityFunction("3420c428", "AdminPercent()"));
-            add(new SolidityFunction("09efa259", "AdvertisePersent()"));
-            add(new SolidityFunction("799ea371", "DividendsPercent()"));
-            add(new SolidityFunction("235abffd", "FirstLevelReferrerPercent()"));
-            add(new SolidityFunction("a040efeb", "SecondLevelReferrerPercent()"));
-            add(new SolidityFunction("975b6f28", "advertiseAddr()"));
-            add(new SolidityFunction("ecbdbb32", "balanceETH()"));
-            add(new SolidityFunction("17bd6e37", "bestInvestor()"));
-            add(new SolidityFunction("5c3026d8", "bestPromoter()"));
-            add(new SolidityFunction("88072c78", "dividendsPeriod()"));
-            add(new SolidityFunction("7404417c", "doWaiver()"));
-            add(new SolidityFunction("ed442e14", "getDividends()"));
-            add(new SolidityFunction("03f9c793", "invest(address)"));
-            add(new SolidityFunction("dbcbaca4", "investorInfo(address)"));
-            add(new SolidityFunction("653c3174", "investorsNumber()"));
-            add(new SolidityFunction("73ad468a", "maxBalance()"));
-            add(new SolidityFunction("3d7ac9f8", "minInvesment()"));
-            add(new SolidityFunction("06fdde03", "name()"));
-            add(new SolidityFunction("8da5cb5b", "owner()"));
-            add(new SolidityFunction("984d4a93", "setAdminsAddress(address)"));
-            add(new SolidityFunction("cb192f2c", "setAdvertisingAddress(address)"));
-            add(new SolidityFunction("535bc861", "statistic(uint256)"));
-            add(new SolidityFunction("5216aeec", "totalInvested()"));
-            add(new SolidityFunction("29b8caff", "totalInvestors()"));
-            add(new SolidityFunction("eafecc7a", "waveStartup()"));
-        }};
-
-        //when
-        Set<SolidityFunction> actualSolidityFunctions;
-        try (InputStream inputStream = new FileInputStream(new File("src/test/resources/Test2.sol"))) {
-            actualSolidityFunctions = solidityService.findSolidityFunctionsFromSourceFile(inputStream);
-        }
-
-        //then
-        assertThat(actualSolidityFunctions, containsInAnyOrder(expectedSolidityFunctions));
     }
 
     @Test

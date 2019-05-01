@@ -1,7 +1,6 @@
 package com.smartcontract.config;
 
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,16 +29,19 @@ public class MultiHttpSecurityConfig {
     private String adminLogin;
     @Value("${admin.password}")
     private String adminPassword;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
         LOGGER.info("Admin account login: {} password: {}", adminLogin, adminPassword);
         UserDetails userDetails = User
                 .builder()
-                .passwordEncoder(passwordEncoder::encode)
+                .passwordEncoder(passwordEncoder()::encode)
                 .username(adminLogin)
                 .password(adminPassword)
                 .roles("USER")
@@ -81,10 +83,5 @@ public class MultiHttpSecurityConfig {
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/");
         }
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
     }
 }

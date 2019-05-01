@@ -3,6 +3,11 @@ package com.smartcontract.solidity;
 import java.util.regex.Pattern;
 
 final class SolidityPattern {
+
+    private SolidityPattern() {
+        throw new UnsupportedOperationException();
+    }
+
     static final Pattern FUNCTION_PATTERN = Pattern.compile(
             "^\\s*function\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*([^(){}]*)\\s*\\)\\s*(?!.*(internal|private)).*$");
     static final int FUNCTION_NAME_GROUP_ID = 1;

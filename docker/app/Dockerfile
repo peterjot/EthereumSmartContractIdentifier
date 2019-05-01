@@ -5,7 +5,7 @@ ARG PROJECT_VERSION
 
 RUN echo "Project version 1: $PROJECT_VERSION"
 
-RUN mvn dependency:go-offline -DprojectVersion=${PROJECT_VERSION} install
+RUN mvn dependency:go-offline -DprojectVersion=${PROJECT_VERSION} install -DskipTest=true -Dmaven.javadoc.skip-true -B
 
 FROM openjdk:8-jre-alpine
 WORKDIR /esci/bin

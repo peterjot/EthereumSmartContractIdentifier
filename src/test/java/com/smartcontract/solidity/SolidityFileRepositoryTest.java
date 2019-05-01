@@ -31,7 +31,6 @@ public class SolidityFileRepositoryTest {
     private static final SolidityFunction MOCK_SOLIDITY_FUNCTION_1 = new SolidityFunction("dsap", "dsappp");
     private static final SolidityFunction MOCK_SOLIDITY_FUNCTION_2 = new SolidityFunction("dsap", "321appp");
     private static final SolidityFunction MOCK_SOLIDITY_FUNCTION_3 = new SolidityFunction("ffffff", "tttt");
-
     private static final Charset CHARSET = Charset.defaultCharset();
 
     @Rule
@@ -39,6 +38,7 @@ public class SolidityFileRepositoryTest {
 
     @Autowired
     private SolidityFileRepository solidityFileRepository;
+
 
     @Before
     public void setUp() throws Exception {
@@ -70,7 +70,6 @@ public class SolidityFileRepositoryTest {
                 new HashSet<>(singletonList(MOCK_SOLIDITY_FUNCTION_3))));
     }
 
-
     @Test
     public void shouldSaveSourceCode() {
         //given
@@ -95,7 +94,6 @@ public class SolidityFileRepositoryTest {
         assertThat(actualSolidityFile.getSourceCodeHash(), equalTo(expectedSourceCodeHash));
         assertThat(actualSolidityFile.getSolidityFunctions(), equalTo(expectedSolidityFunctions));
     }
-
 
     @Test
     public void shouldFinAllContains() {

@@ -1,20 +1,19 @@
 package com.smartcontract.disassembler;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.smartcontract.disassembler.OpcodeTable.getOpcodeByHex;
+import static com.smartcontract.disassembler.Opcode.getOpcodeByHex;
 import static java.util.Collections.unmodifiableList;
-import static java.util.Objects.requireNonNull;
 
 @Component
 public class Disassembler {
 
-    public List<Instruction> disassembly(String bytecode) {
-        requireNonNull(bytecode, "Expected not-null bytecode");
+    public List<Instruction> disassembly(@NonNull String bytecode) {
         return getInstructions(bytecode);
     }
 

@@ -6,17 +6,16 @@ import com.smartcontract.solidity.IdentifiedSolidityFileDto;
 import com.smartcontract.solidity.SolidityFile;
 import com.smartcontract.solidity.SolidityFunction;
 import com.smartcontract.solidity.SolidityService;
+import lombok.NonNull;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static com.smartcontract.disassembler.Instruction.PUSH4_MASK;
 import static com.smartcontract.disassembler.Opcode.*;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -30,20 +29,16 @@ public class BytecodeService {
     private final Disassembler disassembler;
 
 
-    @Autowired
-    public BytecodeService(SolidityService solidityService, Disassembler disassembler) {
-        requireNonNull(solidityService, "Expected not-null solidityService");
-        requireNonNull(disassembler, "Expected not-null disassembler");
+    public BytecodeService(@NonNull SolidityService solidityService, @NonNull Disassembler disassembler) {
         this.solidityService = solidityService;
         this.disassembler = disassembler;
     }
 
-    public List<IdentifiedSolidityFileDto> findTop10FileHashesWithValueOfMatch(String bytecode) {
-        requireNonNull(bytecode, "Expected not-null bytecode");
-
+    public List<IdentifiedSolidityFileDto> findTop10FileHashesWithValueOfMatch(@NonNull String bytecode) {
         List<String> functionSelectors = findFunctionSelectors(bytecode);
-        LOGGER.info("Functions in bytecode: {}", functionSelectors.size());
-        LOGGER.info("Function selectors: {}", functionSelectors);
+
+        LOGGER.info("Found functions in bytecode: {}", functionSelectors);
+        LOGGER.info("Found function selectors in bytecode: {}", functionSelectors);
 
         return solidityService
                 .findSolidityFilesBySelectors(functionSelectors)
@@ -55,33 +50,19 @@ public class BytecodeService {
 
     }
 
-    private List<String> findFunctionSelectors(String bytecode) {
-        final List<Instruction> instructions = disassembler.disassembly(bytecode);
-        final List<String> functionSelectors = new LinkedList<>();
+    private List<String> findFunctionSelectors(@NonNull String bytecode) {
+        List<Instruction> instructions = disassembler.disassembly(bytecode);
+        return findFunctionSelectors(instructions);
+    }
 
-        int i = 0;
-        final int size = instructions.size();
+    private List<String> findFunctionSelectors(List<Instruction> instructions) {
+        int offSet = getCreationCodeOffset(instructions);
 
-        while (i < size - 2) {
-            Instruction first = instructions.get(i);
-            Instruction second = instructions.get(i + 1);
-            Instruction third = instructions.get(i + 2);
-
-            boolean isCreationCodeEndFound =
-                    first.hasOpcode(PUSH1) && first.hasHexParameter("00") &&
-                            second.hasOpcode(RETURN) &&
-                            third.hasOpcode(STOP);
-
-            if (isCreationCodeEndFound) {
-                i += 3;
-                break;
-            }
-            i++;
-        }
-
+        List<String> functionSelectors = new ArrayList<>();
         boolean isCalldataloadOpcodeFound = false;
 
-        while (i < size) {
+        int i = offSet;
+        while (i < instructions.size()) {
             Instruction instruction = instructions.get(i);
 
             if (instruction.hasOpcode(JUMPDEST)) {
@@ -97,10 +78,36 @@ public class BytecodeService {
                     !(instruction.hasHexParameter(PUSH4_MASK))) {
                 functionSelectors.add(instruction.getHexParameter());
             }
+
             i++;
         }
 
         return functionSelectors;
+    }
+
+    private int getCreationCodeOffset(List<Instruction> instructions) {
+        int i = 0;
+
+        while (i < instructions.size() - 2) {
+            Instruction first = instructions.get(i);
+            Instruction second = instructions.get(i + 1);
+            Instruction third = instructions.get(i + 2);
+
+            if (isCreationCodeEndFound(first, second, third)) {
+                i += 3;
+                break;
+            }
+
+            i++;
+        }
+
+        return i;
+    }
+
+    private boolean isCreationCodeEndFound(Instruction first, Instruction second, Instruction third) {
+        return first.hasOpcode(PUSH1) && first.hasHexParameter("00") &&
+                second.hasOpcode(RETURN) &&
+                third.hasOpcode(STOP);
     }
 
     private IdentifiedSolidityFileDto getIdentifiedSolidityFileWithMatchValue(List<String> bytecodeSelectors, SolidityFile solidityFile) {
