@@ -1,7 +1,6 @@
 package com.smartcontract;
 
 
-import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ class ErrorController {
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    String exception(@NonNull Throwable throwable) {
+    String exception(Throwable throwable) {
         String errorMessage = Optional
                 .ofNullable(throwable)
                 .map(Throwable::getMessage)

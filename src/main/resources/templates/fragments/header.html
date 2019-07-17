@@ -23,6 +23,14 @@
         <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
         <script th:src="@{/webjars/font-awesome/5.6.3/js/fontawesome.js}"></script>
+
+        <style>
+            .esci-btn-link {
+                border: none;
+                background: none;
+                cursor: pointer;
+            }
+        </style>
     </div>
 </head>
 <body>
@@ -38,7 +46,14 @@
                 <a class="nav-item nav-link" th:href="@{/bytecode}">Identify bytecode</a>
                 <a class="nav-item nav-link" th:href="@{/solidity}">Upload solidity</a>
                 <!--<div ">-->
-                <a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+                <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="POST">
+                    <input type="submit" value="Logout" class="nav-item nav-link esci-btn-link"
+                           sec:authorize="isAuthenticated()" th:href="@{/logout}"/>
+                    <input
+                            type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}"/>
+                </form>
                 <!--</div>-->
             </div>
         </div>
