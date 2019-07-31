@@ -1,4 +1,4 @@
-package com.smartcontract.disassembler;
+package com.smartcontract.bytecode;
 
 import lombok.NonNull;
 
@@ -7,9 +7,9 @@ import java.util.Objects;
 import static java.util.Objects.requireNonNull;
 
 
-public class Instruction {
+class Instruction {
 
-    public static final String PUSH4_MASK = "ffffffff";
+    static final String PUSH4_MASK = "ffffffff";
 
     private final Opcode opcode;
     private final String hexParameter;
@@ -19,26 +19,23 @@ public class Instruction {
         this.hexParameter = hexParameter.toLowerCase();
     }
 
-    public boolean hasOpcode(@NonNull Opcode opcode) {
+    boolean hasOpcode(@NonNull Opcode opcode) {
         requireNonNull(opcode, "Expected not-null opcode");
         return this.opcode.equals(opcode);
     }
 
-    public boolean hasHexParameter(@NonNull String hexParameter) {
+    boolean hasHexParameter(@NonNull String hexParameter) {
         requireNonNull(hexParameter, "Expceted not-null hexParameter");
         return this.hexParameter.equals(hexParameter);
     }
 
-    public String getHexParameter() {
+    String getHexParameter() {
         return hexParameter;
     }
 
     @Override
-    public String toString() {
-        return "Instruction{" +
-                "opcode=" + opcode +
-                ", hexParameter='" + hexParameter + '\'' +
-                '}';
+    public int hashCode() {
+        return Objects.hash(opcode, hexParameter);
     }
 
     @Override
@@ -51,7 +48,10 @@ public class Instruction {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(opcode, hexParameter);
+    public String toString() {
+        return "Instruction{" +
+                "opcode=" + opcode +
+                ", hexParameter='" + hexParameter + '\'' +
+                '}';
     }
 }

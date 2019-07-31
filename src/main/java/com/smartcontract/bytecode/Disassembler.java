@@ -1,19 +1,18 @@
-package com.smartcontract.disassembler;
+package com.smartcontract.bytecode;
 
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.smartcontract.disassembler.Opcode.getOpcodeByHex;
+import static com.smartcontract.bytecode.Opcode.getOpcodeByHex;
 import static java.util.Collections.unmodifiableList;
 
-@Component
-public class Disassembler {
 
-    public List<Instruction> disassembly(@NonNull String bytecode) {
+class Disassembler {
+
+    List<Instruction> disassembly(@NonNull String bytecode) {
         return getInstructions(bytecode);
     }
 
@@ -37,7 +36,7 @@ public class Disassembler {
 
     private void checkBytecodeLength(String bytecode) {
         if (bytecode.length() % 2 != 0) {
-            throw new IllegalStateException("Expected bytecode with even number of characters");
+            throw new IllegalStateException("Expected solidity with even number of characters");
         }
     }
 
@@ -49,7 +48,7 @@ public class Disassembler {
             stringBuilder.append(String.format("%02X", iterator.next()));
             i--;
         }
-        stringBuilder.append(StringUtils.repeat("0", i * 2));
+        stringBuilder.append(StringUtils.repeat("00", i));
 
         return stringBuilder.toString();
     }

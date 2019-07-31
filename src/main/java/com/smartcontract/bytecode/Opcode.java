@@ -1,4 +1,4 @@
-package com.smartcontract.disassembler;
+package com.smartcontract.bytecode;
 
 
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import static java.util.Collections.unmodifiableMap;
 
-public enum Opcode {
+enum Opcode {
 
     STOP(0x00, 0),// "Halts execution."
     ADD(0x01, 0),// "Addition operation."
@@ -152,8 +152,6 @@ public enum Opcode {
 
     UNKNOWNCODE(0xFFFFF, 0);// "Unknown code"
 
-    private final int hexValue;
-    private final int operandSize;
     private static final Map<Integer, Opcode> opcodes;
 
     static {
@@ -164,9 +162,25 @@ public enum Opcode {
         }});
     }
 
+    private final int hexValue;
+    private final int operandSize;
+
     Opcode(int hexValue, int operandSize) {
         this.hexValue = hexValue;
         this.operandSize = operandSize;
+    }
+
+    static Opcode getOpcodeByHex(String stringHex) {
+        if (stringHex.length() != 2) {
+            throw new IllegalArgumentException("Expected length=2 stringHex");
+        }
+        return getOpcodeByHex(Integer.parseInt(stringHex, 16));
+    }
+
+    static Opcode getOpcodeByHex(int hex) {
+        return Optional
+                .ofNullable(opcodes.get(hex))
+                .orElse(Opcode.UNKNOWNCODE);
     }
 
     public int getHexValue() {
@@ -183,18 +197,5 @@ public enum Opcode {
                 "hexValue=" + String.format("%02X", hexValue) +
                 ", operandSize=" + operandSize +
                 '}';
-    }
-
-    static Opcode getOpcodeByHex(String stringHex) {
-        if (stringHex.length() != 2) {
-            throw new IllegalArgumentException("Expected length=2 stringHex");
-        }
-        return getOpcodeByHex(Integer.parseInt(stringHex, 16));
-    }
-
-    static Opcode getOpcodeByHex(int hex) {
-        return Optional
-                .ofNullable(opcodes.get(hex))
-                .orElse(Opcode.UNKNOWNCODE);
     }
 }

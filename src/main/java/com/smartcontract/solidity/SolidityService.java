@@ -1,8 +1,8 @@
 package com.smartcontract.solidity;
 
+import com.smartcontract.solidity.dto.SolidityFileDto;
 import lombok.NonNull;
 import org.slf4j.Logger;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +15,6 @@ import static java.util.Objects.requireNonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.web3j.crypto.Hash.sha3String;
 
-@Service
 public class SolidityService {
 
     private static final Logger LOGGER = getLogger(SolidityService.class);
@@ -37,31 +36,30 @@ public class SolidityService {
                 .map(SolidityFile::getSourceCode);
     }
 
-    public List<SolidityFile> findSolidityFilesBySelectors(@NonNull List<String> functionSelectors) {
-        return solidityFileRepository.findSolidityFilesBySelectorContains(functionSelectors);
+    public Set<SolidityFileDto> findSolidityFilesBySelectors(@NonNull List<String> functionSelectors) {
+        final List<SolidityFile> solidityFiles = solidityFileRepository.findSolidityFilesBySelectorContains(functionSelectors);
+        return SolidityConverter.fromEntity(solidityFiles);
     }
 
-    public SolidityFile save(@NonNull String sourceCode) throws IOException {
+    public SolidityFileDto save(@NonNull String sourceCode) throws IOException {
         return save(sourceCode.getBytes());
     }
 
-    long getSolidityFilesCount() {
-        return solidityFileRepository.count();
-    }
-
-    SolidityFile save(byte[] sourceCodeBytes) throws IOException {
+    public SolidityFileDto save(byte[] sourceCodeBytes) throws IOException {
         String sourceCode = new String(sourceCodeBytes, StandardCharsets.UTF_8);
 
-        final String sourceCodeWithoutEmptyLinesAndUselessSpaces = sourceCode
-                .replaceAll("(?m)\\s+$", "")
-                .replaceAll("(?m) +", " ")
-                .replaceAll("(?m)^\\s+", "");
         // (?m) - tells Java to accept the anchors ^ and $ to match at the start and end of each line
         // (otherwise they only match at the start/end of the entire string).
-        String sourceCodeHash = sha3String(sourceCodeWithoutEmptyLinesAndUselessSpaces);
+        String sourceCodeHash = sha3String(sourceCode
+                .replaceAll("(?m)\\s+$", "")
+                .replaceAll("(?m) +", " ")
+                .replaceAll("(?m)^\\s+", ""));
 
         Set<SolidityFunction> functionsFromFile = findSolidityFunctionsFromSourceFile(new ByteArrayInputStream(sourceCodeBytes));
-        return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, functionsFromFile));
+
+        SolidityFile savedSolidityFile = saveSolidityFile(sourceCode, sourceCodeHash, functionsFromFile);
+
+        return SolidityConverter.fromEntity(savedSolidityFile);
     }
 
     Set<SolidityFunction> findSolidityFunctionsFromSourceFile(InputStream inputStream) throws IOException {
@@ -78,5 +76,13 @@ public class SolidityService {
             });
         }
         return solidityFunctions;
+    }
+
+    public long getSolidityFilesCount() {
+        return solidityFileRepository.count();
+    }
+
+    private SolidityFile saveSolidityFile(String sourceCode, String sourceCodeHash, Set<SolidityFunction> functionsFromFile) {
+        return solidityFileRepository.save(new SolidityFile(sourceCodeHash, sourceCode, functionsFromFile));
     }
 }

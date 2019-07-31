@@ -1,9 +1,9 @@
-package com.smartcontract.api;
+package com.smartcontract;
 
 import com.smartcontract.bytecode.BytecodeService;
-import com.smartcontract.solidity.IdentifiedSolidityFileDto;
-import com.smartcontract.solidity.SolidityFile;
+import com.smartcontract.bytecode.dto.IdentifiedSolidityFileDto;
 import com.smartcontract.solidity.SolidityService;
+import com.smartcontract.solidity.dto.SolidityFileDto;
 import lombok.NonNull;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ public class SolidityApiController {
     }
 
     @PostMapping("/api/solidityFiles")
-    public ResponseEntity<SolidityFile> uploadFile(@NonNull @RequestBody String sourceCode) throws IOException {
+    public ResponseEntity<SolidityFileDto> uploadFile(@NonNull @RequestBody String sourceCode) throws IOException {
         return ResponseEntity.ok(solidityService.save(sourceCode));
     }
 

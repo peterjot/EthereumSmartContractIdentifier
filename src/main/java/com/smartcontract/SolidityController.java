@@ -1,5 +1,7 @@
-package com.smartcontract.solidity;
+package com.smartcontract;
 
+import com.smartcontract.solidity.SolidityService;
+import com.smartcontract.solidity.dto.SolidityFileDto;
 import lombok.NonNull;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -38,7 +40,7 @@ public class SolidityController {
     @PostMapping("/solidity")
     public String handleFileUpload(@NonNull @RequestParam("file") MultipartFile file,
                                    @NonNull Model model) throws IOException {
-        SolidityFile savedSolidityFile = solidityService.save(file.getBytes());
+        SolidityFileDto savedSolidityFile = solidityService.save(file.getBytes());
 
         model.addAttribute("solidityFileFunctions", savedSolidityFile.getSolidityFunctions());
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());
@@ -50,7 +52,7 @@ public class SolidityController {
     public String handleSourceCodeUpload(@NonNull @RequestParam("sourceCode") String sourceCode,
                                          @NonNull Model model) throws IOException {
 
-        SolidityFile savedSolidityFile = solidityService.save(sourceCode);
+        SolidityFileDto savedSolidityFile = solidityService.save(sourceCode);
 
         model.addAttribute("solidityFileFunctions", savedSolidityFile.getSolidityFunctions());
         model.addAttribute("solidityFileHash", savedSolidityFile.getSourceCodeHash());

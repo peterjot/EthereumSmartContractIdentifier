@@ -1,7 +1,6 @@
 package com.smartcontract.solidity;
 
 import org.slf4j.Logger;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -16,7 +15,6 @@ import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.web3j.crypto.Hash.sha3String;
 
-@Component
 class SourceCodeParser {
 
     private static final Logger LOGGER = getLogger(SourceCodeParser.class);

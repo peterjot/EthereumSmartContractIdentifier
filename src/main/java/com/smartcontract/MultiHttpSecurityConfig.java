@@ -1,4 +1,4 @@
-package com.smartcontract.config;
+package com.smartcontract;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,9 +57,9 @@ public class MultiHttpSecurityConfig {
             http
                     .csrf().disable()
                     .antMatcher("/api/solidityFiles/**")
-                        .authorizeRequests()
-                        .anyRequest()
-                        .authenticated()
+                    .authorizeRequests()
+                    .anyRequest()
+                    .authenticated()
                     .and()
                     .httpBasic();
         }

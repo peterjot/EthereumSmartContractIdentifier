@@ -1,9 +1,9 @@
-package com.smartcontract.bytecode;
+package com.smartcontract;
 
 
-import com.smartcontract.solidity.IdentifiedSolidityFileDto;
+import com.smartcontract.bytecode.BytecodeService;
+import com.smartcontract.bytecode.dto.IdentifiedSolidityFileDto;
 import lombok.NonNull;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 
 
-@Controller
 public class BytecodeController {
 
     private final BytecodeService bytecodeService;
@@ -25,7 +24,7 @@ public class BytecodeController {
 
     @PostMapping("/bytecode")
     public String findTop10FileHashesByBytecode(
-            @NonNull @RequestParam(value = "bytecode") String bytecode,
+            @NonNull @RequestParam(value = "solidity") String bytecode,
             @NonNull Model model) {
 
         List<IdentifiedSolidityFileDto> implementations = bytecodeService.findTop10FileHashesWithValueOfMatch(bytecode);
@@ -36,12 +35,12 @@ public class BytecodeController {
             model.addAttribute("message", "No implementation was found");
         }
 
-        return "bytecode-page";
+        return "solidity-page";
     }
 
     @GetMapping("/bytecode")
     public String showPage(@NonNull Model model) {
         model.addAttribute("implementationsWithValueOfMatch", new HashMap<>());
-        return "bytecode-page";
+        return "solidity-page";
     }
 }

@@ -1,4 +1,4 @@
-package com.smartcontract.disassembler;
+package com.smartcontract.bytecode;
 
 import java.util.Iterator;
 

@@ -1,25 +1,22 @@
 package com.smartcontract.bytecode;
 
-import com.smartcontract.disassembler.Disassembler;
-import com.smartcontract.disassembler.Instruction;
-import com.smartcontract.solidity.IdentifiedSolidityFileDto;
-import com.smartcontract.solidity.SolidityFile;
-import com.smartcontract.solidity.SolidityFunction;
+import com.smartcontract.bytecode.dto.IdentifiedSolidityFileDto;
 import com.smartcontract.solidity.SolidityService;
+import com.smartcontract.solidity.dto.SolidityFileDto;
+import com.smartcontract.solidity.dto.SolidityFunctionDto;
 import lombok.NonNull;
 import org.slf4j.Logger;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.smartcontract.disassembler.Instruction.PUSH4_MASK;
-import static com.smartcontract.disassembler.Opcode.*;
+import static com.smartcontract.bytecode.Instruction.PUSH4_MASK;
+import static com.smartcontract.bytecode.Opcode.*;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
 
-@Service
+
 public class BytecodeService {
 
     private static final Logger LOGGER = getLogger(BytecodeService.class);
@@ -37,8 +34,8 @@ public class BytecodeService {
     public List<IdentifiedSolidityFileDto> findTop10FileHashesWithValueOfMatch(@NonNull String bytecode) {
         List<String> functionSelectors = findFunctionSelectors(bytecode);
 
-        LOGGER.info("Found functions in bytecode: {}", functionSelectors);
-        LOGGER.info("Found function selectors in bytecode: {}", functionSelectors);
+        LOGGER.info("Found functions in solidity: {}", functionSelectors);
+        LOGGER.info("Found function selectors in solidity: {}", functionSelectors);
 
         return solidityService
                 .findSolidityFilesBySelectors(functionSelectors)
@@ -110,9 +107,9 @@ public class BytecodeService {
                 third.hasOpcode(STOP);
     }
 
-    private IdentifiedSolidityFileDto getIdentifiedSolidityFileWithMatchValue(List<String> bytecodeSelectors, SolidityFile solidityFile) {
+    private IdentifiedSolidityFileDto getIdentifiedSolidityFileWithMatchValue(List<String> bytecodeSelectors, SolidityFileDto solidityFile) {
         String sourceCodeHash = solidityFile.getSourceCodeHash();
-        Set<SolidityFunction> solidityFunctions = solidityFile.getSolidityFunctions();
+        Set<SolidityFunctionDto> solidityFunctions = solidityFile.getSolidityFunctions();
 
         if (solidityFunctions.size() <= 0) {
             return new IdentifiedSolidityFileDto(sourceCodeHash);
@@ -124,14 +121,14 @@ public class BytecodeService {
         return new IdentifiedSolidityFileDto(sourceCodeHash, percentOfMatch);
     }
 
-    private long getNumberOfMatches(List<String> bytecodeSelectors, Set<SolidityFunction> solidityFunctions) {
+    private long getNumberOfMatches(List<String> bytecodeSelectors, Set<SolidityFunctionDto> solidityFunctions) {
         return solidityFunctions
                 .stream()
-                .map(SolidityFunction::getSelector)
+                .map(SolidityFunctionDto::getSelector)
                 .filter(bytecodeSelectors::contains).count();
     }
 
-    private double calculatePercentOfMatch(List<String> bytecodeSelectors, Set<SolidityFunction> solidityFunctions, long numberOfMatches) {
+    private double calculatePercentOfMatch(List<String> bytecodeSelectors, Set<SolidityFunctionDto> solidityFunctions, long numberOfMatches) {
         return numberOfMatches / ((double) bytecodeSelectors.size() + solidityFunctions.size() - numberOfMatches);
     }
 }

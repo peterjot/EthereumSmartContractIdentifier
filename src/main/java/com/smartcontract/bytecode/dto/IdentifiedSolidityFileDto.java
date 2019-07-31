@@ -1,4 +1,4 @@
-package com.smartcontract.solidity;
+package com.smartcontract.bytecode.dto;
 
 import lombok.NonNull;
 
