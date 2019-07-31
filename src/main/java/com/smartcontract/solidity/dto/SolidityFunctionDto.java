@@ -1,9 +1,16 @@
 package com.smartcontract.solidity.dto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
-public class SolidityFunctionDto {
+@Getter
+@ToString
+@EqualsAndHashCode
+@RequiredArgsConstructor
+public final class SolidityFunctionDto {
+
+    @NonNull
     private final String selector;
+
+    @NonNull
     private final String signature;
 }

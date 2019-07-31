@@ -1,17 +1,18 @@
 package com.smartcontract.bytecode.dto;
 
-import lombok.NonNull;
+import lombok.*;
 
-public class IdentifiedSolidityFileDto {
+@Getter
+@ToString
+@EqualsAndHashCode
+@RequiredArgsConstructor
+public final class IdentifiedSolidityFileDto {
 
+    @NonNull
     private final String fileHash;
-    private final Double valueOfMatch;
 
+    private final double valueOfMatch;
 
-    public IdentifiedSolidityFileDto(@NonNull String fileHash, @NonNull Double valueOfMatch) {
-        this.fileHash = fileHash;
-        this.valueOfMatch = valueOfMatch;
-    }
 
     public IdentifiedSolidityFileDto(@NonNull String fileHash) {
         this.fileHash = fileHash;

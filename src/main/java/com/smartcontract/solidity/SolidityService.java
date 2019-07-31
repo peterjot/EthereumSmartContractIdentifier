@@ -2,6 +2,7 @@ package com.smartcontract.solidity;
 
 import com.smartcontract.solidity.dto.SolidityFileDto;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 
 import java.io.*;
@@ -15,19 +16,17 @@ import static java.util.Objects.requireNonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.web3j.crypto.Hash.sha3String;
 
+@RequiredArgsConstructor
 public class SolidityService {
 
     private static final Logger LOGGER = getLogger(SolidityService.class);
 
+    @NonNull
     private final SourceCodeParser sourceCodeParser;
+
+    @NonNull
     private final SolidityFileRepository solidityFileRepository;
 
-
-    public SolidityService(@NonNull SolidityFileRepository solidityFileRepository,
-                           @NonNull SourceCodeParser sourceCodeParser) {
-        this.solidityFileRepository = solidityFileRepository;
-        this.sourceCodeParser = sourceCodeParser;
-    }
 
     public Optional<String> findSourceCodeByHash(@NonNull String _fileHash) {
         String fileHash = _fileHash.startsWith("0x") ? _fileHash : "0x" + _fileHash;
@@ -62,7 +61,7 @@ public class SolidityService {
         return SolidityConverter.fromEntity(savedSolidityFile);
     }
 
-    Set<SolidityFunction> findSolidityFunctionsFromSourceFile(InputStream inputStream) throws IOException {
+    Set<SolidityFunction> findSolidityFunctionsFromSourceFile(@NonNull InputStream inputStream) throws IOException {
         requireNonNull(inputStream, "Expected not-null inputStream");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         Set<SolidityFunction> solidityFunctions = new HashSet<>();

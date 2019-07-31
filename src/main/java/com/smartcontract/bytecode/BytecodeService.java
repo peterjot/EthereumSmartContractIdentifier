@@ -5,6 +5,7 @@ import com.smartcontract.solidity.SolidityService;
 import com.smartcontract.solidity.dto.SolidityFileDto;
 import com.smartcontract.solidity.dto.SolidityFunctionDto;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
@@ -17,19 +18,18 @@ import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
+@RequiredArgsConstructor
 public class BytecodeService {
 
     private static final Logger LOGGER = getLogger(BytecodeService.class);
     private static final int RESULT_LIMIT = 10;
 
+    @NonNull
     private final SolidityService solidityService;
+
+    @NonNull
     private final Disassembler disassembler;
 
-
-    public BytecodeService(@NonNull SolidityService solidityService, @NonNull Disassembler disassembler) {
-        this.solidityService = solidityService;
-        this.disassembler = disassembler;
-    }
 
     public List<IdentifiedSolidityFileDto> findTop10FileHashesWithValueOfMatch(@NonNull String bytecode) {
         List<String> functionSelectors = findFunctionSelectors(bytecode);
@@ -47,7 +47,7 @@ public class BytecodeService {
 
     }
 
-    private List<String> findFunctionSelectors(@NonNull String bytecode) {
+    private List<String> findFunctionSelectors(String bytecode) {
         List<Instruction> instructions = disassembler.disassembly(bytecode);
         return findFunctionSelectors(instructions);
     }

@@ -2,6 +2,7 @@ package com.smartcontract.solidity;
 
 import com.smartcontract.solidity.dto.SolidityFileDto;
 import com.smartcontract.solidity.dto.SolidityFunctionDto;
+import lombok.NonNull;
 
 import java.util.Collection;
 import java.util.Set;
@@ -14,14 +15,14 @@ class SolidityConverter {
         throw new UnsupportedOperationException();
     }
 
-    static <T extends Collection<SolidityFile>> Set<SolidityFileDto> fromEntity(T solidityFunctions) {
+    static <T extends Collection<SolidityFile>> Set<SolidityFileDto> fromEntity(@NonNull T solidityFunctions) {
         return solidityFunctions
                 .stream()
                 .map(SolidityConverter::fromEntity)
                 .collect(toSet());
     }
 
-    static SolidityFileDto fromEntity(SolidityFile solidityFile) {
+    static SolidityFileDto fromEntity(@NonNull SolidityFile solidityFile) {
         return new SolidityFileDto(
                 solidityFile.getSourceCodeHash(),
                 solidityFile.getSourceCode(),

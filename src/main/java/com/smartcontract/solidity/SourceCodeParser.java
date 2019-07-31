@@ -1,5 +1,6 @@
 package com.smartcontract.solidity;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 
 import java.util.*;
@@ -28,7 +29,7 @@ class SourceCodeParser {
     }});
 
 
-    Optional<SolidityFunction> findFunctionInLine(String line) {
+    Optional<SolidityFunction> findFunctionInLine(@NonNull String line) {
         List<Optional<SolidityFunction>> functions =
                 Stream.of(
                         findFunctionSignature(line),

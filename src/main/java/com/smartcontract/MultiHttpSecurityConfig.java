@@ -1,5 +1,6 @@
 package com.smartcontract;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,11 +26,18 @@ public class MultiHttpSecurityConfig {
 
     private static final Logger LOGGER = getLogger(MultiHttpSecurityConfig.class);
 
-    @Value("${admin.login}")
-    private String adminLogin;
-    @Value("${admin.password}")
-    private String adminPassword;
+    @NonNull
+    private final String adminLogin;
 
+    @NonNull
+    private final String adminPassword;
+
+
+    public MultiHttpSecurityConfig(@Value("${admin.login}") String adminLogin,
+                                   @Value("${admin.password}") String adminPassword) {
+        this.adminLogin = adminLogin;
+        this.adminPassword = adminPassword;
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

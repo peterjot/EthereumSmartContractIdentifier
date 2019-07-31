@@ -1,5 +1,7 @@
 package com.smartcontract.bytecode;
 
+import lombok.NonNull;
+
 import java.util.Iterator;
 
 
@@ -8,7 +10,8 @@ class HexStringIterator implements Iterator<Integer> {
     private final String bytecode;
     private int position = 0;
 
-    HexStringIterator(String bytecode) {
+
+    HexStringIterator(@NonNull String bytecode) {
         this.bytecode = bytecode;
     }
 

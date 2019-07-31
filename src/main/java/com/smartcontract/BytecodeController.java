@@ -4,6 +4,8 @@ package com.smartcontract;
 import com.smartcontract.bytecode.BytecodeService;
 import com.smartcontract.bytecode.dto.IdentifiedSolidityFileDto;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,14 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 
 
+@Controller
+@RequiredArgsConstructor
 public class BytecodeController {
 
+    @NonNull
     private final BytecodeService bytecodeService;
 
-
-    public BytecodeController(@NonNull BytecodeService bytecodeService) {
-        this.bytecodeService = bytecodeService;
-    }
 
     @PostMapping("/bytecode")
     public String findTop10FileHashesByBytecode(

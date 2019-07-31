@@ -1,12 +1,17 @@
 package com.smartcontract.bytecode;
 
 
+import lombok.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static java.util.Collections.unmodifiableMap;
 
+@Getter
+@ToString
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 enum Opcode {
 
     STOP(0x00, 0),// "Halts execution."
@@ -165,12 +170,8 @@ enum Opcode {
     private final int hexValue;
     private final int operandSize;
 
-    Opcode(int hexValue, int operandSize) {
-        this.hexValue = hexValue;
-        this.operandSize = operandSize;
-    }
 
-    static Opcode getOpcodeByHex(String stringHex) {
+    static Opcode getOpcodeByHex(@NonNull String stringHex) {
         if (stringHex.length() != 2) {
             throw new IllegalArgumentException("Expected length=2 stringHex");
         }
@@ -181,21 +182,5 @@ enum Opcode {
         return Optional
                 .ofNullable(opcodes.get(hex))
                 .orElse(Opcode.UNKNOWNCODE);
-    }
-
-    public int getHexValue() {
-        return hexValue;
-    }
-
-    public int getOperandSize() {
-        return operandSize;
-    }
-
-    @Override
-    public String toString() {
-        return "Opcode{" +
-                "hexValue=" + String.format("%02X", hexValue) +
-                ", operandSize=" + operandSize +
-                '}';
     }
 }

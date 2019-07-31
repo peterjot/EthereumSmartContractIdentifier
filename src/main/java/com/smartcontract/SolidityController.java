@@ -3,6 +3,7 @@ package com.smartcontract;
 import com.smartcontract.solidity.SolidityService;
 import com.smartcontract.solidity.dto.SolidityFileDto;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +18,12 @@ import java.util.function.Supplier;
 
 
 @Controller
+@RequiredArgsConstructor
 public class SolidityController {
 
+    @NonNull
     private final SolidityService solidityService;
 
-
-    public SolidityController(@NonNull SolidityService solidityService) {
-        this.solidityService = solidityService;
-    }
 
     @GetMapping("/")
     public String showPage(@NonNull Model model) {

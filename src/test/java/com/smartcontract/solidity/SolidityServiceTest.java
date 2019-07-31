@@ -28,7 +28,7 @@ public class SolidityServiceTest {
 
     @Before
     public void setUp() {
-        solidityService = new SolidityService(solidityFileRepository, sourceCodeParser);
+        solidityService = new SolidityService(sourceCodeParser, solidityFileRepository);
     }
 
     @Test

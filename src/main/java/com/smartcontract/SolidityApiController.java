@@ -5,6 +5,7 @@ import com.smartcontract.bytecode.dto.IdentifiedSolidityFileDto;
 import com.smartcontract.solidity.SolidityService;
 import com.smartcontract.solidity.dto.SolidityFileDto;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +15,15 @@ import java.util.List;
 
 
 @RestController
+@RequiredArgsConstructor
 public class SolidityApiController {
 
+    @NonNull
     private final BytecodeService bytecodeService;
+
+    @NonNull
     private final SolidityService solidityService;
 
-
-    public SolidityApiController(@NonNull BytecodeService bytecodeService, @NonNull SolidityService solidityService) {
-        this.bytecodeService = bytecodeService;
-        this.solidityService = solidityService;
-    }
 
     @PostMapping("/api/bytecode")
     public ResponseEntity<List<IdentifiedSolidityFileDto>> findTop10FileHashesByBytecode(

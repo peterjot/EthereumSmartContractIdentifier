@@ -1,17 +1,21 @@
 package com.smartcontract.solidity.dto;
 
-import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
 import java.util.Set;
 
-@Data
-public class SolidityFileDto {
+@Getter
+@ToString
+@EqualsAndHashCode
+@RequiredArgsConstructor
+public final class SolidityFileDto {
 
-    @Id
+    @NonNull
     private final String sourceCodeHash;
+
+    @NonNull
     private final String sourceCode;
-    private final Set<com.smartcontract.solidity.dto.SolidityFunctionDto> solidityFunctions;
 
-
+    @NonNull
+    private final Set<SolidityFunctionDto> solidityFunctions;
 }

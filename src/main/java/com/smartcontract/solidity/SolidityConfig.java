@@ -1,5 +1,6 @@
 package com.smartcontract.solidity;
 
+import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -7,9 +8,10 @@ import org.springframework.context.annotation.Configuration;
 class SolidityConfig {
 
     @Bean
-    SolidityService solidityService(SolidityFileRepository solidityFileRepository) {
+    SolidityService solidityService(@NonNull SolidityFileRepository solidityFileRepository) {
         return new SolidityService(
-                solidityFileRepository,
-                new SourceCodeParser());
+                new SourceCodeParser(),
+                solidityFileRepository
+        );
     }
 }

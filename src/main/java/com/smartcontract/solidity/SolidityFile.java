@@ -1,9 +1,6 @@
 package com.smartcontract.solidity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
 import java.util.Set;
@@ -15,7 +12,12 @@ import java.util.Set;
 class SolidityFile {
 
     @Id
-    private final String sourceCodeHash;
-    private final String sourceCode;
-    private final Set<SolidityFunction> solidityFunctions;
+    @NonNull
+    private String sourceCodeHash;
+
+    @NonNull
+    private String sourceCode;
+
+    @NonNull
+    private Set<SolidityFunction> solidityFunctions;
 }
