@@ -1,19 +1,17 @@
 package com.smartcontract.bytecode;
 
 import lombok.NonNull;
-import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.smartcontract.bytecode.Opcode.getOpcodeByHex;
-import static java.util.Collections.unmodifiableList;
 
 
 class Disassembler {
 
     List<Instruction> disassembly(@NonNull String bytecode) {
-        return getInstructions(bytecode);
+        return List.copyOf(getInstructions(bytecode));
     }
 
     private List<Instruction> getInstructions(String bytecode) {
@@ -26,7 +24,7 @@ class Disassembler {
             String instructionParameter = getInstructionOperand(opcode.getOperandSize(), hexStringIterator);
             instructions.add(new Instruction(opcode, instructionParameter));
         }
-        return unmodifiableList(instructions);
+        return instructions;
     }
 
     private String getValidBytecode(String bytecode) {
@@ -48,7 +46,7 @@ class Disassembler {
             stringBuilder.append(String.format("%02X", iterator.next()));
             i--;
         }
-        stringBuilder.append(StringUtils.repeat("00", i));
+        stringBuilder.append("00".repeat(i));
 
         return stringBuilder.toString();
     }

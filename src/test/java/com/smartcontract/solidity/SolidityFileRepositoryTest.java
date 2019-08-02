@@ -10,16 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import static java.lang.System.lineSeparator;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.joining;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.web3j.crypto.Hash.sha3String;
@@ -125,16 +124,6 @@ public class SolidityFileRepositoryTest {
     }
 
     private String getTestSourceCode() throws Exception {
-        try (InputStream inputStream = new FileInputStream(new File("src/test/resources/Test.sol"))) {
-            return convertToString(inputStream);
-        }
-    }
-
-    private String convertToString(InputStream inputStream) throws IOException {
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, CHARSET))) {
-            return bufferedReader
-                    .lines()
-                    .collect(joining(lineSeparator()));
-        }
+        return Files.readString(Paths.get("src/test/resources/Test.sol"));
     }
 }

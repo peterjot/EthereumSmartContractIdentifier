@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import static com.smartcontract.solidity.SolidityPattern.*;
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableMap;
+import static java.util.Map.entry;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -20,13 +20,13 @@ class SourceCodeParser {
 
     private static final Logger LOGGER = getLogger(SourceCodeParser.class);
     private static final String CANONICAL_ARRAY_KEY_TYPE = "uint256";
-    private static final Map<String, String> CANONICAL_TYPES = unmodifiableMap(new HashMap<String, String>() {{
-        put("uint", "uint256");
-        put("int", "int256");
-        put("byte", "bytes1");
-        put("fixed", "fixed128x18");
-        put("ufixed", "ufixed128x18");
-    }});
+    private static final Map<String, String> CANONICAL_TYPES = Map.ofEntries(
+            entry("uint", "uint256"),
+            entry("int", "int256"),
+            entry("byte", "bytes1"),
+            entry("fixed", "fixed128x18"),
+            entry("ufixed", "ufixed128x18)")
+    );
 
 
     Optional<SolidityFunction> findFunctionInLine(@NonNull String line) {
@@ -51,21 +51,23 @@ class SourceCodeParser {
 
     private Optional<SolidityFunction> findFunctionSignature(String line) {
         Matcher matcher = FUNCTION_PATTERN.matcher(line);
-        if (matcher.find()) {
-            String functionName = matcher.group(FUNCTION_NAME_GROUP_ID);
-            String functionArguments = matcher.group(FUNCTION_ARGUMENTS_GROUP_ID);
 
-            String functionSignature = normalizeFunctionSignature(functionName, functionArguments);
+        if (matcher.find()) {
+            var functionName = matcher.group(FUNCTION_NAME_GROUP_ID);
+            var functionArguments = matcher.group(FUNCTION_ARGUMENTS_GROUP_ID);
+
+            var functionSignature = normalizeFunctionSignature(functionName, functionArguments);
             LOGGER.info("Function signature: [{}]", functionSignature);
 
-            String functionSelector = getFunctionSelector(functionSignature);
+            var functionSelector = getFunctionSelector(functionSignature);
             return Optional.of(new SolidityFunction(functionSelector, functionSignature));
         }
+
         return Optional.empty();
     }
 
     private Optional<SolidityFunction> findMappingGetter(String line) {
-        Matcher mappingVariableMatcher = MAPPING_PUBLIC_VARIABLE_PATTERN.matcher(line);
+        var mappingVariableMatcher = MAPPING_PUBLIC_VARIABLE_PATTERN.matcher(line);
 
         if (!mappingVariableMatcher.find()) {
             return Optional.empty();

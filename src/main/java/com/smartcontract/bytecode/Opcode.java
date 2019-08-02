@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static java.util.Collections.unmodifiableMap;
-
 @Getter
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -157,15 +155,11 @@ enum Opcode {
 
     UNKNOWNCODE(0xFFFFF, 0);// "Unknown code"
 
-    private static final Map<Integer, Opcode> opcodes;
-
-    static {
-        opcodes = unmodifiableMap(new HashMap<Integer, Opcode>() {{
-            for (Opcode opcode : Opcode.values()) {
-                put(opcode.getHexValue(), opcode);
-            }
-        }});
-    }
+    private static final Map<Integer, Opcode> opcodes = Map.copyOf(new HashMap<>() {{
+        for (Opcode opcode : Opcode.values()) {
+            put(opcode.getHexValue(), opcode);
+        }
+    }});
 
     private final int hexValue;
     private final int operandSize;
